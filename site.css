@@ -160,7 +160,7 @@ body>*:not(.mark){position:relative;z-index:1}.nav{z-index:10}
 .perf .perf-note{margin-top:28px;max-width:54em;font-size:15px;line-height:1.9}
 
 /* 品牌案例下方說明 */
-.brandcases-note{margin-top:48px;max-width:56em;display:flex;flex-direction:column;gap:14px}
+.brandcases-note{margin-top:48px;display:flex;flex-direction:column;gap:14px}
 .brandcases-note p{font-size:15px;line-height:1.95}
 
 .stats.stats-3{grid-template-columns:repeat(3,minmax(0,1fr))}
