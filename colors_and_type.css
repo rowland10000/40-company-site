@@ -55,13 +55,13 @@
   --border-strong: var(--ink-800);
 
   /* ---------- Typography ---------- */
-  /* Noto Sans TC (Google Fonts, free) as the shipped webfont. Microsoft YaHei
-     stays first in the stack so Windows/Office users see the original brand
-     face when installed; everyone else gets Noto Sans TC. */
-  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft YaHei", "微軟正黑體",
-               -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Noto Sans TC", "PingFang TC", "Microsoft YaHei", "微軟正黑體", sans-serif;
-  --font-latin-display: "Noto Sans TC", "Helvetica Neue", sans-serif;
+  /* 系統字優先，不下載網路字體（中文字體檔太大，會拖垮首次繪製）。
+     Apple = 蘋方、Android = Noto Sans CJK TC、Windows = 微軟正黑體，
+     本機若已安裝 Noto Sans TC 仍會優先採用，不需額外下載。 */
+  --font-sans: "Noto Sans TC", "PingFang TC", "Noto Sans CJK TC", "Microsoft JhengHei",
+               "微軟正黑體", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-latin-display: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Noto Sans Mono", "SF Mono", Menlo, Consolas, monospace;
 
   /* Type scale — 16px base, 1.25 ratio tuned for CJK legibility */
