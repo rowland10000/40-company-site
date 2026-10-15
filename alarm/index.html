@@ -2,9 +2,9 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>鬧鐘管家 · 捷徑下載與安裝</title>
+<title>鬧鐘管家 · 捷徑下載</title>
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="會自己看行事曆的 iPhone 鬧鐘捷徑。國定假日、補班、颱風假自動判斷，明天有早的行程還會提早叫你。免費下載與安裝說明。">
+<meta name="description" content="會自己看行事曆的 iPhone 鬧鐘捷徑。國定假日、補班、颱風假自動判斷，明天有早的行程還會提早叫你。免費下載。">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png?v=3"><link rel="apple-touch-icon" href="../img/favicon-180.png?v=3">
 <link rel="stylesheet" href="../colors_and_type.css?v=6">
 <link rel="stylesheet" href="../site.css?v=6">
@@ -15,17 +15,9 @@
 .tool p{margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85}
 .get{display:inline-flex;align-items:center;background:var(--color-red);color:#fff;padding:0 22px;height:44px;border-radius:999px;font-size:15px}
 .get:hover{background:var(--red-700);color:#fff}
-.step{margin-top:40px}
-.step h3{font-size:clamp(17px,1.8vw,21px);margin:0 0 10px}
-.step ol,.step ul{margin:0;padding-left:1.3em;line-height:2;color:var(--ink-900)}
-.step p{margin:12px 0 0;color:var(--ink-600);font-weight:300;line-height:1.85}
-.warn{background:rgba(204,241,77,.35);padding:14px 18px;border-radius:6px;margin-top:16px;line-height:1.85}
-.tags dt{font-weight:700;margin-top:16px}
-.tags dd{margin:4px 0 0;color:var(--ink-600);font-weight:300;line-height:1.85}
-table.qa{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
-table.qa th,table.qa td{text-align:left;vertical-align:top;padding:12px 10px;border-bottom:1px solid rgba(26,26,25,.14);line-height:1.8}
-table.qa th{color:var(--ink-400);font-weight:400;font-size:13px;letter-spacing:.06em}
-table.qa td:first-child{width:38%;font-weight:700}
+.quick{margin:0;padding-left:1.3em;line-height:2.1;color:var(--ink-900)}
+.warn{background:rgba(204,241,77,.35);padding:14px 18px;border-radius:6px;margin-top:20px;line-height:1.85}
+.manual{margin-top:48px;padding:28px 0;border-top:1px solid rgba(26,26,25,.14)}
 </style>
 </head>
 <body>
@@ -50,97 +42,37 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <div class="tool">
 <h3>鬧鐘管家</h3>
-<p>主程式。每晚 22:15 自己判斷明天該開哪一個鬧鐘，凌晨 04:40 再查一次當天才宣布的颱風停班。</p>
+<p>主程式。每晚自己判斷明天該開哪一個鬧鐘，清晨再查一次當天才宣布的颱風停班。</p>
 <a class="get" href="https://www.icloud.com/shortcuts/c503eee1ba7a4b639ed9bc68debf384c">加入捷徑</a>
 </div>
 
 <div class="tool">
 <h3>排休排班</h3>
-<p>輔助工具。要請假或臨時調班時，選「放假」或「上班」再選日期，它會自動幫你在行事曆建好對應的行程，不用自己打標籤。</p>
+<p>輔助工具。要請假或臨時調班時，選日期就會自動幫你在行事曆建好對應的行程。</p>
 <a class="get" href="https://www.icloud.com/shortcuts/7812ce078f9f4684a7212d947ea7235f">加入捷徑</a>
 </div>
 
-<h2 style="margin-top:56px">安裝：四個步驟</h2>
-<p class="muted" style="font-weight:300">下面是一般上班族的裝法。輪班或班表不固定的人，裝完再看最後的補充。</p>
-
-<div class="step">
-<h3>第 1 步　先建兩個鬧鐘</h3>
-<p>打開時鐘 App，建兩個鬧鐘，重複都選「永不」：</p>
-<ul>
-<li>上班日要起床的時間，標籤打「<strong>上班</strong>」</li>
-<li>放假日要起床的時間，標籤打「<strong>休假</strong>」（想睡到自然醒的話這個可以不建）</li>
-</ul>
-<div class="warn"><strong>標籤要一字不差，不能有空格。</strong>這是最常見的失敗原因——捷徑是靠標籤找鬧鐘的，多一個空格就找不到。</div>
-<p>「提早」鬧鐘不用自己建，需要時它會自己出現，用完自動關掉。</p>
-</div>
-
-<div class="step">
-<h3>第 2 步　裝捷徑</h3>
-<p>用 iPhone 點上面兩顆「加入捷徑」，跳出捷徑畫面後按「加入捷徑」。<strong>名字不要改。</strong></p>
-<p>預設值合用就不用動。要改的話長按「鬧鐘管家」→「編輯」，改最上面那幾格：上班鬧鐘時間、休假鬧鐘時間、提早分鐘數、颱風縣市（用「臺」字，不是「台」）。</p>
-</div>
-
-<div class="step">
-<h3>第 3 步　自己建自動化　<span style="color:var(--color-red)">這步不能跳過</span></h3>
-<p>自動化不會跟著捷徑裝進來，要在 iPhone 上自己建。這是 Apple 的安全規定——自動執行的功能只能由手機主人自己開啟，別人傳來的捷徑不能代設。</p>
-<p>在捷徑 App 按「+」→「自動化操作」→「特定時間」，建兩條：</p>
-<ol>
-<li><strong>22:15</strong>　重複每天、打開「自動化操作」、關掉「通知」→ 動作選「執行捷徑」→ 選「鬧鐘管家」</li>
-<li><strong>04:40</strong>　同樣設定，用來查清晨才宣布的颱風假</li>
+<h2 style="margin-top:56px">裝起來要做四件事</h2>
+<ol class="quick">
+<li>在時鐘 App 建兩個鬧鐘，標籤分別打「上班」「休假」</li>
+<li>點上面兩顆按鈕裝捷徑</li>
+<li>在捷徑 App 自己建兩條自動化（22:15 和 04:40，執行鬧鐘管家）</li>
+<li>中午 12 點之後手動跑一次，詢問都選「永遠允許」</li>
 </ol>
+
+<div class="warn"><strong>第 3 步不能跳過。</strong>自動化不會跟著捷徑裝進來，Apple 規定只能由手機主人自己建。沒建的話整個東西不會動。</div>
+
+<div class="manual">
+<p style="margin:0 0 6px;font-weight:700">每一步的畫面、三種班表模式、常見問題</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">都在說明書裡，含截圖。輪班或班表不固定的人一定要看。</p>
+<a class="get" href="alarm-manual.pdf">下載使用說明書</a>
 </div>
 
-<div class="step">
-<h3>第 4 步　手動執行一次</h3>
-<div class="warn"><strong>一定要中午 12 點以後再點。</strong>鬧鐘管家看時間做事：12 點前執行只會查「今天」有沒有颱風假；12 點後執行，才會判斷「明天」並把鬧鐘設好。</div>
-<p>在 iPhone 點一次「鬧鐘管家」，跳出來的詢問全部選「<strong>永遠允許</strong>」。</p>
-<p>跑完打開時鐘 App 檢查：明天上班的話「上班」是開的，明天放假的話「休假」是開的。看到這樣就裝好了，之後不用再管。</p>
-</div>
+<h2 style="margin-top:56px">平常怎麼用</h2>
+<p>國定假日、補班、颱風假都不用管。要請假或臨時調班，在行事曆加一個行程，標題裡放 <strong>#休</strong> 或 <strong>#班</strong> 就會蓋過自動判斷。</p>
+<p>查不到資料的時候（沒網路、政府網站改版），它會退回「照上班鬧鐘響」——寧可放假多叫你一次，也不會害你遲到。</p>
 
-<h2 style="margin-top:64px">平常怎麼用</h2>
-<p>國定假日、補班、颱風假都不用管，它自己會處理。要請假或臨時調班，就在行事曆加一個行程，標題裡放這三個標籤之一：</p>
-
-<dl class="tags">
-<dt>#休</dt>
-<dd>那天不用上班，上班鬧鐘不響。</dd>
-<dt>#班</dt>
-<dd>那天要上班，照上班時間叫你。</dd>
-<dt>#鬧鐘不要響</dt>
-<dd>這個行程不會害鬧鐘提早。適合家人或同事共用的行事曆——別人排的行程不該把你叫醒。</dd>
-</dl>
-
-<p style="margin-top:20px">標籤寫在<strong>標題</strong>裡，放前面後面都可以；寫在備註裡沒有用。</p>
-<p>更快的做法是直接點「排休排班」，選放假或上班、再選日期，它會幫你建好。</p>
-
-<h2 style="margin-top:64px">它怎麼判斷</h2>
-<p>每晚 22:15 由上往下判斷，遇到「是」就停：</p>
-<ol class="steps" style="padding-left:1.3em;line-height:2.1">
-<li>行事曆有 <strong>#班</strong> → 開上班鬧鐘</li>
-<li>行事曆有 <strong>#休</strong> → 開休假鬧鐘</li>
-<li>政府辦公日曆說明天放假 → 開休假鬧鐘</li>
-<li>人事總處說明天颱風停班 → 開休假鬧鐘</li>
-<li>以上都不是 → 維持上班鬧鐘</li>
-</ol>
-<p>接著再看明天最早的行程：如果比原本的鬧鐘早，就自動建一個「提早」鬧鐘。</p>
-<p><strong>任何一步查不到資料（沒網路、網站改版），它會停在最保險的那一邊——照上班鬧鐘響。</strong>寧可多叫你一次，不會害你遲到。</p>
-
-<h2 style="margin-top:64px">常見問題</h2>
-<table class="qa">
-<tr><th>狀況</th><th>怎麼辦</th></tr>
-<tr><td>鬧鐘開關沒變</td><td>檢查標籤是不是剛好「上班」「休假」，不能有空格。</td></tr>
-<tr><td>晚上沒自動跑</td><td>自動化裡的「自動化操作」要打開；再手動執行一次，詢問選「永遠允許」。</td></tr>
-<tr><td>別人的行程害我被提早叫醒</td><td>在那個行程標題加上 #鬧鐘不要響。</td></tr>
-<tr><td>颱風假沒判到</td><td>設定裡的颱風縣市要用「臺」字。</td></tr>
-<tr><td>之後更新新版</td><td>安裝時選「取代」。如果多出一支舊版，把舊的刪掉只留一支。自動化不用重設，裝好後手動點一次、詢問選「永遠允許」。</td></tr>
-</table>
-
-<h2 style="margin-top:64px">班表不固定或輪班的人</h2>
-<p>捷徑裡有三種模式，預設是模式 1（一般上班族，什麼都不用做）。</p>
-<p><strong>模式 2｜班表不固定</strong>：把每一班寫進行事曆，標題加 #班、填開始與結束時間、不要勾「整天」，鬧鐘會在上班前「提早分鐘」響。用「排休排班」可以一次排好幾天。</p>
-<p><strong>模式 3｜固定輪班</strong>：在「輪班規律」填你的規律，一天一個字（做四休二就填「班班班班休休」），第一次執行時選這一輪第一天上班的日期。之後它自己算。</p>
-<p>輪班第一天選錯、或整輪往後挪，手動點一次「鬧鐘管家」選「重選輪班第一天」就好。臨時請假或調班不用重選，行事曆加 #休 或 #班 就行。</p>
-
-<div class="article-cta" style="margin-top:64px">
+<div class="article-cta" style="margin-top:56px">
 <p>為什麼做這個、以及我們怎麼判斷什麼該自動化什麼不該——寫在<a href="../news/what-to-automate.html">這篇</a>。</p>
 <p style="margin-top:14px">我們是一家以內容企劃與影像製作為核心的團隊。如果你想聊聊自己的工作流程哪一段該這樣處理，歡迎來信——<a href="mailto:office@40-company.com">office@40-company.com</a></p>
 </div>
