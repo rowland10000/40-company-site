@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIDSNAP · 下載與安裝</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="把同一個孩子不同時期的照片丟進來，自動找出他、把臉對齊到同一個位置，做成一段看著長大的短片。全部在你自己的電腦裡完成，照片不會上傳。">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png?v=3"><link rel="apple-touch-icon" href="../img/favicon-180.png?v=3">
+<link rel="stylesheet" href="../colors_and_type.css?v=6">
+<link rel="stylesheet" href="../site.css?v=6">
+<style>
+.get{display:inline-flex;align-items:center;background:var(--color-red);color:#fff;padding:0 22px;height:44px;border-radius:999px;font-size:15px}
+.get:hover{background:var(--red-700);color:#fff}
+.step{margin-top:40px}
+.step h3{font-size:clamp(17px,1.8vw,21px);margin:0 0 10px}
+.step ol,.step ul{margin:0;padding-left:1.3em;line-height:2;color:var(--ink-900)}
+.step p{margin:12px 0 0;color:var(--ink-600);font-weight:300;line-height:1.85}
+.warn{background:rgba(204,241,77,.35);padding:14px 18px;border-radius:6px;margin-top:16px;line-height:1.85}
+.dl{border-top:1px solid rgba(26,26,25,.14);border-bottom:1px solid rgba(26,26,25,.14);padding:28px 0;margin-top:28px}
+table.qa{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
+table.qa th,table.qa td{text-align:left;vertical-align:top;padding:12px 10px;border-bottom:1px solid rgba(26,26,25,.14);line-height:1.8}
+table.qa th{color:var(--ink-400);font-weight:400;font-size:13px;letter-spacing:.06em}
+table.qa td:first-child{width:38%;font-weight:700}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="logo" href="../index.html"><img src="../img/logo-signature.png" alt="肆拾文創 40 Company" width="255" height="136"></a>
+<ul>
+<li><a href="../index.html">首頁</a></li>
+<li><a href="../about.html">關於肆拾</a></li>
+<li><a href="../services.html">服務項目</a></li>
+<li><a href="../cases.html">執行案例</a></li>
+<li><a href="../news.html">最新資訊</a></li>
+<li><a class="cta" href="../contact.html">聯絡我們</a></li>
+</ul>
+</div></header>
+
+<main>
+<section class="article-hero"><div class="wrap"><div class="article">
+<div class="eyebrow">免費工具</div>
+<h1>KIDSNAP</h1>
+<p class="lede muted">一張臉，把長大串起來。把同一個孩子不同時期的照片丟進來，它會自動找出他、把臉對齊到同一個位置，做成一段「看著長大」的短片。</p>
+</div></div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap"><div class="article">
+
+<div class="dl">
+<p style="margin:0 0 6px;font-weight:700">macOS · 免費 · 照片不會上傳</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">所有的偵測、辨識、對齊、調色、做影片都在你自己的電腦裡完成。沒有帳號、沒有雲端、沒有費用。關掉網路也能用——只有第一次安裝需要連網。</p>
+<a class="get" href="https://github.com/rowland10000/40-company-site/releases/download/kidsnap-v1/KIDSNAP_release.zip">下載 KIDSNAP（約 70MB）</a>
+</div>
+
+<h2 style="margin-top:56px">安裝：雙擊一個檔案</h2>
+
+<ol class="step" style="padding-left:1.3em;line-height:2.1">
+<li>解壓縮 <code>KIDSNAP_release.zip</code>，得到一個 KIDSNAP 資料夾，放哪裡都可以</li>
+<li>打開資料夾，雙擊「<strong>啟動 KIDSNAP.command</strong>」</li>
+<li>第一次會跳出黑色視窗自動安裝，約 3～5 分鐘，裝完自動啟動</li>
+<li>瀏覽器會自己打開 KIDSNAP 的畫面。之後每次都是雙擊同一個檔案，一分鐘內開啟</li>
+</ol>
+
+<div class="warn"><strong>電腦要有 Python 3.9～3.12。</strong>沒有的話，雙擊時會提示你去 python.org 安裝（一路按「繼續」就好），裝完再雙擊一次。</div>
+
+<p style="margin-top:16px;color:var(--ink-600);font-weight:300;line-height:1.85">如果 macOS 說「無法打開，因為來自未識別的開發者」：在「啟動 KIDSNAP.command」上按右鍵 →「打開」→ 再按一次「打開」。只有第一次需要。</p>
+
+<h2 style="margin-top:56px">四個步驟</h2>
+
+<div class="step">
+<h3>① 選主角</h3>
+<p>先選輸出尺寸（1:1 貼文、9:16 限動、16:9 電視、4:5 直式），再上傳一張主角的清晰獨照。右邊會自動框出偵測到的臉，綠框就是目標人物；合照裡有好幾張臉就點一下要的那張。按「設定為目標人物」。</p>
+</div>
+
+<div class="step">
+<h3>② 丟照片</h3>
+<p>把主角從小到大的照片一次全選進來（一次最多 150 張），按「開始對齊」。</p>
+<p>它會依拍攝日期由舊到新排序，偵測每張照片裡的臉，<strong>沿著時間接力</strong>認出主角——用前後年代剛認出的臉當線索，所以嬰兒期的照片也串得起來——再旋轉、縮放、裁切到同一個位置，最後統一亮度與膚色。</p>
+<p>認不出或偵測不到臉的照片會被排到最後並標明原因，不會進到影片裡。合照中兩張臉太像時它寧可略過也不亂選。</p>
+</div>
+
+<div class="step">
+<h3>③ 排順序</h3>
+<p>對齊好的照片以卡片排出來，預設照拍攝日期排好，通常不用動。想改就直接拖拉。</p>
+<p>接著選速度（每秒 6／12／24 張）、格式（MP4 或 GIF）與儲存位置，按「建立動圖」。150 張用預設速度大約 12 秒。</p>
+</div>
+
+<div class="step">
+<h3>④ 加風格（可略過）</h3>
+<p>套上相框、色塊海報、弧形大字或塗鴉描邊。同一個風格再點一次會換一組配色與排版。可以放上今天日期或生日——選生日時主標會自動變成 Happy Birthday。</p>
+</div>
+
+<div class="dl" style="margin-top:48px">
+<p style="margin:0 0 6px;font-weight:700">每一步的實際畫面</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">使用手冊裡每個步驟都有操作截圖，還有完整的常見問題。</p>
+<a class="get" href="kidsnap-manual.pdf">下載使用手冊</a>
+</div>
+
+<h2 style="margin-top:56px">常見問題</h2>
+<table class="qa">
+<tr><th>狀況</th><th>怎麼辦</th></tr>
+<tr><td>明明是同一個孩子，卻說「未匹配目標人物」</td><td>通常是臉太小、側臉或光線太差。把目標人物換成年代比較接近那張的獨照，接力辨認會更容易串起來。</td></tr>
+<tr><td>合照裡選到別人</td><td>兄弟姊妹長得像時可能發生。把那張裁成獨照再處理。</td></tr>
+<tr><td>照片順序不對</td><td>順序依照片裡的拍攝時間。經 LINE、Messenger 轉傳過的照片常常沒有這個資訊，會被排到最後，在第 ③ 步拖拉調整。</td></tr>
+<tr><td>影片太大或太長</td><td>選 MP4 不要選 GIF（GIF 大 4～5 倍）；照片多時把速度調「快」。</td></tr>
+<tr><td>照片會不會被上傳</td><td>不會。全部在你的電腦裡完成，不連任何雲端服務。</td></tr>
+</table>
+
+<div class="article-cta" style="margin-top:56px">
+<p>我們判斷一件事該不該自動化的方式，寫在<a href="../news/what-to-automate.html">這篇</a>。其他工具放在<a href="../tools/">工具頁</a>。</p>
+<p style="margin-top:14px">我們是一家以內容企劃與影像製作為核心的團隊。如果你想聊聊自己的流程哪一段該這樣處理，歡迎來信——<a href="mailto:office@40-company.com">office@40-company.com</a></p>
+</div>
+
+<p class="article-back"><a href="../tools/">← 回工具</a></p>
+
+</div></div></section>
+</main>
+
+<footer class="footer"><div class="wrap">
+<div class="bottom" style="margin-top:0;border-top:0"><span>肆拾文創 40 COMPANY © 2026</span><span>office@40-company.com</span></div>
+</div></footer>
+</body>
+</html>
