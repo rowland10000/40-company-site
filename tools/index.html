@@ -4,20 +4,20 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>工具 · 肆拾文創 40 Company</title>
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="我們為了解決自己工作上的問題而做的小工具。能公開的放在這裡，免費，可以直接用。">
+<meta name="description" content="我們為了自己的工作流程做的小工具。能公開的都放在這裡，免費使用。">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png?v=3"><link rel="apple-touch-icon" href="../img/favicon-180.png?v=3">
 <link rel="stylesheet" href="../colors_and_type.css?v=6">
 <link rel="stylesheet" href="../site.css?v=6">
 <style>
-.tool{border-top:1px solid rgba(26,26,25,.14);padding:34px 0;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start}
-.tool:last-of-type{border-bottom:1px solid rgba(26,26,25,.14)}
-.tool .meta{font-size:13px;letter-spacing:.06em;color:var(--ink-400);margin:0 0 8px}
-.tool h3{font-size:clamp(19px,2vw,23px);margin:0 0 10px}
-.tool p{margin:0 0 12px;color:var(--ink-600);font-weight:300;line-height:1.85}
-.tool .why{margin:0;font-size:15px;color:var(--ink-900);line-height:1.85}
-.tool .why b{font-weight:700}
-.tool .go{white-space:nowrap}
-@media(max-width:640px){.tool{grid-template-columns:1fr}.tool .go{justify-self:start}}
+.toolcard{border-top:1px solid rgba(26,26,25,.14);padding:30px 0;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start}
+.toolcard:last-of-type{border-bottom:1px solid rgba(26,26,25,.14)}
+.toolcard h3{font-size:clamp(19px,2vw,23px);margin:0 0 4px}
+.toolcard .kind{font-size:12px;letter-spacing:.1em;color:var(--ink-400);margin:0 0 12px}
+.toolcard p{margin:0 0 10px;color:var(--ink-600);font-weight:300;line-height:1.85}
+.toolcard .why{color:var(--ink-900);font-weight:400}
+.go{display:inline-flex;align-items:center;white-space:nowrap;background:var(--color-red);color:#fff;padding:0 22px;height:44px;border-radius:999px;font-size:15px}
+.go:hover{background:var(--red-700);color:#fff}
+@media(max-width:640px){.toolcard{grid-template-columns:1fr;gap:16px}}
 </style>
 </head>
 <body>
@@ -33,29 +33,30 @@
 
 <main>
 <section class="article-hero"><div class="wrap"><div class="article">
-<div class="eyebrow">工具</div>
+<div class="eyebrow">TOOLS · 工具</div>
 <h1>我們自己在用的東西</h1>
-<p class="lede muted">我們做內容，也做讓內容做得更快的東西。這裡放的是為了解決自己工作上的問題而寫的小工具——不是產品，是副產品。能公開的就放上來，免費，可以直接用。</p>
+<p class="lede muted">這裡放的不是產品，是我們為了把自己的工作做完而寫的小工具。能公開的就公開，免費使用，不用留資料。</p>
 </div></div></section>
 
 <section class="section" style="padding-top:0"><div class="wrap"><div class="article">
 
-<div class="tool">
-<div>
-<p class="meta">iPhone 捷徑</p>
-<h3>鬧鐘管家</h3>
-<p>會自己看行事曆的鬧鐘。國定假日、補班、颱風停班自動判斷，明天一早有行程還會提早叫你。</p>
-<p class="why"><b>為什麼做它：</b>每天睡前花三秒確認明天要不要上班，一年也才十八分鐘。但那三秒佔用的是注意力，不是時間——<a href="../news/what-to-automate.html">我們用什麼標準決定哪些事該交出去</a>。</p>
-</div>
-<a class="btn btn-red go" href="../alarm/">去下載</a>
+<p style="color:var(--ink-600);font-weight:300;line-height:1.85;margin:0 0 30px">我們判斷一件事該不該自動化，標準不是它花多少時間，是它佔用多少注意力——這個想法寫在<a href="../news/what-to-automate.html">這篇</a>。下面是照這個標準做出來、而且真的留下來天天在用的幾個。</p>
+
+<div class="toolcard">
+  <div>
+    <h3>鬧鐘管家</h3>
+    <p class="kind">iPhone 捷徑 · 免費</p>
+    <p class="why">解決的問題：連假前一晚要記得關鬧鐘，補班前一晚要記得開回來，颱風假還得等公布。</p>
+    <p>裝好之後鬧鐘會自己判斷明天上班還是放假，國定假日、補班、颱風停班都算進去；明天一早有行程也會自動提早叫你。查不到資料時退回照上班鬧鐘響——寧可多叫一次，不會害你遲到。</p>
+  </div>
+  <a class="go" href="../alarm/">看說明與下載</a>
 </div>
 
 </div></div></section>
 
 <section class="section" style="padding-top:0"><div class="wrap"><div class="article">
 <div class="article-cta">
-<p>這些工具背後的判斷邏輯，跟我們幫客戶處理專案時用的是同一套：先確認這件事值不值得自動化，再決定哪一段交給機器、哪一段不能交。</p>
-<p style="margin-top:14px">如果你想聊聊自己的工作流程哪一段該這樣處理，歡迎來信——<a href="mailto:office@40-company.com">office@40-company.com</a></p>
+<p>這些工具背後的判斷方式，跟我們處理客戶工作流程的方式是同一套。如果你想聊聊自己的流程哪一段該這樣處理，歡迎來信——<a href="mailto:office@40-company.com">office@40-company.com</a></p>
 </div>
 <p class="article-back"><a href="../index.html">← 回首頁</a></p>
 </div></div></section>
