@@ -11,16 +11,21 @@
 <style>
 .get{display:inline-flex;align-items:center;background:var(--color-red);color:#fff;padding:0 22px;height:44px;border-radius:999px;font-size:15px}
 .get:hover{background:var(--red-700);color:#fff}
+.get+.get{margin-left:10px}
 .step{margin-top:40px}
 .step h3{font-size:clamp(17px,1.8vw,21px);margin:0 0 10px}
 .step ol,.step ul{margin:0;padding-left:1.3em;line-height:2;color:var(--ink-900)}
 .step p{margin:12px 0 0;color:var(--ink-600);font-weight:300;line-height:1.85}
 .warn{background:rgba(204,241,77,.35);padding:14px 18px;border-radius:6px;margin-top:16px;line-height:1.85}
 .dl{border-top:1px solid rgba(26,26,25,.14);border-bottom:1px solid rgba(26,26,25,.14);padding:28px 0;margin-top:28px}
+.sums{margin-top:22px;font-size:13px;color:var(--ink-600);font-weight:300;line-height:1.9}
+.sums code{font-size:12px;word-break:break-all;color:var(--ink-900)}
+.note{color:var(--ink-600);font-weight:300;line-height:1.85}
 table.qa{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
 table.qa th,table.qa td{text-align:left;vertical-align:top;padding:12px 10px;border-bottom:1px solid rgba(26,26,25,.14);line-height:1.8}
 table.qa th{color:var(--ink-400);font-weight:400;font-size:13px;letter-spacing:.06em}
 table.qa td:first-child{width:38%;font-weight:700}
+@media(max-width:600px){.get+.get{margin-left:0;margin-top:10px}}
 </style>
 </head>
 <body>
@@ -46,23 +51,41 @@ table.qa td:first-child{width:38%;font-weight:700}
 <section class="section" style="padding-top:0"><div class="wrap"><div class="article">
 
 <div class="dl">
-<p style="margin:0 0 6px;font-weight:700">macOS · 免費 · 照片不會上傳</p>
-<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">所有的偵測、辨識、對齊、調色、做影片都在你自己的電腦裡完成。沒有帳號、沒有雲端、沒有費用。關掉網路也能用——只有第一次安裝需要連網。</p>
-<a class="get" href="https://github.com/rowland10000/40-company-site/releases/download/kidsnap-v1/KIDSNAP_release.zip">下載 KIDSNAP（約 70MB）</a>
+<p style="margin:0 0 6px;font-weight:700">macOS 12 以上 · 免費 · 照片不會上傳</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">偵測、辨識、對齊、調色、做影片全部在你自己的電腦裡完成。沒有帳號、沒有雲端、沒有費用。需要的程式都已經附在檔案裡，不用另外安裝任何東西；下載完之後關掉網路也能用。</p>
+<p style="margin:0 0 16px;color:var(--ink-600);font-weight:300;line-height:1.85"><strong style="color:var(--ink-900)">兩個版本選一個</strong>：點左上角蘋果選單 →「關於這台 Mac」，「晶片」寫 Apple M 開頭的選第一顆，寫 Intel 的選第二顆。</p>
+<a class="get" href="https://github.com/rowland10000/40-company-site/releases/download/kidsnap-v1/KIDSNAP_release.zip">Apple Silicon 版（319 MB）</a>
+<a class="get" href="https://github.com/rowland10000/40-company-site/releases/download/kidsnap-v1/KIDSNAP_release_intel.zip">Intel 版（334 MB）</a>
+
+<div class="sums">
+<p style="margin:0 0 8px">想確認下載到的檔案跟我們發布的是同一份，在終端機跑 <code>shasum -a 256 ~/Downloads/KIDSNAP_release.zip</code>，結果應該是：</p>
+<p style="margin:0 0 6px">Apple Silicon 版<br><code>2390f555852e218f58ea06fe1ff2b74b648bbc92699e540c4257373833f37a1e</code></p>
+<p style="margin:0">Intel 版<br><code>14c737561feedfd475752bcba021ba54a3451784d15592cbd2fdd92b5f1109f9</code></p>
+</div>
 </div>
 
 <h2 style="margin-top:56px">安裝：雙擊一個檔案</h2>
 
 <ol class="step" style="padding-left:1.3em;line-height:2.1">
-<li>解壓縮 <code>KIDSNAP_release.zip</code>，得到一個 KIDSNAP 資料夾，放哪裡都可以</li>
-<li>打開資料夾，雙擊「<strong>啟動 KIDSNAP.command</strong>」</li>
-<li>第一次會跳出黑色視窗自動安裝，約 3～5 分鐘，裝完自動啟動</li>
-<li>瀏覽器會自己打開 KIDSNAP 的畫面。之後每次都是雙擊同一個檔案，一分鐘內開啟</li>
+<li>解壓縮下載到的 zip，得到一個 KIDSNAP 資料夾。放哪裡都可以，之後要搬動或改名也沒問題</li>
+<li>打開資料夾，雙擊「<strong>KIDSNAP.command</strong>」</li>
+<li>第一次會跳出一個黑色視窗做準備，約 40 秒</li>
+<li>瀏覽器會自己打開 KIDSNAP 的畫面。之後每次都是雙擊同一個檔案</li>
 </ol>
 
-<div class="warn"><strong>電腦要有 Python 3.9～3.12。</strong>沒有的話，雙擊時會提示你去 python.org 安裝（一路按「繼續」就好），裝完再雙擊一次。</div>
+<h2 style="margin-top:56px">第一次會跳出一個警告，這是正常的</h2>
 
-<p style="margin-top:16px;color:var(--ink-600);font-weight:300;line-height:1.85">如果 macOS 說「無法打開，因為來自未識別的開發者」：在「啟動 KIDSNAP.command」上按右鍵 →「打開」→ 再按一次「打開」。只有第一次需要。</p>
+<p class="note" style="margin-top:14px">KIDSNAP 沒有購買 Apple 開發者憑證做簽章，所以第一次打開時 macOS 會顯示「無法打開，因為 Apple 無法檢查是否含有惡意軟體」。這不代表檔案有問題——你可以用上面的 SHA-256 自行確認下載到的檔案和我們發布的一模一樣。</p>
+
+<div class="warn">
+<strong>放行步驟（只需要做一次）</strong>
+<ol style="margin:10px 0 0;padding-left:1.3em;line-height:2">
+<li>在警告視窗按「完成」</li>
+<li>打開「系統設定」→「隱私權與安全性」→ 往下捲到「安全性」，會看到「已阻擋 KIDSNAP.command」</li>
+<li>按「仍要打開」→ 再按「打開」→ 輸入電腦密碼</li>
+</ol>
+<p style="margin:10px 0 0">之後再雙擊就不會再問。</p>
+</div>
 
 <h2 style="margin-top:56px">四個步驟</h2>
 
@@ -95,6 +118,10 @@ table.qa td:first-child{width:38%;font-weight:700}
 <a class="get" href="kidsnap-manual.pdf">下載使用手冊</a>
 </div>
 
+<h2 style="margin-top:56px">你的照片不會離開這台電腦</h2>
+
+<p class="note" style="margin-top:14px">KIDSNAP 全程在你自己的電腦上執行。照片不會上傳、不連任何伺服器、不需要帳號或金鑰；下載完之後關掉網路一樣能用。操作畫面的網址是 127.0.0.1，那是你這台電腦自己的位址，別人打不開。</p>
+
 <h2 style="margin-top:56px">常見問題</h2>
 <table class="qa">
 <tr><th>狀況</th><th>怎麼辦</th></tr>
@@ -102,8 +129,18 @@ table.qa td:first-child{width:38%;font-weight:700}
 <tr><td>合照裡選到別人</td><td>兄弟姊妹長得像時可能發生。把那張裁成獨照再處理。</td></tr>
 <tr><td>照片順序不對</td><td>順序依照片裡的拍攝時間。經 LINE、Messenger 轉傳過的照片常常沒有這個資訊，會被排到最後，在第 ③ 步拖拉調整。</td></tr>
 <tr><td>影片太大或太長</td><td>選 MP4 不要選 GIF（GIF 大 4～5 倍）；照片多時把速度調「快」。</td></tr>
+<tr><td>可以放哪些格式</td><td>JPG、PNG、HEIC（iPhone 原始格式）。一次最多 150 張。</td></tr>
+<tr><td>Windows 可以用嗎</td><td>目前不支援，只有 macOS 12 以上。</td></tr>
 <tr><td>照片會不會被上傳</td><td>不會。全部在你的電腦裡完成，不連任何雲端服務。</td></tr>
 </table>
+
+<h2 style="margin-top:56px">還沒驗證到的部分</h2>
+<p class="note" style="margin-top:14px">跨年齡的辨認只用 2021 年以後的照片測過，0～2 歲的嬰兒照還沒實際驗證。兄弟姊妹長得像時可能認錯。這些都還在調。</p>
+
+<div class="warn" style="margin-top:28px">
+<p style="margin:0">這是個人專案，依現狀提供，不保證在每一台電腦、每一張照片上都正確。若停止維護會在這一頁公告，已發布的檔案會保留。</p>
+<p style="margin:10px 0 0;font-size:14px;color:var(--ink-600)">最後更新：2026-10-17</p>
+</div>
 
 <div class="article-cta" style="margin-top:56px">
 <p>我們判斷一件事該不該自動化的方式，寫在<a href="../news/what-to-automate.html">這篇</a>。其他工具放在<a href="../tools/">工具頁</a>。</p>
