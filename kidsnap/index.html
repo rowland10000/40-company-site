@@ -59,8 +59,8 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <div class="sums">
 <p style="margin:0 0 8px">想確認下載到的檔案跟我們發布的是同一份，在終端機跑 <code>shasum -a 256 ~/Downloads/KIDSNAP_release.zip</code>，結果應該是：</p>
-<p style="margin:0 0 6px">Apple Silicon 版<br><code>2390f555852e218f58ea06fe1ff2b74b648bbc92699e540c4257373833f37a1e</code></p>
-<p style="margin:0">Intel 版<br><code>14c737561feedfd475752bcba021ba54a3451784d15592cbd2fdd92b5f1109f9</code></p>
+<p style="margin:0 0 6px">Apple Silicon 版<br><code>d91e80f4df4496b973a0d89a322bde14d0e3139646c7c64ac7c369c3cf6983ad</code></p>
+<p style="margin:0">Intel 版<br><code>6d57df770435e6b6d4913c9bffaaf5396726abb47fc564bc29ca96464888b1de</code></p>
 </div>
 </div>
 
@@ -75,14 +75,14 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <h2 style="margin-top:56px">第一次會跳出一個警告，這是正常的</h2>
 
-<p class="note" style="margin-top:14px">KIDSNAP 沒有購買 Apple 開發者憑證做簽章，所以第一次打開時 macOS 會顯示「無法打開，因為 Apple 無法檢查是否含有惡意軟體」。這不代表檔案有問題——你可以用上面的 SHA-256 自行確認下載到的檔案和我們發布的一模一樣。</p>
+<p class="note" style="margin-top:14px">KIDSNAP 沒有購買 Apple 開發者憑證做簽章，所以第一次打開時 macOS 會顯示「無法打開，因為來自未識別的開發者」或「Apple 無法檢查是否含有惡意軟體」。這不代表檔案有問題——你可以用上面的 SHA-256 自行確認下載到的檔案和我們發布的一模一樣。</p>
 
 <div class="warn">
 <strong>放行步驟（只需要做一次）</strong>
 <ol style="margin:10px 0 0;padding-left:1.3em;line-height:2">
-<li>在警告視窗按「完成」</li>
-<li>打開「系統設定」→「隱私權與安全性」→ 往下捲到「安全性」，會看到「已阻擋 KIDSNAP.command」</li>
-<li>按「仍要打開」→ 再按「打開」→ 輸入電腦密碼</li>
+<li>在警告視窗按「好」</li>
+<li>打開「系統設定」→「隱私權與安全性」→ 往下捲到「安全性」，會看到「已阻擋 KIDSNAP.command」。<br><span style="font-size:14px;color:var(--ink-600)">macOS 12 的路徑是「系統偏好設定」→「安全性與隱私權」→「一般」→「強制打開」。</span></li>
+<li>按「仍要打開」→ 在「確定要打開嗎？」視窗按「打開」。較新的 macOS 會要求輸入電腦密碼</li>
 </ol>
 <p style="margin:10px 0 0">之後再雙擊就不會再問。</p>
 </div>
@@ -139,7 +139,7 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <div class="warn" style="margin-top:28px">
 <p style="margin:0">這是個人專案，依現狀提供，不保證在每一台電腦、每一張照片上都正確。若停止維護會在這一頁公告，已發布的檔案會保留。</p>
-<p style="margin:10px 0 0;font-size:14px;color:var(--ink-600)">最後更新：2026-10-17</p>
+<p style="margin:10px 0 0;font-size:14px;color:var(--ink-600)">最後更新：2026-10-19</p>
 </div>
 
 <div class="article-cta" style="margin-top:56px">
