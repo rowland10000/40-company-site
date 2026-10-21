@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="捏一個自己，從 5 歲長到 80 歲。每個選擇都會讓你走向不一樣的人生，最後變成一張貼紙。">
+<meta name="description" content="捏一個自己，從 5 歲長到 30 歲。有選擇題也有小遊戲，你的選擇會讓你變成不一樣的大人。">
 <meta property="og:title" content="長大貼紙簿">
-<meta property="og:description" content="捏一個自己，從 5 歲長到 80 歲。你的一生，會變成哪一張貼紙？">
+<meta property="og:description" content="捏一個自己，從 5 歲長到 30 歲。三十歲的你，會變成哪一張貼紙？">
 <meta name="theme-color" content="#FFE9EF">
 <style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>長大貼紙簿</title>
@@ -127,6 +127,35 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--pink);outline-o
 .ach.new i{animation:boing .6s both;box-shadow:0 0 0 3px #FFD166,0 3px 0 rgba(0,0,0,.08)}
 .achh{margin:0 0 10px;font-size:18px;font-weight:400;color:var(--pink)}
 #log .ln.ev .who{font-size:13px}
+.mg .mgbox{position:relative;height:190px;border-radius:16px;background:#FFF5F8;border:2px dashed var(--line);overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.mg .mgbox.win{background:#EFFAF3}
+.mghint{margin:0;font-size:14px;color:var(--soft);line-height:1.6}
+.mgrow{display:flex;gap:8px;align-items:center}
+.mgrow .mggo{flex:1;justify-content:center;text-align:center}
+.mgres{margin:0;font-size:17px;color:#C2405E}
+.mgres.ok{color:#2E9E7A}
+.mgmsg{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:14px;color:var(--soft);pointer-events:none}
+.tg-target,.tg-ring{position:absolute;left:50%;top:46%;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.tg-target{width:60px;height:60px;background:#FFD166;box-shadow:0 0 0 4px #fff}
+.tg-ring{width:160px;height:160px;border:5px solid var(--pink)}
+.ms-lane{display:flex;align-items:center;gap:8px;margin:18px 14px 0;font-size:14px}
+.ms-lane span{width:3.4em}
+.ms-lane i{display:block;height:16px;border-radius:8px;width:0;transition:width .1s}
+.ms-me{background:var(--pink)}
+.ms-rv{background:#9AA8B8}
+.ms-btn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:110px;height:64px;border-radius:32px;border:0;background:var(--ink);color:#fff;font-size:22px;box-shadow:0 5px 0 #2C222A;touch-action:manipulation}
+.ms-btn:active{transform:translate(-50%,3px);box-shadow:0 2px 0 #2C222A}
+.ct-star{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:transparent;color:#FFB020;font-size:34px;line-height:1;animation:boing .4s both;text-shadow:0 0 10px rgba(255,208,102,.9)}
+.ct-star.got{transform:scale(1.8);opacity:0;transition:all .25s}
+.ct-n{position:absolute;right:10px;top:8px;font-size:15px;background:#fff;border-radius:999px;padding:2px 10px}
+.sm-row{position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);display:flex;justify-content:center;gap:14px}
+.sm-b{width:54px;height:54px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 2px var(--line);opacity:.55;transition:transform .1s,opacity .1s}
+.sm-b:not([disabled]){opacity:.85}
+.sm-b.lit{opacity:1;transform:scale(1.2);box-shadow:0 0 0 3px var(--ink)}
+.ml-grid{position:absolute;inset:10px 10px 10px 10px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px}
+.ml-c{background:#fff;border-radius:12px;display:grid;place-items:center}
+.ml-mail{width:100%;height:100%;border:0;border-radius:12px;background:#BFE3F2;font-size:26px;animation:boing .3s both}
+.ml-mail.got{background:#CBE8B8}
 .etext p{margin:0 0 6px;font-size:17px;line-height:1.8}
 .bars{display:flex;flex-direction:column;gap:6px}
 .bar{display:flex;align-items:center;gap:8px;font-size:14px}
@@ -512,11 +541,6 @@ var EVENTS={
    ['跑去樓下踩水坑',{tr:'brave',fl:'typhoon',r:[['n','你全身濕透，被媽媽唸了半小時。可是真的好好玩。']]}],
    ['在家把一整天睡掉',{tr:'free',fl:'typhoon',hp:1,r:[['n','醒來的時候，颱風已經走了。']]}],
    ['趁機把作業全部寫完',{tr:'smart',fl:'typhoon',r:[['n','隔天全班只有你交作業。老師感動到差點哭出來。']]}]])},
-  {id:'sports',s:EVQ('學校運動會，你被選進大隊接力。',[
-   ['拚命跑，連超三個人',{tr:'brave',hp:1,r:[['n','你們班拿了第一名。阿哲把你舉起來繞操場。']]}],
-   ['在終點幫每一個人加油',{tr:'kind',r:[['n','你喊到聲音沙啞。小晴遞給你一瓶水。']]}],
-   ['跑一跑，跑錯方向',{tr:'funny',r:[['n','全場笑翻。這段影片，在班級群組流傳了十年。']]}],
-   ['研究了一個禮拜的交棒技巧',{tr:'smart',r:[['n','你們班的交棒，被體育老師拿去當示範。']]}]])},
   {id:'silkworm',s:EVQ('班上開始養蠶寶寶，老師說每個人要負責一隻。',[
    ['每天放學都去摘新鮮的桑葉',{tr:'kind',r:[['n','你的蠶寶寶，是全班最胖的一隻。']]}],
    ['幫牠取名叫「麻糬」，還幫牠寫日記',{tr:'smart',r:[['n','日記寫到第三十天，麻糬結成了一顆白白的繭。']]}],
@@ -629,33 +653,29 @@ var ACH=[
  {id:'button',t:'第二顆釦子',i:'●',c:'#8E62C8',h:'畢業典禮',f:function(){return G.fl.button;}},
  {id:'match',t:'月老',i:'∞',c:'#C25A9E',h:'把喜歡的人推給別人',f:function(){return G.rom==='match';}},
  {id:'self',t:'做自己',i:'☆',c:'#4CBF86',h:'最後一晚，一個人去海邊走走',f:function(){return G.rom==='self';}},
- {id:'married',t:'我願意',i:'♥',c:'#E26A92',h:'三十五歲，求婚',f:function(){return G.life==='married';}},
- {id:'together',t:'不結婚也很好',i:'⌂',c:'#F2994A',h:'兩個人一起，不一定要結婚',f:function(){return G.life==='together';}},
- {id:'single',t:'自由的一生',i:'✈',c:'#3FB6E0',h:'一個人，過一輩子',f:function(){return G.life==='single';}},
- {id:'bye',t:'好好說再見',i:'☁',c:'#8E9CC8',h:'三十五歲，和平分開',f:function(){return !!G.byeDone;}},
+ {id:'couple',t:'有人陪的三十歲',i:'♥',c:'#E26A92',h:'三十歲的時候，身邊有一個人',f:function(){return G.pt&&G.pt!=='none';}},
+ {id:'newlove',t:'新的人',i:'❀',c:'#2E9E7A',h:'出社會以後，跟新認識的人在一起',f:function(){return G.pt==='anan'||G.pt==='guang';}},
+ {id:'single',t:'一個人也很好',i:'✈',c:'#3FB6E0',h:'三十歲，一個人過得很好',f:function(){return !G.pt||G.pt==='none';}},
  {id:'clean',t:'不碰菸酒',i:'✚',c:'#4CBF86',h:'每一次都拒絕菸和酒',f:function(){return !G.smoke&&!G.drink;}},
- {id:'quit',t:'戒菸成功',i:'✚',c:'#F2994A',h:'抽過菸，然後戒掉',f:function(){return G.smoke>0&&G.quit;}},
- {id:'strong',t:'80 歲溜滑梯',i:'▲',c:'#4CBF86',h:'健康 8 以上活到 80 歲',f:function(){return G.hp>=8;}},
- {id:'iron',t:'鐵人',i:'★',c:'#E5484D',h:'健康衝到滿分 12',f:function(){return G.hp>=12;}},
+ {id:'strong',t:'健康寶寶',i:'▲',c:'#4CBF86',h:'健康 8 以上',f:function(){return G.hp>=8;}},
  {id:'comfort',t:'被接住的夜晚',i:'☾',c:'#8E62C8',h:'難過的時候，有人來陪你',f:function(){return G.react==='comfort';}},
  {id:'joke',t:'幹話療癒',i:'☺',c:'#E9B824',h:'難過的時候，有人講幹話',f:function(){return G.react==='joke';}},
  {id:'chance',t:'第二次機會',i:'✉',c:'#3FB6E0',h:'原諒來道歉的朋友',f:function(){return G.healed==='chance';}},
  {id:'reunion',t:'同學會和好',i:'✿',c:'#F27BA0',h:'絕交以後，在同學會和好',f:function(){return G.healed==='reunion'&&G.callee&&G.rel[G.callee]==='ok';}},
  {id:'far',t:'點頭之交',i:'◡',c:'#8E7F8A',h:'同學會上，保持一點距離',f:function(){return G.callee&&G.rel[G.callee]==='far';}},
  {id:'alone',t:'一個人撐過去',i:'☕',c:'#8E9CC8',h:'難過的夜晚，誰都不找',f:function(){return G.called==='self';}},
- {id:'parent',t:'當爸媽了',i:'☺',c:'#F27BA0',h:'家裡多了一個小孩',f:function(){return G.kid==='baby'||G.kid==='adopt';}},
- {id:'world',t:'環遊世界',i:'✈',c:'#3FB6E0',h:'把世界走一圈',f:function(){return G.kid==='trip';}},
- {id:'datou',t:'大頭的好朋友',i:'◉',c:'#6E8A2E',h:'對大頭好一點',f:function(){return G.dt>=5;}},
- {id:'bestfriends',t:'一輩子的三人組',i:'❀',c:'#E07A2E',h:'跟阿哲、小晴都非常要好',f:function(){return G.z>=10&&G.g>=10&&!isGone('azhe')&&!isGone('xq');}},
- {id:'marathon',t:'跑完馬拉松',i:'⚑',c:'#E5484D',h:'健康檢查之後',f:function(){return G.fl.marathon;}},
+ {id:'bestfriends',t:'一輩子的三人組',i:'❀',c:'#E07A2E',h:'跟阿哲、小晴都非常要好',f:function(){return G.z>=7&&G.g>=7&&!isGone('azhe')&&!isGone('xq');}},
  {id:'magic',t:'尾牙魔術師',i:'✧',c:'#8E62C8',h:'公司尾牙',f:function(){return G.fl.magic;}},
- {id:'diary',t:'十件事完成',i:'✓',c:'#4CBF86',h:'八十歲，交換日記',f:function(){return G.fl.diary;}},
+ {id:'diary',t:'交換日記',i:'✓',c:'#4CBF86',h:'三十歲，幼稚園門口',f:function(){return G.fl.diary;}},
+ {id:'wish',t:'流星許願',i:'★',c:'#FFB020',h:'小遊戲：畢旅的流星雨',f:function(){return G.fl.wish;}},
+ {id:'photo',t:'完美合照',i:'◎',c:'#F27BA0',h:'小遊戲：幼稚園門口的合照',f:function(){return G.fl.photo;}},
+ {id:'mgall',t:'小遊戲達人',i:'♛',c:'#E9B824',h:'一輪裡面，小遊戲全部成功',f:function(){return G.mgWin>=5&&!G.mgLose;}},
  {id:'dog',t:'豆花',i:'❤',c:'#C98A4B',h:'隨機事件：雨天的小狗',f:function(){return G.fl.dog;}},
  {id:'lottery',t:'中獎了',i:'$',c:'#E9B824',h:'隨機事件：一張發票',f:function(){return G.fl.lottery;}},
  {id:'typhoon',t:'颱風假',i:'☂',c:'#3FB6E0',h:'隨機事件：停課一天',f:function(){return G.fl.typhoon;}},
  {id:'scam',t:'識破詐騙',i:'!',c:'#E5484D',h:'隨機事件：奇怪的電話',f:function(){return G.fl.scam;}}
 ];
-function achN(){var n=0;for(var k in (SAVE.ach||{}))n++;return n;}
+function achN(){var a=SAVE.ach||{};return ACH.filter(function(x){return a[x.id];}).length;}
 function achBadge(a,on,showHint){
   var d=el('div','ach'+(on?'':' off'));var i=el('i','',on?a.i:'?');if(on)i.style.background=a.c;d.appendChild(i);
   d.appendChild(el('b','',on?a.t:'？？？'));if(!on&&showHint)d.appendChild(el('small','',a.h));return d;
@@ -666,6 +686,7 @@ var BFF65=[
   ['去非洲看長頸鹿',{tr:'brave',bf:1,r:[['n','一隻長頸鹿低下頭，把{B}的帽子叼走了。']]}],
   ['回母校，假裝自己是轉學生',{tr:'funny',bf:1,r:[['n','你們坐在國小的小椅子上，膝蓋卡住，站不起來。']]}],
   ['搭郵輪，環遊世界一圈',{tr:'free',bf:1,r:[['n','你們在甲板上看日出，用手機拍了三百張一模一樣的照片。']]}]];
+var SIMON=[['mg','simon',{title:'照著{B}的順序，把珠子串起來！',hint:'先看珠子亮起來的順序，再照著點一次。',win:{tr:'kind',bf:1,r:[['n','手環編好了，每一顆珠子都排得剛剛好。']]},lose:{tr:'free',bf:1,r:[['n','珠子掉了一地。{B}笑到不行：「歪歪的也很可愛啦。」']]}}]];
 var NOTE_LOVE=[
  ['n','有人傳來一張紙條，是{F}的字：「你是不是喜歡{L}？」'],
  ['q','你要？',[
@@ -707,6 +728,8 @@ var STORY=[
   ['偷偷丟進阿哲的便當',{tr:'funny',g:1,z:-1,r:[['c','azhe','c','我的便當怎麼有青椒……'],['c','xq','h','哈哈哈你好壞！我叫小晴。']]}],
   ['把青椒排成一張笑臉',{tr:'free',g:1,r:[['n','老師說這是藝術，把你的便當拍照貼在公布欄。'],['c','xq','s','可以教我嗎？我叫小晴。']]}],
   ['「青椒有維他命C！我們來比誰先吃完！」',{tr:'smart',g:1,r:[['n','小晴贏了。她驕傲地把空便當舉得高高的。'],['c','xq','h','我叫小晴！明天也要跟我比喔！']]}]]],
+ ['n','午睡時間，阿哲偷偷跑來跟你比賽疊積木。'],
+ ['mg','timing',{title:'跟阿哲比賽疊積木！',hint:'外面的圈圈縮到跟中間一樣大的時候，按下去。',win:{tr:'smart',z:1,r:[['n','你的積木塔疊得好高，比阿哲還高一層。'],['c','azhe','x','你怎麼那麼厲害！']]},lose:{tr:'funny',z:1,r:[['n','積木「嘩啦」一聲全倒了，剛好倒在睡覺的老師旁邊。'],['c','azhe','h','哈哈哈，我們快躺回去裝睡！']]}}],
  ['rand','kid'],
  ['n','下午四點，媽媽來了。你回頭跟阿哲、小晴揮手。']
 ]},
@@ -734,13 +757,9 @@ var STORY=[
   ['「下課我帶你逛學校！」',{tr:'brave',mi:2,r:[['n','你帶她去看了福利社、秘密樹洞，還有校長的錦鯉。'],['c','mi','h','這間學校好好玩！']]}],
   ['跟她比賽誰知道比較多種恐龍',{tr:'smart',mi:1,r:[['n','你們從三角龍比到甲龍，比到上課鐘響都沒分出輸贏。']]}],
   ['表演一段暴龍走路給她看',{tr:'funny',mi:2,r:[['c','mi','x','哈哈哈哈！你好奇怪！'],['c','mi','h','我喜歡奇怪的人。']]}]]],
- ['n','母親節前一天，老師發下一張粉紅色的卡紙。'],
- ['q','卡片要怎麼做？',[
-  ['寫「媽媽辛苦了，我愛你」，畫一朵康乃馨',{tr:'kind',r:[['bg','home','家裡'],['c','mom','c','……我要貼在冰箱上。']]}],
-  ['寫完再加一句：「P.S. 可以買 Switch 嗎？」',{tr:'funny',r:[['bg','home','家裡'],['c','mom','h','哈哈哈，P.S. 不行。'],['n','這張卡片在冰箱上貼了十年。每年過年，都有親戚唸出 P.S. 那一行。']]}],
-  ['熬夜研究，做一張會跳出花的立體卡片',{tr:'smart',r:[['bg','home','家裡'],['n','媽媽打開的時候，紙花「啵」一聲跳出來。'],['c','mom','x','哇！'],['n','她嚇了一跳，然後笑了好久。']]}],
-  ['把整張卡片貼滿亮片，閃到發光',{tr:'free',r:[['bg','home','家裡'],['n','亮片掉了整個客廳，三年後還能在沙發縫裡找到。'],['c','mom','h','這是我收過最閃亮的卡片！']]}]]],
- ['rand','kid']
+
+ ['n','運動會到了。你是大隊接力的最後一棒。'],
+ ['mg','mash',{title:'大隊接力，最後一棒！',hint:'一直點「跑！」，要比隔壁班先到終點。',win:{tr:'brave',hp:1,z:1,r:[['n','你們班拿了第一名！阿哲把你舉起來繞操場。']]},lose:{tr:'kind',g:1,r:[['n','你在最後一個彎道跌倒了。全班衝過來扶你，大家一起笑著走到終點。'],['c','xq','h','你超帥的啦！']]}}]
 ]},
 {age:'14 歲',t:'心跳的聲音',stage:'j',steps:[
  ['bg','classroom','國中'],
@@ -751,22 +770,9 @@ var STORY=[
   ['坐在後面的阿哲',{tr:'brave',crush:'azhe',z:1,r:[['c','azhe','h','（戳你的背）欸，橡皮擦借一下。'],['n','你把橡皮擦遞過去，心跳大聲到怕他聽見。']]}],
   ['窗外的雲。那朵好像一隻貓',{tr:'free',crush:'none',r:[['n','你在課本空白處，畫了一整排雲做成的貓。'],['c','xq','h','（回頭）好可愛！可以畫一隻給我嗎？']]}],
   ['黑板啦，下週要段考',{tr:'smart',crush:'none',r:[['n','你的筆記整齊到被全班借去影印。'],['c','azhe','w','（戳你的背）大神，筆記借我。']]}]]],
- ['sw',{xq:NOTE_LOVE,azhe:NOTE_LOVE,none:[
-  ['n','阿哲傳來一張紙條：「欸，全班都在猜誰喜歡誰。你呢？」'],
-  ['q','你要怎麼回？',[
-   ['「我喜歡的是週末。」',{tr:'funny',z:1,r:[['c','azhe','h','（紙條傳回來）「同意。」']]}],
-   ['「我現在只想跟你們兩個一起玩。」',{tr:'kind',z:1,g:1,r:[['c','azhe','w','（紙條傳回來）「……好肉麻。不過我也是。」']]}],
-   ['「先考上高中再說。」',{tr:'smart',r:[['c','azhe','d','（紙條傳回來）「你好無聊喔。」'],['n','但段考前一晚，他還是跑來跟你借筆記。']]}],
-   ['把紙條摺成千紙鶴，放在他桌上',{tr:'free',z:1,r:[['n','阿哲把千紙鶴收進鉛筆盒，一放就是好多年。']]}]]]]},'crush'],
- ['bg','hallway','走廊'],
- ['n','這學期，阿哲常常一下課就跑去跟大頭他們打球。'],
- ['sw',{azhe:[['n','你看著他跑走的背影，心裡酸酸的。']]},'crush'],
- ['c','azhe','n','欸，放學我要跟大頭他們去打球喔。'],
- ['q','你要？',[
-  ['「好啊，我可以一起去嗎？」',{tr:'brave',z:2,r:[['c','azhe','h','當然！你投籃那麼爛，我教你。']]}],
-  ['「好喔。」然後自己去圖書館',{tr:'smart',r:[['n','你一個學期看完了一整排推理小說。'],['c','azhe','s','欸，那本到底誰是兇手？借我看啦。']]}],
-  ['發一則限動：「有些人真的會變」',{tr:'funny',z:-1,r:[['n','阿哲看到了，全班都看到了，你媽也按了一個愛心。'],['c','azhe','t','（留言）你是在說你的髮型嗎？']]}],
-  ['「好啊！我幫你們買運動飲料。」',{tr:'kind',z:1,dt:2,r:[['n','你提著六瓶運動飲料去球場。'],['c','datou','w','你……你人怎麼這麼好。'],['n','從那天起，大頭再也沒欺負過任何人。']]}]]],
+
+
+
  ['bg','classroom','國中'],
  ['n','期末，班費少了 500 元。有人說，最後碰到錢的是小晴。'],
  ['c','xq','c','大家都在看我……我真的沒有拿。'],
@@ -778,11 +784,7 @@ var STORY=[
  ['bg','classroom','美術課'],
  ['n','美術課。坐你旁邊的男生，頭上別著一朵小花髮夾，畫圖畫得超好。'],
  ['c','yz','s','我是柚子。你的顏料，可以借我一點藍色嗎？'],
- ['q','你要？',[
-  ['「全部借你！」',{tr:'kind',yz:2,r:[['c','yz','w','……謝謝。那我幫你畫一隻暴龍。']]}],
-  ['「你的髮夾好好看，哪裡買的？」',{tr:'free',yz:2,r:[['c','yz','h','我姐的！你是第一個說好看的人。']]}],
-  ['跟他交換，畫一張對方的肖像',{tr:'funny',yz:1,r:[['n','你把他畫成一顆柚子，他把你畫成一隻暴龍。'],['c','yz','h','我們都好有才華。']]}],
-  ['問他怎麼調出這麼好看的顏色',{tr:'smart',yz:1,r:[['c','yz','s','藍色加一點點橘色，就會變成傍晚的天空喔。']]}]]],
+
  ['n','下課，小米拿著一盒彩色的線跑過來。'],
  ['c','mi','h','欸！我學會編手環了！要不要交換閨蜜手環？'],
  ['c','yz','s','（在旁邊小聲說）……我也會編。'],
@@ -791,6 +793,7 @@ var STORY=[
   ['柚子',{tr:'free',bff:'yz',yz:2,r:[['c','yz','w','……男生也可以當閨蜜嗎？'],['p','當然可以啊。'],['n','他幫你編了一條傍晚天空顏色的手環。'],['c','yz','s','那……我們的群組要叫什麼？'],['name','幫你們的閨蜜群組取個名字吧！'],['c','yz','h','「{G}」……我很喜歡。']]}],
   ['兩個都要！三個人一起當閨蜜',{tr:'funny',bff:'both',mi:2,yz:2,r:[['c','mi','h','三人閨蜜團成立！'],['c','yz','h','團名要叫什麼？'],['n','你們吵了一整個下午，最後決定交給你來取。'],['name','幫你們的三人閨蜜團取個名字吧！'],['c','mi','h','「{G}」！成立！'],['c','yz','h','我要做一面旗子。']]}],
   ['「我有阿哲跟小晴就夠了啦。」',{tr:'smart',bff:'none',r:[['c','mi','d','好吧……那我們還是可以當朋友喔！'],['n','小米還是每天塞一顆糖果到你的抽屜裡。']]}]]],
+ ['sw',{mi:SIMON,yz:SIMON,both:SIMON},'bff'],
  ['n','放學後，小晴從書包裡拿出一本粉紅色的筆記本。'],
  ['c','xq','h','我們三個來寫交換日記好不好？'],
  ['c','azhe','d','粉紅色的喔……好啦。'],
@@ -811,6 +814,8 @@ var STORY=[
   ['「那我們一起去台南念！」',{tr:'free',z:2,r:[['n','你回家真的開始查台南的學校。最後沒考上，但阿哲記了你這句話很多年。']]}],
   ['抱住他大哭',{tr:'funny',z:1,r:[['n','全班以為你們在排話劇，在旁邊鼓掌了五分鐘。'],['n','這張照片後來被選成畢業紀念冊的封面。']]}],
   ['「那我們每天晚上視訊寫作業。」',{tr:'smart',z:1,r:[['c','azhe','x','你是魔鬼嗎？'],['c','azhe','h','……好啦。不准先掛我電話喔。']]}]]],
+ ['n','那天晚上，天空突然下起了流星雨。'],
+ ['mg','catch',{title:'流星雨！抓住 8 顆星星許願',hint:'星星出現的時候，快點點它。',win:{tr:'free',fl:'wish',r:[['n','你許了一個願望。不能說，說了就不靈了。']]},lose:{tr:'kind',r:[['n','你只抓到幾顆。旁邊的同學說：「我的願望分你一半。」']]}}],
  ['sw',{xq:LOVE17,azhe:LOVE17,none:[
   ['n','小晴和阿哲一左一右，坐在你旁邊。'],
   ['c','xq','s','……時間過得好快喔。'],
@@ -819,12 +824,7 @@ var STORY=[
    ['偷偷問阿哲：「你是不是喜歡小晴？」',{tr:'funny',z:1,rom:'match',r:[['c','azhe','x','你、你怎麼知道！'],['n','他的臉紅得跟營火一樣。你推了他一把，他終於走過去了。']]}],
    ['一個人去海邊走走，想想以後想做什麼',{tr:'free',rom:'self',r:[['n','浪一直打到你的腳邊。你在沙灘上寫下一個夢想，看著它被海帶走。'],['n','你覺得，這樣也很好。']]}],
    ['拿出交換日記，三個人一起寫最後一頁',{tr:'smart',z:1,g:1,rom:'friend',r:[['n','最後一頁寫著：「十件事，還剩九件。」']]}]]]]},'crush'],
- ['n','半夜，大家偷溜到海邊。教官的手電筒照過來了。'],
- ['q','你要？',[
-  ['站出來：「是我約大家出來的。」',{tr:'brave',z:1,r:[['n','你被罰在大廳站到兩點。全班輪流偷偷送零食給你。']]}],
-  ['帶大家趴進沙堆，假裝是海龜',{tr:'funny',r:[['n','教官照了半天，自言自語：「今年海龜好多喔。」然後走了。']]}],
-  ['拉大家一起看星星：「我們在上天文課！」',{tr:'smart',r:[['n','教官愣住，然後坐下來，教大家找北極星，找了一個小時。']]}],
-  ['拉著大家一起衝進海裡',{tr:'free',g:1,r:[['n','教官追到海邊，看了你們很久，然後也脫鞋走進海裡。'],['c','xq','h','這是我這輩子最好玩的一晚！']]}]]],
+
  ['bg','classroom','畢業典禮'],
  ['n','畢業典禮結束，大家在制服上互相簽名。'],
  ['c','L','h','欸！幫我簽名！要簽大一點喔。'],
@@ -833,42 +833,16 @@ var STORY=[
   ['在簽名旁邊畫一顆超大的青椒',{tr:'funny',lv:1,r:[['c','L','x','這件我要留一輩子耶！'],['n','{Lta}笑到眼淚都流出來了。']]}],
   ['把自己制服的第二顆釦子拔下來，送給{L}',{fl:'button',tr:'brave',lv:2,r:[['c','L','w','……'],['n','{L}把釦子握在手心，一整天都沒有放開。']]}],
   ['寫一句自己翻譯的英文詩',{tr:'smart',lv:1,r:[['c','L','t','……看不懂。'],['c','L','h','可是我會一直留著。']]}]]],
- ['sw',{
-  mi:[['c','mi','c','畢業了……以後不能每天一起吃午餐了。'],['q','你要跟{B}說？',[
-  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
-  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
-  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
-  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]],
-  yz:[['c','yz','c','畢業了……以後不能每天一起畫畫了。'],['q','你要跟{B}說？',[
-  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
-  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
-  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
-  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]],
-  both:[['c','mi','c','畢業了……'],['c','yz','c','「{G}」不准解散喔。'],['q','你要跟{B}說？',[
-  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
-  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
-  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
-  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]]},'bff'],
- ['rand','teen']
+
 ]},
 {age:'20 歲',t:'各自的城市',stage:'u',steps:[
  ['bg','dorm','大學宿舍'],
  ['n','大學宿舍。室友阿凱打呼，像在開怪手。'],
  ['c','akai','t','（呼——嚕——呼——嚕——）'],
- ['q','凌晨三點，你要？',[
-  ['隔天買早餐給他，問他要不要一起想辦法',{tr:'kind',r:[['c','akai','x','真的假的？我會打呼？……那我去買止鼾貼，你不要搬走啦！']]}],
-  ['錄下來，傳到系上群組',{tr:'funny',r:[['n','影片被轉了三十萬次。'],['c','akai','h','我紅了！我要去當 ASMR 網紅！']]}],
-  ['熬夜做出一個防打呼枕頭',{tr:'smart',r:[['n','阿凱一覺到天亮。你們拿著枕頭去參加創業比賽，拿了佳作。']]}],
-  ['戴上耳機，把打呼聲想成海浪',{tr:'free',r:[['n','你夢到自己在衝浪。醒來的時候，阿凱正在幫你蓋被子。']]}]]],
+
  ['rand','young'],
- ['n','晚上十一點，手機響了。是阿哲。'],
- ['c','azhe','c','我被當了三科……可能要休學了。我不敢跟我爸說。'],
- ['sw',{azhe:[['n','聽到他的聲音在發抖，你的心也跟著揪了一下。']]},'crush'],
- ['q','你要？',[
-  ['「你在哪？我週末坐車下去找你。」',{tr:'kind',z:2,r:[['c','azhe','h','……你真的要來喔？我帶你去吃最好吃的那家牛肉湯。']]}],
-  ['「那我們一起騎車環島，想清楚再說！」',{tr:'free',z:2,r:[['n','你們騎機車繞了半個台灣。'],['c','azhe','s','我想清楚了。我要回去好好念。']]}],
-  ['傳給他二十支勵志影片',{tr:'funny',r:[['n','阿哲看到第三支就封鎖你了。'],['n','兩年後他解封，傳來一句：「那支早晨習慣，我現在每天都在做。」']]}],
-  ['「我們來排讀書計畫，我每天陪你視訊念書。」',{tr:'smart',z:2,r:[['n','你們連續視訊念書了一百天。'],['c','azhe','h','我全部都過了！你是我的恩人！']]}]]],
+
+
  ['sw',{
   confess:[
    ['n','你跟{L}交往三年了。最近你忙著報告和打工，很少見面。'],
@@ -926,19 +900,11 @@ var STORY=[
  ['bg','office','第一份工作'],
  ['n','第一份正職工作。隔壁座位的人，桌上擺了一整排多肉植物。'],
  ['c','anan','h','嗨！我是小安，以後請多指教！你要不要認養一盆多肉？'],
- ['q','你要？',[
-  ['「好啊！我會好好照顧它。」',{tr:'kind',an:1,r:[['c','anan','w','它叫圓圓，一個禮拜澆一次水就好。']]}],
-  ['幫每一盆多肉取一個名字',{tr:'funny',an:2,r:[['n','你把最胖的那盆取名叫「大頭」。'],['c','anan','h','哈哈哈，這個名字好適合它！']]}],
-  ['查好澆水的方法，做成一張表格貼在桌上',{tr:'smart',an:1,r:[['c','anan','x','你好認真喔！'],['n','後來整個部門的植物，都照著你的表格澆水。']]}],
-  ['回送一張旅行時買的明信片',{tr:'free',an:1,r:[['c','anan','s','這是哪裡？好漂亮。'],['n','她把明信片貼在螢幕旁邊，貼了好多年。']]}]]],
+
  ['bg','mountain','爬山社'],
  ['n','週末，你參加了公司的爬山社。帶隊的人背著一個超大的登山包。'],
  ['c','guang','s','我是阿光。第一次爬山嗎？我走你後面，累了就跟我說。'],
- ['q','你要？',[
-  ['衝第一個，一路爬到山頂',{tr:'brave',gu:1,hp:1,r:[['c','guang','x','你也太快了吧！'],['n','你在山頂等了二十分鐘，看到阿光滿頭大汗地爬上來。']]}],
-  ['幫走得慢的人拿水',{tr:'kind',gu:2,hp:1,r:[['c','guang','w','謝謝你。你人真好。']]}],
-  ['一路唱歌，唱到大家都跟著唱',{tr:'funny',gu:1,hp:1,r:[['n','山上的回音，把你的走音放大了三倍。'],['c','guang','h','哈哈哈，下次還要找你來！']]}],
-  ['研究地圖，找到一條沒人走過的小路',{tr:'smart',gu:1,hp:1,r:[['n','小路的盡頭，是一片開滿野花的草地。'],['c','guang','s','我爬了十年，都不知道這裡有這麼美的地方。']]}]]],
+
  ['bg','restaurant','公司尾牙'],
  ['n','公司尾牙。主管拿著酒杯，一桌一桌敬酒。'],
  ['n','「年輕人，乾了！」'],
@@ -966,22 +932,7 @@ var STORY=[
     ['自己。一個人過也很好',{tr:'free',r:[['n','你學會一個人吃火鍋、一個人看電影，也學會一個人去旅行。'],['n','你覺得自由的感覺，好好。']]}],
     ['媽媽。她每天晚上都問你吃飽沒',{tr:'funny',r:[['c','mom','h','（LINE）吃飽沒？'],['n','你傳了一張自己煮的泡麵。媽媽回了十個貼圖。']]}]]]
   ]},'pt'],
- ['sw',{
-  mi:[['c','mi','h','（群組「{G}」）欸！聽說你最近過得不錯？快點全部講給我聽！'],['q','你要跟{B}怎麼聊？',[
-    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
-    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
-    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
-    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]],
-  yz:[['c','yz','h','（群組「{G}」）欸！聽說你最近過得不錯？快點全部講給我聽！'],['q','你要跟{B}怎麼聊？',[
-    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
-    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
-    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
-    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]],
-  both:[['c','mi','h','（群組「{G}」）欸！聽說你最近過得不錯？'],['c','yz','h','（群組「{G}」）快點全部講給我們聽！'],['q','你要跟{B}怎麼聊？',[
-    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
-    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
-    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
-    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]]},'bff'],
+
  ['rand','young']
 ]},
 {age:'28 歲',t:'大人的事',stage:'w',steps:[
@@ -993,15 +944,10 @@ var STORY=[
   ['「今年我帶你們出國過年吧！」',{tr:'free',r:[['c','dad','t','太貴了啦。'],['n','結果在機場，爸爸比誰都興奮，還穿了一件印著「I ♥ 日本」的衣服。']]}],
   ['「我在趕專案，晚點回你。」',{tr:'smart',r:[['n','你忙到半夜才想起來，回撥過去。'],['c','dad','s','我是想跟你說，我退休了。……你也別太累。'],['n','那天你們聊了兩個小時。']]}],
   ['「爸，你是不是在想我？」',{tr:'funny',r:[['c','dad','w','……少臭美。'],['n','然後他講了一個小時，從阿嬤的腰講到隔壁的狗。']]}]]],
- ['bg','office','公司'],
- ['n','會議上，主管大力稱讚 Q3 企劃，但他說那是小林做的。其實是你熬了三個晚上做的。'],
- ['c','lin','c','……'],
- ['q','你要？',[
-  ['會後私下找小林，一起去跟主管說清楚',{tr:'kind',r:[['c','lin','c','對不起……主管誤會的時候，我不敢開口。'],['c','lin','s','下次你的企劃，我幫你一起報告。']]}],
-  ['當場拍桌：「那是我做的！」',{tr:'brave',r:[['n','你拍得太大力，咖啡灑在投影機上，會議室整個黑了。'],['n','黑暗中有人小聲說：「可是他說得沒錯。」']]}],
-  ['遞出辭呈：「我要自己做。」',{tr:'free',r:[['c','lin','x','等一下！帶我一起走！']]}],
-  ['把三個晚上的存檔紀錄印出來，交給主管',{tr:'smart',r:[['n','主管看了看檔案時間，推了推眼鏡。'],['n','下週，你的名字出現在企劃書的第一行。']]}]]],
- ['n','連續加班一個月，你累到不行。'],
+
+ ['n','連續加班一個月，收件匣每天都在爆炸。'],
+ ['mg','mole',{title:'收件匣大掃除！',hint:'信件冒出來就點掉，在下班前清掉 10 封。',win:{tr:'smart',r:[['n','你在下班前把信全部回完。主管對你比了一個讚。']]},lose:{hp:-1,r:[['n','信件越來越多……你覺得頭好痛。']]}}],
+ ['n','你累到不行。'],
  ['q','下班以後，你要？',[
   ['去河堤跑步，跑到腦袋空空',{tr:'brave',hp:2,r:[['n','跑完五公里，你覺得整個人輕了一半。']]}],
   ['買一包菸，站在樓梯間抽',{hp:-3,smoke:1,r:[['n','抽完以後，好像比較放鬆了一點點。'],['n','可是隔天，你又想抽了。']]}],
@@ -1016,13 +962,7 @@ var STORY=[
     ['「謝謝你道歉。我們慢慢來。」',{tr:'smart',xa:1,rel:'ok',r:[['n','你們從一個月聊一次，慢慢變回一週聊一次。']]}],
     ['「我還沒準備好。」',{tr:'free',rel:'cut',r:[['c','X','d','……好。我等你。'],['n','後來，你們就真的沒有再聯絡了。']]}],
     ['「我等這句話，等好久了。」然後一起大哭',{tr:'funny',xa:2,rel:'ok',r:[['n','兩個大人，在電話兩頭哭得亂七八糟。']]}]]]],_:[]},'chance'],
- ['n','週末，你終於有空了。'],
- ['q','你要？',[
-  ['去流浪動物之家當志工',{tr:'kind',r:[['n','一隻小橘貓一直跟著你。牠的眼神，很像國小時的大頭。']]}],
-  ['報名脫口秀開放麥',{tr:'funny',r:[['n','你講了五分鐘，台下只有一個人笑。'],['n','後來發現，是坐在第一排的阿哲。']]}],
-  ['一個人背包去花蓮',{tr:'free',r:[['n','火車上，一個阿嬤分你一顆釋迦，說你很像她孫子。']]}],
-  ['去報名潛水證照',{tr:'brave',r:[['n','你在綠島看到一隻海龜，想起畢旅那晚趴在沙堆裡的大家。']]}]]],
- ['rand','young']
+
 ]},
 {age:'30 歲',t:'同學會',stage:'a',steps:[
  ['bg','restaurant','熱炒店'],
@@ -1041,12 +981,7 @@ var STORY=[
     ['等{X}先開口',{tr:'smart',xa:1,rel:'ok',r:[['c','X!','c','那天的事……對不起。'],['n','你點點頭。好像有什麼東西，終於放下了。']]}],
     ['點頭打招呼，但保持一點距離',{tr:'free',rel:'far',r:[['n','你們客氣地聊了天氣、工作，還有大頭的早餐店。'],['n','有些朋友，就是會變成點頭之交。這樣也沒關係。']]}],
     ['假裝沒看到，轉身去拿飲料',{rel:'cut',r:[['n','{X}在你背後站了很久，最後先離開了。'],['n','你們這輩子，沒有再說過話。']]}]]]],_:[]},'cutp'],
- ['c','azhe','s','欸，{me}，你這幾年過得怎樣？'],
- ['q','你要說？',[
-  ['「很認真。每天都在學新東西。」',{tr:'smart',r:[['c','azhe','h','你從小就這樣耶。']]}],
-  ['「很自由。想去哪就去哪。」',{tr:'free',r:[['c','azhe','h','好羨慕喔，下次帶我去！']]}],
-  ['「很好笑。每天都有奇怪的事。」',{tr:'funny',r:[['c','azhe','h','那你要一件一件講給我聽。']]}],
-  ['「很溫暖。身邊的人都很好。」',{tr:'kind',r:[['c','azhe','w','……包括我嗎？']]}]],{need:'azhe'}],
+
  ['bg','gate','幼稚園門口'],
  ['n','散場後，你們走到向日葵幼稚園。窗台上，擺著一台褪了色的紅色消防車。'],
  ['c','azhe','x','欸！那台！老師真的一直沒拿下來耶！'],
@@ -1055,141 +990,14 @@ var STORY=[
   friend:[['c','L','h','我家那位一定不相信，我們三個從五歲就認識了。']],
   self:[['c','xq','h','交換日記的十件事，今天終於做完最後一件了。']],
   match:[['c','xq','h','月老，我跟阿哲決定了，小孩以後也要讀這裡。']]}],
+ ['mg','timing',{title:'在幼稚園門口拍一張合照！',hint:'圈圈縮到跟中間一樣大的時候按快門，大家才會都在笑。',win:{tr:'kind',fl:'photo',r:[['n','照片裡，每個人都笑得跟五歲一樣。']]},lose:{tr:'funny',r:[['n','照片裡，阿哲剛好在打噴嚏。大家都說這張最好看。']]}}],
  ['q','最後，大家要？',[
   ['照著二十五年前的姿勢，拍一張合照',{tr:'free',r:[['n','快門按下去的時候，三個人都笑得跟五歲一樣。']]}],
-  ['念出交換日記的第一頁',{tr:'kind',r:[['n','念到一半，小晴先哭了，然後阿哲也哭了。']]}],
+  ['念出交換日記的第一頁',{fl:'diary',tr:'kind',r:[['n','念到一半，小晴先哭了，然後阿哲也哭了。']]}],
   ['比賽誰先爬上門口的溜滑梯',{tr:'brave',r:[['n','警衛伯伯跑出來，你們三個笑著逃走，跟小時候一模一樣。']]}],
   ['對窗台上的消防車，認真地鞠躬打招呼',{tr:'funny',r:[['c','azhe','h','好久不見，消防車！']]}]]],
-]},
-{age:'35 歲',t:'我們的家',stage:'m',steps:[
- ['sw',{
-  yes:[
-   ['bg','park','河濱公園'],
-   ['n','你跟{P}在一起很多年了。某天傍晚散步的時候，{P}突然停下來，很認真地看著你。'],
-   ['q','你們的未來，你想要？',[
-    ['單膝跪下：「我們結婚吧。」',{tr:'brave',life:'married',lv:1,r:[['c','P','c','……好。我願意。'],['bg','wedding','婚禮'],['n','婚禮在一座開滿花的小花園舉行。{F}哭得比誰都大聲。']]}],
-    ['寫一封長長的信，問{P}要不要跟你一起變老',{tr:'smart',life:'married',lv:1,r:[['c','P','w','……你從十七歲就很會寫信。我願意。'],['bg','wedding','婚禮'],['n','婚禮上，你把那封信唸了出來。全場都哭了。']]}],
-    ['「不一定要結婚。我們就這樣一起過日子吧。」',{tr:'free',life:'together',lv:1,r:[['c','P','h','好啊。我們家，我們自己決定。']]}],
-    ['「我們想要的好像不一樣……好好說再見吧。」',{tr:'kind',life:'single',bye:1,r:[['c','P','c','……嗯。謝謝你這些年。'],['n','你們抱了很久。後來，你們變成了很好的朋友。']]}]]]
-  ],
-  none:[
-   ['bg','home','家裡'],
-   ['n','三十五歲的過年。親戚又問了：「什麼時候要結婚啊？」'],
-   ['q','你要？',[
-    ['「我一個人過得很好，謝謝關心！」',{tr:'brave',life:'single',r:[['n','媽媽在旁邊偷偷幫你比了一個讚。']]}],
-    ['拿出旅行相簿，一張一張介紹給親戚看',{tr:'free',life:'single',r:[['n','介紹到第四十個國家的時候，親戚已經睡著了。']]}],
-    ['「我把時間都花在朋友跟工作上，很開心。」',{tr:'kind',life:'single',r:[['c','mom','s','你開心就好。媽媽只要你吃飽睡飽。']]}],
-    ['答應媽媽，去相親一次看看',{tr:'funny',life:'single',r:[['n','相親對象一坐下就說：「其實我是被我媽逼來的。」'],['n','你們笑成一團，後來變成了很好的朋友。']]}]]]
-  ]},'pt'],
- ['sw',{mi:[['c','B','w','不管你結婚還是一個人，我都會在。'],['n','{B}送了你一份禮物：一本全新的交換日記。']],yz:[['c','B','w','不管你結婚還是一個人，我都會在。'],['n','{B}送了你一份禮物：一幅畫，畫的是十四歲的你們。']],both:[['c','mi','w','不管你結婚還是一個人，我們都會在。'],['c','yz','h','「{G}」，終身有效！']]},'bff'],
- ['sw',{
-  married:[['q','你們的家，要變成什麼樣子？',[
-   ['生一個小孩',{tr:'kind',kid:'baby',r:[['n','小孩出生那天，{F}帶了一台紅色的玩具消防車來醫院。']]}],
-   ['領養一個小孩',{tr:'brave',kid:'adopt',r:[['n','第一次見面，那個孩子躲在社工後面，偷偷看著你。'],['n','你從口袋裡，拿出了一隻暴龍。']]}],
-   ['養一隻狗和兩隻貓',{tr:'funny',kid:'pet',r:[['n','第一個禮拜，沙發就被咬破了三個洞。']]}],
-   ['兩個人一起，把世界走一圈',{tr:'free',kid:'trip',r:[['n','你們的護照，蓋滿了四十個國家的章。']]}]]]],
-  together:[['q','你們的家，要變成什麼樣子？',[
-   ['領養一個小孩',{tr:'brave',kid:'adopt',r:[['n','第一次見面，那個孩子躲在社工後面，偷偷看著你。'],['n','你從口袋裡，拿出了一隻暴龍。']]}],
-   ['養一隻狗和兩隻貓',{tr:'funny',kid:'pet',r:[['n','第一個禮拜，沙發就被咬破了三個洞。']]}],
-   ['一起開一間小小的早午餐店',{tr:'kind',kid:'shop',r:[['n','招牌菜是青椒炒蛋。奇怪的是，賣得最好的也是它。']]}],
-   ['兩個人一起，把世界走一圈',{tr:'free',kid:'trip',r:[['n','你們的護照，蓋滿了四十個國家的章。']]}]]]],
-  single:[['q','一個人的生活，你最喜歡？',[
-   ['養一隻貓，每天回家都有人等',{tr:'kind',kid:'cat',r:[['n','牠叫「青椒」，是一隻很兇的綠眼睛黑貓。']]}],
-   ['每年去一個新的國家',{tr:'free',kid:'trip',r:[['n','你在冰島看到極光，傳了照片給小晴和阿哲。他們半夜三點回你：「好美！」']]}],
-   ['學一樣新樂器',{tr:'smart',kid:'music',r:[['n','你學了大提琴。鄰居一開始以為你家在殺豬，三年後會跟著你一起哼。']]}],
-   ['週末在家開派對，朋友來來去去',{tr:'funny',kid:'party',r:[['n','你家變成了大家的秘密基地。冰箱上貼滿了朋友們留的便利貼。']]}]]]]
-  },'life'],
- ['rand','adult']
-]},
-{age:'45 歲',t:'健康檢查',stage:'h',steps:[
- ['bg','hospital','健康檢查'],
- ['n','公司安排了健康檢查。醫生看著你的報告，推了推眼鏡。'],
- ['sw',{
-  smoke:[
-   ['n','醫生：「你的肺，比同年紀的人老了十歲。菸，要不要考慮戒掉？」'],
-   ['q','你要？',[
-    ['今天開始戒菸，把菸盒丟進垃圾桶',{tr:'brave',hp:3,quit:1,r:[['n','前兩個禮拜很難熬。你嚼了好多口香糖，還打給{F}抱怨了一整晚。'],['n','三個月後，你爬樓梯不會喘了。']]}],
-    ['去戒菸門診，照著計畫慢慢減',{tr:'smart',hp:3,quit:1,r:[['n','你在月曆上，一天畫一個圈。'],['n','第一百天，你買了一個蛋糕獎勵自己。']]}],
-    ['「再說啦。」',{hp:-2,r:[['n','你把報告摺起來，塞進抽屜最裡面。'],['n','就跟十歲那年，阿哲把 42 分的考卷藏起來一樣。']]}],
-    ['請大家監督你，抽一根就請大家吃一頓飯',{tr:'funny',hp:2,quit:1,r:[['n','第一個月，你請了六頓飯。'],['n','第二個月開始，你一頓都沒有再請過。']]}]]]
-  ],
-  drink:[
-   ['n','醫生：「你的肝指數有點高。最近是不是常喝酒？」'],
-   ['q','你要？',[
-    ['從今天開始不喝了',{tr:'brave',hp:3,quit:1,r:[['n','聚餐的時候，你都點烏龍茶。後來大家也跟著點。']]}],
-    ['改成每天晚上去散步',{tr:'free',hp:2,quit:1,r:[['n','散步的時候，你發現家附近有一間很好吃的豆花店。']]}],
-    ['「我又沒有喝很多。」',{hp:-2,r:[['n','你把報告丟進了回收桶。']]}],
-    ['做一張表，記錄每天喝了什麼',{tr:'smart',hp:2,quit:1,r:[['n','表格上的啤酒，一週比一週少。']]}]]]
-  ],
-  great:[
-   ['n','醫生：「你的身體很健康，比很多年輕人都好喔。」'],
-   ['q','你要怎麼慶祝？',[
-    ['報名人生第一場馬拉松',{fl:'marathon',tr:'brave',hp:1,r:[['n','你跑完全程，在終點線抱著陌生人一起哭。']]}],
-    ['請家人吃一頓大餐',{tr:'kind',r:[['n','媽媽一直說太貴了，然後吃了三碗飯。']]}],
-    ['排一張更好的作息表',{tr:'smart',hp:1,r:[['n','你的作息表被公司拿去當健康講座的範本。']]}],
-    ['去學衝浪',{tr:'free',hp:1,r:[['n','你被浪打翻了二十次，第二十一次終於站起來了。']]}]]]
-  ],
-  ok:[
-   ['n','醫生：「大致上還好。不過要多運動，少熬夜喔。」'],
-   ['q','你要？',[
-    ['每天走路一萬步',{tr:'brave',hp:2,r:[['n','你的手機跳出通知：「恭喜！您已經走完一座玉山的高度。」']]}],
-    ['跟朋友一起去學跳舞',{tr:'funny',hp:2,r:[['n','你們是舞蹈教室裡最吵的一組，也是最開心的一組。']]}],
-    ['開始每天十一點前睡覺',{tr:'smart',hp:1,r:[['n','一個月後，同事問你：「你是不是去做了臉？」']]}],
-    ['「好啦好啦。」然後繼續熬夜追劇',{hp:-1,r:[['n','你追完了三部韓劇，眼睛下面多了兩圈黑眼圈。']]}]]]
-  ]},'health'],
- ['bg','home','媽媽家'],
- ['n','媽媽打電話來，說她最近膝蓋不太好，走路變得好慢。'],
- ['c','mom','d','沒事啦，老了都這樣。你不用特地回來。'],
- ['q','你要？',[
-  ['每個週末都回家陪她',{tr:'kind',r:[['n','你們每個週末一起去市場。她走得很慢，你就走得更慢。']]}],
-  ['帶她去看醫生，順便做一次完整的檢查',{tr:'smart',r:[['c','mom','t','花這個錢幹嘛……'],['n','檢查結果出來，醫生說只要好好復健就會好。媽媽偷偷鬆了一口氣。']]}],
-  ['教她用視訊，每天晚上聊十分鐘',{tr:'funny',r:[['n','她每次都只拍到額頭。可是你每天都很期待那十分鐘。']]}],
-  ['帶她去泡溫泉',{tr:'free',r:[['c','mom','w','好舒服喔……我上一次泡溫泉，是你五歲的時候。']]}]]],
- ['rand','adult']
-]},
-{age:'65 歲',t:'退休的第一天',stage:'r',steps:[
- ['sw',{mi:[['bg','park','公園'],['c','mi','h','欸！我們去一趟閨蜜旅行吧！'],['q','要去哪裡？',BFF65]],yz:[['bg','park','公園'],['c','yz','h','欸！我們去一趟閨蜜旅行吧！'],['q','要去哪裡？',BFF65]],both:[['bg','park','公園'],['c','mi','h','欸！「{G}」，出發旅行吧！'],['c','yz','s','我已經把行李收好了。'],['q','要去哪裡？',BFF65]]},'bff'],
- ['bg','park','公園'],
- ['n','你退休了。第一天早上，你突然不知道要做什麼。'],
- ['sw',{strong:[['n','你在公園繞了五圈，一點都不喘。打太極的阿伯們叫你「公園之光」。']],
-  cane:[['n','你在公園走了一圈，就坐在長椅上休息。膝蓋有點痠，不過太陽很舒服。']],
-  weak:[['n','你走到公園門口就喘不過氣，只好坐下來休息。'],['sw',{smoke:[['n','醫生說過，這是年輕時抽的那些菸。']]},'health']]},'old'],
- ['q','退休以後，你想做什麼？',[
-  ['去向日葵幼稚園當說故事志工',{tr:'kind',r:[['n','小朋友最喜歡聽的故事，是〈消防車與暴龍〉。']]}],
-  ['去爬一座從來沒爬過的山',{tr:'brave',hp:1,r:[['sw',{yes:[['n','爬到一半，你們坐在石頭上分一顆橘子。']]},'pt'],['n','山頂的風好大，你大聲喊了自己的名字。']]}],
-  ['跟一群老朋友組一個樂團',{tr:'funny',r:[['n','樂團叫「青椒五人組」，其實只有四個人。']]}],
-  ['開露營車，慢慢環島',{tr:'free',r:[['n','你在台東看了日出，在墾丁看了日落。']]}]]],
- ['sw',{
-  married:[['c','P','w','欸，我們一起變老了耶。'],['n','你們坐在陽台上，一人一杯熱茶。']],
-  together:[['c','P','w','欸，我們一起變老了耶。'],['n','你們坐在陽台上，一人一杯熱茶。']],
-  single:[['n','晚上，你一個人坐在陽台上喝熱茶。手機一直響，是朋友們在群組裡吵晚餐要吃什麼。']]},'life'],
- ['c','azhe','h','（電話）欸，我們三個的交換日記，你還留著嗎？'],
- ['q','你要？',[
-  ['「當然留著。我每年都會拿出來看一次。」',{tr:'kind',z:1,r:[['c','azhe','w','……我也是。']]}],
-  ['「我拿去護貝了，誰都弄不壞。」',{tr:'smart',z:1,r:[['c','azhe','x','你也太誇張了吧！']]}],
-  ['「我把它掃描起來，做成一本書了。」',{tr:'free',g:1,r:[['c','xq','h','（群組）真的假的！我要一本！']]}],
-  ['「你說那本粉紅色的？我拿來墊泡麵了。」',{tr:'funny',z:1,r:[['c','azhe','a','你這個人喔！'],['n','他在電話那頭，笑到咳嗽。']]}]],{need:'azhe'}],
- ['rand','old']
-]},
-{age:'80 歲',t:'向日葵門口',stage:'o',steps:[
- ['bg','gate','幼稚園門口'],
- ['n','八十歲生日。向日葵幼稚園要改建了，今天是最後一天開放參觀。'],
- ['sw',{strong:[['n','你自己走了過去，是第一個到的。']],
-  cane:[['n','你拄著拐杖，慢慢走了過去。老朋友們在門口等你。']],
-  weak:[['bg','hospital','醫院'],['n','你已經沒辦法走那麼遠了。'],['n','門被推開。老朋友們走了進來，手上捧著那台紅色的消防車。']]},'old'],
- ['c','azhe','h','{me}！生日快樂！'],
- ['c','xq','w','我們從五歲認識到現在，七十五年了耶。'],
- ['sw',{mi:[['c','mi','h','還有我！手環我還戴著喔！']],yz:[['c','yz','h','還有我！手環我還戴著喔！']],both:[['c','mi','h','還有我們！'],['c','yz','w','手環，我們都還戴著喔。']]},'bff'],
- ['sw',{married:[['c','P','s','我也來了。蛋糕在我這裡。']],together:[['c','P','s','我也來了。蛋糕在我這裡。']],_:[]},'life'],
- ['n','你口袋裡，那隻小暴龍吊飾已經掉漆了。'],
- ['q','最後，你要？',[
-  ['把小暴龍和消防車放在一起，拍一張照',{tr:'free',r:[['n','照片裡，暴龍坐在消防車上，好像要去很遠的地方。']]}],
-  ['跟大家說：「謝謝你們，陪我長大。」',{tr:'kind',r:[['c','xq','c','……幹嘛突然這樣啦。'],['c','azhe','c','討厭，我眼睛進沙子了。']]}],
-  ['「我們來比賽，看誰先吃完青椒！」',{tr:'funny',r:[['n','一群八十歲的人，對著一盤青椒，數到三。'],['n','每一張臉，又都皺成了一團。']]}],
-  ['打開交換日記，寫下最後一行字',{fl:'diary',tr:'smart',r:[['n','「十件事，全部完成。」']]}]]],
  ['ending']
 ]}
-
 ];
 
 /* ================= 存檔 ================= */
@@ -1377,7 +1185,7 @@ function setRel(id,rel){
 /* ================= 引擎 ================= */
 var G={ch:0,i:0,steps:[],t:{},z:0,g:0,rom:'friend',last:''};
 var log=$('log'),typing=null,typeDone=null,waiting=null,inQ=false;
-function resetRun(){G.t={kind:0,brave:0,funny:0,smart:0,free:0};G.z=0;G.g=0;G.rom='friend';G.crush='none';G.last='';G.hp=5;G.smoke=0;G.drink=0;G.quit=0;G.pt='none';G.life='single';G.kid='none';G.an=0;G.gu=0;G.bff='none';G.gname='';G.fl={};G.ev=[];G.bffEver=null;G.confessed=0;G.byeDone=0;G.rel={};G.callee=null;G.called=null;G.react=null;G.healed=null;G.bffCut=null;G.dt=1;G.mi=0;G.yz=0;G.lastPt=null;}
+function resetRun(){G.t={kind:0,brave:0,funny:0,smart:0,free:0};G.z=0;G.g=0;G.rom='friend';G.crush='none';G.last='';G.hp=5;G.smoke=0;G.drink=0;G.quit=0;G.pt='none';G.life='single';G.kid='none';G.an=0;G.gu=0;G.bff='none';G.gname='';G.fl={};G.ev=[];G.mgWin=0;G.mgLose=0;G.bffEver=null;G.confessed=0;G.byeDone=0;G.rel={};G.callee=null;G.called=null;G.react=null;G.healed=null;G.bffCut=null;G.dt=1;G.mi=0;G.yz=0;G.lastPt=null;}
 function chapter(ci){
   G.ch=ci;G.i=0;G.steps=STORY[ci].steps.slice();
   var c=STORY[ci];$('bAge').textContent=c.age;$('bTitle').textContent=c.t;
@@ -1433,7 +1241,8 @@ function step(){
   if(t==='bg'){curBg=s[1];addLine('loc','','',s[2]||'');drawScene();G.i++;step();return;}
   if(t==='sw'){var key=swKey(s[2]);var arr=s[1][key]||s[1]._||(s[2]?null:s[1].friend)||[];Array.prototype.splice.apply(G.steps,[G.i,1].concat(arr));step();return;}
   if(t==='ending'){showEnding();return;}
-  if(t==='rand'){var ev=pickEvent(s[1],s[2]);Array.prototype.splice.apply(G.steps,[G.i,1].concat(ev?ev.s:[]));step();return;}
+  if(t==='mg'){mgStep(s);return;}
+  if(t==='rand'){var ev=pickEvent(s[1],s[2]==null?.5:s[2]);Array.prototype.splice.apply(G.steps,[G.i,1].concat(ev?ev.s:[]));step();return;}
   if(t==='ev'){addLine('n ev','★ 突發事件','#F2994A',s[1]);tone(880,.1,'sine',.06);tone(1320,.16,'sine',.06,.08);drawScene();waiting=function(){G.i++;step();};return;}
   if(t==='q'){if(s[3]&&s[3].need&&isGone(who(s[3].need))){G.i++;step();return;}ask(s);return;}
   if(t==='name'){askName(s);return;}
@@ -1492,6 +1301,100 @@ function askName(s){
   ip.addEventListener('click',function(e){e.stopPropagation();});
   w.appendChild(ok);log.appendChild(w);scroll();
 }
+/* ================= 小遊戲 ================= */
+var MG={
+ timing:{
+  setup:function(box){box.innerHTML='<div class="tg-ring"></div><div class="tg-target"></div><div class="mgmsg">按「開始」以後，點這裡</div>';},
+  play:function(box,cfg,done){
+   var ring=box.querySelector('.tg-ring'),msg=box.querySelector('.mgmsg'),tries=3,t0=Date.now(),over=false,size=160;
+   msg.textContent='還有 3 次機會';
+   var iv=setInterval(function(){var p=((Date.now()-t0)%1700)/1700;size=160-150*p;ring.style.width=ring.style.height=size+'px';},30);
+   function tap(e){e.stopPropagation();if(over)return;var d=size-60;
+     if(Math.abs(d)<=14){over=true;clearInterval(iv);box.classList.add('win');done(true,'剛剛好！成功了！');return;}
+     tries--;tone(260,.12,'sine',.07);
+     if(tries<=0){over=true;clearInterval(iv);done(false,'沒對準……');return;}
+     msg.textContent=(d>0?'太早了！':'太晚了！')+'還有 '+tries+' 次';}
+   box.addEventListener('pointerdown',tap);
+  }},
+ mash:{
+  setup:function(box){box.innerHTML='<div class="ms-lane"><span>你</span><i class="ms-me"></i></div><div class="ms-lane"><span>隔壁班</span><i class="ms-rv"></i></div><button type="button" class="ms-btn" data-snd="0" disabled>跑！</button>';},
+  play:function(box,cfg,done){
+   var me=0,rv=0,over=false,b=box.querySelector('.ms-btn'),mi=box.querySelector('.ms-me'),ri=box.querySelector('.ms-rv');
+   b.disabled=false;
+   function draw(){mi.style.width=Math.min(100,me)+'%';ri.style.width=Math.min(100,rv)+'%';}
+   b.addEventListener('pointerdown',function(e){e.stopPropagation();e.preventDefault();if(over)return;me+=4.2;tone(500+me*4,.04,'triangle',.04);draw();if(me>=100){over=true;clearInterval(iv);b.disabled=true;done(true,'衝過終點線！第一名！');}});
+   b.addEventListener('click',function(e){e.stopPropagation();});
+   var iv=setInterval(function(){if(over)return;rv+=1.6;draw();if(rv>=100){over=true;clearInterval(iv);b.disabled=true;done(false,'差一點點……');}},100);
+  }},
+ catch:{
+  setup:function(box){box.innerHTML='<div class="mgmsg">按「開始」以後，星星會一顆一顆出現</div><div class="ct-n">0 / 8</div>';},
+  play:function(box,cfg,done){
+   var n=0,over=false,msg=box.querySelector('.mgmsg'),cnt=box.querySelector('.ct-n');msg.textContent='';
+   var sp=setInterval(function(){if(over)return;var st=el('button','ct-star','★');st.type='button';st.setAttribute('data-snd','0');
+     st.style.left=(8+Math.random()*80)+'%';st.style.top=(10+Math.random()*65)+'%';
+     st.addEventListener('pointerdown',function(e){e.stopPropagation();if(over||st.caught)return;st.caught=1;n++;cnt.textContent=n+' / 8';tone(900+n*60,.08,'sine',.07);st.classList.add('got');rmLater(st,300);
+       if(n>=8){over=true;clearInterval(sp);done(true,'抓到 8 顆星星了！');}});
+     st.addEventListener('click',function(e){e.stopPropagation();});
+     box.appendChild(st);rmLater(st,1200);},420);
+   setTimeout(function(){if(over)return;over=true;clearInterval(sp);done(false,'只抓到 '+n+' 顆。');},9000);
+  }},
+ simon:{
+  setup:function(box){box.innerHTML='<div class="mgmsg">按「開始」以後，記住珠子亮起來的順序</div><div class="sm-row">'+['#F27BA0','#FFD166','#3FB6E0','#4CBF86'].map(function(c,i){return '<button type="button" class="sm-b" data-snd="0" data-i="'+i+'" style="background:'+c+'" disabled aria-label="珠子 '+(i+1)+'"></button>';}).join('')+'</div>';},
+  play:function(box,cfg,done){
+   var bs=box.querySelectorAll('.sm-b'),msg=box.querySelector('.mgmsg'),seq=[],round=0,pos=0,listen=false,over=false;
+   var notes=[523,659,784,988];
+   function flash(i){bs[i].classList.add('lit');tone(notes[i],.25,'triangle',.08);setTimeout(function(){bs[i].classList.remove('lit');},300);}
+   function next(){round++;pos=0;listen=false;seq=[];var L=round===1?3:4;for(var k=0;k<L;k++)seq.push(Math.floor(Math.random()*4));
+     msg.textContent='第 '+round+' 輪：看清楚喔';Array.prototype.forEach.call(bs,function(b){b.disabled=true;});
+     seq.forEach(function(v,k){setTimeout(function(){flash(v);},500+k*550);});
+     setTimeout(function(){if(over)return;listen=true;msg.textContent='換你了！';Array.prototype.forEach.call(bs,function(b){b.disabled=false;});},500+seq.length*550);}
+   Array.prototype.forEach.call(bs,function(b){
+     b.addEventListener('click',function(e){e.stopPropagation();if(!listen||over)return;var i=+b.getAttribute('data-i');flash(i);
+       if(i!==seq[pos]){over=true;Array.prototype.forEach.call(bs,function(x){x.disabled=true;});done(false,'順序錯了……');return;}
+       pos++;if(pos>=seq.length){listen=false;if(round>=2){over=true;Array.prototype.forEach.call(bs,function(x){x.disabled=true;});done(true,'手環串好了！');}else setTimeout(next,600);}});});
+   next();
+  }},
+ mole:{
+  setup:function(box){box.innerHTML='<div class="ml-grid">'+[0,1,2,3,4,5,6,7,8].map(function(i){return '<div class="ml-c" data-i="'+i+'"></div>';}).join('')+'</div><div class="ct-n">0 / 10</div>';},
+  play:function(box,cfg,done){
+   var cells=box.querySelectorAll('.ml-c'),cnt=box.querySelector('.ct-n'),n=0,over=false;
+   var sp=setInterval(function(){if(over)return;var c=cells[Math.floor(Math.random()*9)];if(c.firstChild)return;
+     var m=el('button','ml-mail','✉');m.type='button';m.setAttribute('data-snd','0');
+     m.addEventListener('pointerdown',function(e){e.stopPropagation();if(over||m.done)return;m.done=1;n++;cnt.textContent=n+' / 10';tone(700+n*40,.06,'square',.03);m.classList.add('got');rmLater(m,200);
+       if(n>=10){over=true;clearInterval(sp);done(true,'收件匣清空了！');}});
+     m.addEventListener('click',function(e){e.stopPropagation();});
+     c.appendChild(m);rmLater(m,1000);},480);
+   setTimeout(function(){if(over)return;over=true;clearInterval(sp);done(false,'只清掉 '+n+' 封……');},9000);
+  }}
+};
+function mgStep(s){
+  inQ=true;setBtns();waiting=null;
+  var cfg=s[2]||{};
+  var w=el('div','ch mg');
+  w.appendChild(el('p','qh','◆ 小遊戲：'+sub(cfg.title||'')));
+  var box=el('div','mgbox');w.appendChild(box);
+  w.appendChild(el('p','mghint',sub(cfg.hint||'')));
+  var row=el('div','mgrow');
+  var go=el('button','op mggo','開始！');go.type='button';
+  var skip=el('button','tx','跳過');skip.type='button';skip.setAttribute('data-snd','0');
+  row.appendChild(go);row.appendChild(skip);w.appendChild(row);
+  log.appendChild(w);scroll();
+  MG[s[1]].setup(box,cfg);
+  box.addEventListener('click',function(e){e.stopPropagation();});
+  var ended=false;
+  function finish(win,msg){
+    if(ended)return;ended=true;
+    w.appendChild(el('p','mgres'+(win?' ok':''),msg));
+    var e=JSON.parse(JSON.stringify((win?cfg.win:cfg.lose)||{}));
+    if(win){SFX.fanfare(0);G.mgWin=(G.mgWin||0)+1;}else{tone(300,.25,'sine',.08,0,200);G.mgLose=(G.mgLose||0)+1;}
+    var nb=el('button','op','繼續 ▸');nb.type='button';
+    nb.addEventListener('click',function(ev){ev.stopPropagation();if(!inQ)return;choose(['',e],nb,w);});
+    w.appendChild(nb);scroll();
+  }
+  go.addEventListener('click',function(ev){ev.stopPropagation();if(go.disabled)return;go.disabled=true;skip.disabled=true;go.classList.add('done');MG[s[1]].play(box,cfg,finish);});
+  skip.addEventListener('click',function(ev){ev.stopPropagation();if(go.disabled)return;go.disabled=true;skip.disabled=true;finish(false,'跳過了。');});
+}
+
 function choose(o,b,w){
   inQ=false;
   Array.prototype.forEach.call(w.querySelectorAll('.op'),function(x){x.disabled=true;x.classList.add('done');});
@@ -1541,7 +1444,7 @@ function pickEnding(){
   for(var i=0;i<ENDS.length;i++)if(ENDS[i].k===key)return i;
   return 0;
 }
-function comps(){var bff=G.bff==='both'?['mi','yz']:(G.bff==='mi'||G.bff==='yz'?[G.bff]:[]);var love=(G.life==='married'||G.life==='together')&&G.pt&&G.pt!=='none'?G.pt:null,F=Fid();var bf=G.rom!=='match'&&aff(F)>=5&&F!==love&&!isGone(F)?F:null;bff=bff.filter(function(x){return !isGone(x);});var r={love:love,bf:bf,match:G.rom==='match'};if(!love&&!r.match&&bff.length)r.l2=bff.shift();if(!bf&&!r.match&&bff.length)r.r2=bff.shift();return r;}
+function comps(){var bff=G.bff==='both'?['mi','yz']:(G.bff==='mi'||G.bff==='yz'?[G.bff]:[]);var love=G.pt&&G.pt!=='none'?G.pt:null,F=Fid();var bf=G.rom!=='match'&&aff(F)>=5&&F!==love&&!isGone(F)?F:null;bff=bff.filter(function(x){return !isGone(x);});var r={love:love,bf:bf,match:G.rom==='match'};if(!love&&!r.match&&bff.length)r.l2=bff.shift();if(!bf&&!r.match&&bff.length)r.r2=bff.shift();return r;}
 function stickerSVG(ei,me,cp){
   var e=ENDS[ei];
   var you=chibi(youLook('a',COST[e.c],me),'h');
@@ -1565,7 +1468,7 @@ function showEnding(){
   $('bN').textContent=foundN();
   var sc=$('end');sc.innerHTML='';
   var inn=el('div','in reveal');
-  inn.appendChild(el('p','label',nm()+'的一生，這輩子的工作是'));
+  inn.appendChild(el('p','label','三十歲的'+nm()+'，現在的工作是'));
   inn.appendChild(el('h2','',e.t));
   if(isNew)inn.appendChild(el('span','newb','新貼紙！'));
   var st=el('div','stk');st.innerHTML=stickerSVG(ei,SAVE.me,cp);inn.appendChild(st);
@@ -1576,26 +1479,23 @@ function showEnding(){
   var life=el('div','card life');life.appendChild(el('h3','','人生小卡'));
   function row(icon,col,title,text){var r=el('div','lrow');var ic=el('span','lic',icon);ic.style.background=col;r.appendChild(ic);var tx=el('div');tx.appendChild(el('b','',title));tx.appendChild(el('p','',text));r.appendChild(tx);life.appendChild(r);}
   var P=G.pt&&G.pt!=='none'?G.pt:null,pn=P?NPC[P].n:'',fam;
-  if(G.life==='married'&&P)fam='你和'+pn+'結婚了，一起走了好長一段路。';
-  else if(G.life==='together'&&P)fam='你和'+pn+'沒有結婚，但一起過了一輩子。';
-  else fam=G.lastPt?'你和'+NPC[G.lastPt].n+'好好說了再見。後來你一個人，過得自由又熱鬧。':'你一個人，過了自由又熱鬧的一生。';
-  var KID={baby:'你們的小孩，也讀了向日葵班。',adopt:'你們領養的孩子，在畢業典禮上哭著說謝謝你們。',pet:'家裡的狗和貓，把沙發咬得亂七八糟。',trip:'護照上，蓋滿了四十個國家的章。',shop:'你們的早午餐店，招牌菜是青椒炒蛋。',cat:'你的黑貓「青椒」，活到了二十歲。',music:'你的大提琴，在社區音樂會上拉了二十年。',party:'你家冰箱上的便利貼，多到要買第二台冰箱。'};
-  if(KID[G.kid])fam+=KID[G.kid];
+  if(P)fam='三十歲的你，跟'+pn+'在一起。'+(G.confessed&&P===Lid()?'從十七歲那晚到現在，一直都是'+TA[P]+'。':'');
+  else fam=G.lastPt?'你和'+NPC[G.lastPt].n+'分開了。現在的你一個人，過得自由又自在。':'三十歲的你一個人，過得自由又自在。';
+  if(G.fl.dog)fam+='小時候撿到的豆花，每次你回家都會衝出來迎接你。';
   row('♥','#F27BA0','家',fam);
   var hv=G.hp,ht;
-  if(hv>=6)ht='八十歲的你，還能自己爬上溜滑梯。';
-  else if(hv>=2)ht='八十歲的你拄著拐杖，但笑得跟五歲一樣。';
-  else ht='八十歲的你身體不太好，大家把消防車帶到醫院來看你。';
-  if(G.smoke>0&&!G.quit)ht+='醫生說，如果年輕時沒抽那些菸，你可以走得更遠。';
-  else if(G.smoke>0)ht+='還好你在四十五歲那年戒了菸。';
-  if(G.drink>0&&!G.quit)ht+='喝酒的那些年，你的肝一直在默默加班。';
-  row('✚',hv>=6?'#4CBF86':(hv>=2?'#F2994A':'#E5484D'),'健康 '+hv,ht);
+  if(hv>=8)ht='三十歲的你，一口氣爬五樓都不會喘。';
+  else if(hv>=4)ht='三十歲的你偶爾腰痠背痛，不過大致上很健康。';
+  else ht='三十歲的你常常覺得好累，身體在提醒你要照顧自己了。';
+  if(G.smoke>0)ht+='你還在抽菸。現在戒掉，身體都還來得及。';
+  if(G.drink>0)ht+='尾牙喝太多的那一晚，你到現在都不想再回想。';
+  row('✚',hv>=8?'#4CBF86':(hv>=4?'#F2994A':'#E5484D'),'健康 '+hv,ht);
   var fr;
-  if(G.rom==='match')fr='阿哲和小晴的小孩，都叫你「月老」。';
-  else if(G.crush==='none')fr='小晴和阿哲一直是你最好的朋友。交換日記寫到了第十二本。';
-  else fr=(G.rom==='friend'?NPC[Lx].n+'每年都會找你吃一次飯。':'')+(aff(Fx)>=5?(Fx==='azhe'?'阿哲每週都打給你，大部分時間都在講牛肉湯。':'小晴每天都傳一堆貓咪貼圖給你。'):'你們三個，到老都還在群組裡吵晚餐要吃什麼。');
+  if(G.rom==='match')fr='阿哲和小晴明年要結婚了。他們說，你是他們的月老。';
+  else if(G.crush==='none')fr='小晴和阿哲一直是你最好的朋友。交換日記已經寫到第三本了。';
+  else fr=(G.rom==='friend'?NPC[Lx].n+'每年都會找你吃一次飯。':'')+(aff(Fx)>=5?(Fx==='azhe'?'阿哲每週都打給你，大部分時間都在講牛肉湯。':'小晴每天都傳一堆貓咪貼圖給你。'):'你們三個，到現在都還在群組裡吵晚餐要吃什麼。');
   var goneN=['azhe','xq'].filter(isGone).map(function(x){return NPC[x].n;});
-  if(goneN.length)fr='你和'+goneN.join('、')+'後來再也沒有聯絡。剩下的朋友們，陪你走到了最後。';
+  if(goneN.length)fr='你和'+goneN.join('、')+'後來再也沒有聯絡。剩下的朋友們，一直陪在你身邊。';
   row('★','#3FB6E0','朋友',fr);
   if(G.called){var xn=G.callee?NPC[G.callee].n:'',xs=G.callee?G.rel[G.callee]:'',ht2;
     if(G.called==='self')ht2='二十歲那個難過的晚上，你一個人撐了過去。冰淇淋和阿凱的洋芋片，幫了很大的忙。';
@@ -1607,7 +1507,7 @@ function showEnding(){
     else if(G.react==='joke')ht2='二十歲那個難過的晚上，'+xn+'講了一堆幹話。你邊哭邊笑，然後就好了。';
     else ht2='二十歲那個難過的晚上，'+xn+'沒有接住你。可是你們還是朋友。';
     row('☁','#8E9CC8','心事',ht2);}
-  var gn=G.gname||'暴龍小分隊';var BFT={mi:'小米從十四歲到八十歲，一直戴著那條黃色的暴龍手環。你們的群組「'+gn+'」，到八十歲都還在跳訊息。',yz:'柚子幫你畫了一輩子的畫，最後一張畫的是八十歲的你。你們的群組「'+gn+'」，到八十歲都還在跳訊息。',both:'三人閨蜜團「'+gn+'」，到八十歲都還沒解散。'};
+  var gn=G.gname||'暴龍小分隊';var BFT={mi:'小米從十四歲到現在，一直戴著那條黃色的暴龍手環。你們的群組「'+gn+'」每天都在跳訊息。',yz:'柚子幫你畫了好多張畫，最新的一張畫的是三十歲的你。你們的群組「'+gn+'」每天都在跳訊息。',both:'三人閨蜜團「'+gn+'」，到現在都還沒解散。'};
   if(BFT[G.bff])row('✿','#E0961A','閨蜜',BFT[G.bff]);
   inn.appendChild(life);
   SAVE.ach=SAVE.ach||{};
@@ -1620,7 +1520,7 @@ function showEnding(){
   var mx=Math.max.apply(null,TR.map(function(k){return G.t[k];}))||1;
   TR.forEach(function(k){var r=el('div','bar');r.appendChild(el('span','',TI[k]+' '+TN[k]));var d=el('div');var i=el('i');i.style.width=(G.t[k]/mx*100)+'%';i.style.background=TC[k];d.appendChild(i);r.appendChild(d);r.appendChild(el('span','',String(G.t[k])));bars.appendChild(r);});
   inn.appendChild(bars);
-  inn.appendChild(el('p','small','貼紙簿 '+foundN()+' / 15。選不一樣的答案，你的一生就會不一樣。'));
+  inn.appendChild(el('p','small','貼紙簿 '+foundN()+' / 15。選不一樣的答案，三十歲的你就會不一樣。'));
   var a=el('button','btn','再長大一次');a.type='button';a.addEventListener('click',function(){sc.hidden=true;startRun();});inn.appendChild(a);
   var b=el('button','btn w','換個樣子再玩');b.type='button';b.addEventListener('click',function(){sc.hidden=true;maker();});inn.appendChild(b);
   var c=el('button','btn w','打開貼紙簿');c.type='button';c.addEventListener('click',showBook);inn.appendChild(c);
@@ -1697,7 +1597,7 @@ function maker(){
   var TABS=[['sex','我是',[['m','男生'],['f','女生'],['n','不想說']]],['hair','髮型',HAIRS],['wear','穿搭',null],['hc','髮色',HCOL],['skin','膚色',SKIN],['eye','眼睛',EYES],['cheek','臉頰',CHEEK],['hacc','頭上',HACC],['facc','臉上',FACC],['fav','最愛的顏色',FAV],['name','名字']];
   var tabs=el('div','tabs');tabs.setAttribute('role','tablist');
   var panel=el('div','card opt');var cur='sex',wearSt='j';
-  var WST=[['k','5 歲'],['e','10 歲'],['j','14 歲'],['s','17 歲'],['u','20 歲'],['w','24–28 歲'],['a','30 歲'],['m','35 歲'],['h','45 歲'],['r','65 歲'],['o','80 歲']],WLAB={};WST.forEach(function(x){WLAB[x[0]]=x[1];});
+  var WST=[['k','5 歲'],['e','10 歲'],['j','14 歲'],['s','17 歲'],['u','20 歲'],['w','24–28 歲'],['a','30 歲']],WLAB={};WST.forEach(function(x){WLAB[x[0]]=x[1];});
   function showTab(key){
     var was=cur;cur=key;if(was==='wear'||key==='wear')redraw();
     Array.prototype.forEach.call(tabs.children,function(t){var on=t._k===key;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
@@ -1765,7 +1665,7 @@ function home(){
   hero.innerHTML=svgWrap(s,'0 0 360 200');hero.firstChild.style.width='100%';hero.firstChild.style.borderRadius='22px';hero.firstChild.style.border='4px solid #fff';
   inn.appendChild(hero);
   var h=el('h1','big');h.innerHTML='長大<span>貼紙簿</span>';inn.appendChild(h);
-  inn.appendChild(el('p','sub','從 5 歲到 80 歲，跟阿哲、小晴一起長大，還會遇到更多人。每一個答案都能選，每一次選擇，都會讓你走向不一樣的人生。最後，你的一生會變成一張貼紙。'));
+  inn.appendChild(el('p','sub','從 5 歲到 30 歲，跟阿哲、小晴一起長大，還會遇到更多人。每一個答案都能選，有選擇題，也有小遊戲。三十歲的你，最後會變成一張貼紙。'));
   if(SAVE.run){
     var cont=el('button','btn','接著玩（'+(SAVE.run.age||'')+'）');cont.type='button';cont.addEventListener('click',function(){sc.hidden=true;resumeRun(SAVE.run);});inn.appendChild(cont);
     var re=el('button','btn w','從 5 歲重新開始');re.type='button';re.addEventListener('click',function(){delete SAVE.run;save();sc.hidden=true;startRun();});inn.appendChild(re);
