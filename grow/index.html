@@ -1,0 +1,1802 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="捏一個自己，從 5 歲長到 80 歲。每個選擇都會讓你走向不一樣的人生，最後變成一張貼紙。">
+<meta property="og:title" content="長大貼紙簿">
+<meta property="og:description" content="捏一個自己，從 5 歲長到 80 歲。你的一生，會變成哪一張貼紙？">
+<meta name="theme-color" content="#FFE9EF">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>長大貼紙簿</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
+<style>
+/* Layout: phone-height column — a little stage card with the chibi characters on top, the story written below it, choices as sticky buttons. Pastel candy look on purpose, single theme. */
+:root{
+  --bg:#FFE9EF;
+  --dot:#FFD3DF;
+  --paper:#FFFBF4;
+  --ink:#4A3B47;
+  --soft:#9A8794;
+  --line:#F3D9DF;
+  --pink:#F27BA0;
+  --kind:#F07CA0;
+  --brave:#F2994A;
+  --funny:#E9B824;
+  --smart:#3FB6E0;
+  --free:#4CBF86;
+  --font:"Huninn","PingFang TC","Microsoft JhengHei",sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;
+  background-image:radial-gradient(var(--dot) 3px,transparent 3.5px);background-size:28px 28px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+button{font-family:var(--font);cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+
+#app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto;gap:8px;
+  padding-left:max(12px, env(safe-area-inset-left,0px));padding-right:max(12px, env(safe-area-inset-right,0px));padding-block:8px 12px}
+#bar{display:flex;align-items:center;gap:8px}
+#bar .age{background:var(--pink);color:#fff;border-radius:999px;padding:4px 12px;font-size:16px;box-shadow:0 3px 0 #D85C86}
+#bar .tt{flex:1;min-width:0;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{background:#fff;border:2px solid var(--line);border-radius:999px;padding:4px 11px;font-size:14px;box-shadow:0 2px 0 var(--line)}
+
+#stage{position:relative;border-radius:22px;overflow:hidden;background:#fff;border:4px solid #fff;box-shadow:0 6px 0 var(--line),0 10px 24px -12px rgba(150,80,110,.4);flex:none}
+#stage svg{display:block;width:100%;height:auto;max-height:36vh}
+#traits{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;flex:none}
+.tr{display:inline-flex;align-items:center;gap:3px;background:#fff;border-radius:999px;padding:1px 8px;font-size:12px;color:var(--ink);box-shadow:0 2px 0 var(--line)}
+.tr b{font-weight:400}
+.tr i{font-style:normal}
+.tr.bump{animation:bump .5s}
+
+#log{flex:1;min-height:0;overflow-y:auto;background:var(--paper);border-radius:18px;padding:14px 16px 26px;box-shadow:inset 0 0 0 2px var(--line);
+  background-image:linear-gradient(transparent 33px,var(--line) 33px,var(--line) 34px);background-size:100% 34px;-webkit-overflow-scrolling:touch}
+#log .ln{margin:0 0 10px;font-size:18px;line-height:1.75;animation:pop .3s ease both}
+#log .ln.loc{text-align:center;color:var(--soft);font-size:14px}
+#log .ln .who{font-size:14px;display:inline-block;color:#fff;border-radius:999px;padding:0 9px;margin-right:6px;vertical-align:2px}
+#log .ln.me{text-align:right}
+#log .ln.me .who{background:var(--ink)}
+.ch{display:flex;flex-direction:column;gap:9px;margin:4px 0 12px;animation:pop .3s ease both}
+.ch .row{display:flex;flex-wrap:wrap;gap:6px}
+.ch .name{margin:0}
+.ch .qh{font-size:17px;color:var(--pink);margin:0}
+.op{text-align:left;background:#fff;border:2.5px solid var(--ink);border-radius:16px;padding:11px 14px;font-size:17px;line-height:1.45;box-shadow:0 4px 0 var(--ink);display:flex;gap:10px;align-items:center}
+.op:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.op .lb{flex:1;min-width:0}
+.op .tg{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:14px}
+.op.done{opacity:.4;box-shadow:none;border-style:dashed}
+.op.pick{opacity:1;background:#FFF1F6;border-style:solid}
+.chip{display:inline-block;border-radius:999px;color:#fff;padding:1px 10px;font-size:14px;margin:0 4px 8px 0;animation:pop .3s ease both}
+#ctl{display:flex;gap:8px}
+#ctl button{flex:1;border:0;border-radius:14px;padding:10px;font-size:16px;background:#fff;box-shadow:0 3px 0 var(--line)}
+#ctl #nx{background:var(--ink);color:#fff;box-shadow:0 3px 0 #2C222A;flex:2}
+#ctl button[disabled]{opacity:.35;cursor:default}
+
+/* full screens */
+.scr{position:fixed;inset:0;z-index:30;overflow-y:auto;background:var(--bg);background-image:radial-gradient(var(--dot) 3px,transparent 3.5px);background-size:28px 28px;
+  padding:calc(env(safe-area-inset-top,0px) + 18px) max(16px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) max(16px, env(safe-area-inset-left,0px))}
+.scr[hidden]{display:none!important}
+.in{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.card{background:#fff;border-radius:24px;padding:18px;box-shadow:0 6px 0 var(--line)}
+.big{font-size:44px;margin:0;line-height:1.1;color:var(--ink)}
+.big span{color:var(--pink)}
+.sub{margin:0;font-size:16px;line-height:1.75;color:var(--soft)}
+.btn{border:0;border-radius:18px;padding:14px;font-size:20px;background:var(--pink);color:#fff;box-shadow:0 5px 0 #D85C86}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #D85C86}
+.btn.w{background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--line);font-size:17px;padding:12px}
+.small{font-size:13px;color:var(--soft);margin:0;line-height:1.6}
+.hero{display:flex;justify-content:center}
+.hero svg{width:min(220px,56vw);height:auto}
+.opt h3{margin:4px 0 8px;font-size:16px;color:var(--soft);font-weight:400}
+.opt .row+h3{margin-top:16px}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.sw{width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.sw.on{box-shadow:0 0 0 3px var(--ink)}
+.tx{background:#fff;border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-size:15px}
+.tx.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.name{width:100%;box-sizing:border-box;border:2.5px solid var(--line);border-radius:14px;padding:10px 12px;font:inherit;font-size:18px;color:var(--ink);background:#fff}
+
+/* chapter + ending */
+#turn{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--pink);color:#fff;cursor:pointer;text-align:center;padding:20px}
+#turn[hidden]{display:none!important}
+#turn .a{font-size:clamp(70px,24vmin,130px);line-height:1;text-shadow:0 6px 0 #D85C86;animation:boing .6s both}
+#turn .t{font-size:28px}
+#turn .h{font-size:14px;opacity:.85;margin-top:20px;animation:bob 1.2s infinite}
+.reveal .label{text-align:center;color:var(--soft);font-size:15px;margin:0}
+.reveal h2{margin:0;text-align:center;font-size:38px;font-weight:400}
+.stk{display:flex;justify-content:center}
+.stk svg{width:min(260px,70vw);height:auto;filter:drop-shadow(0 8px 10px rgba(150,80,110,.3));animation:peel .9s cubic-bezier(.2,1.5,.4,1) both}
+.life h3{margin:0 0 6px;font-size:18px;font-weight:400;color:var(--pink)}
+.lrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:2px dashed var(--line)}
+.lrow:first-of-type{border-top:0}
+.lic{flex:none;width:30px;height:30px;border-radius:50%;color:#fff;display:grid;place-items:center;font-size:15px}
+.lrow div{min-width:0}
+.lrow b{font-weight:400;font-size:16px}
+.lrow p{margin:2px 0 0;font-size:15px;line-height:1.7}
+.achgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 8px}
+.ach{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.ach i{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:22px;color:#fff;border:3px solid #fff;box-shadow:0 0 0 2px var(--line),0 3px 0 rgba(0,0,0,.08)}
+.ach b{font-weight:400;font-size:13px;line-height:1.3}
+.ach small{font-size:11px;color:var(--soft);line-height:1.35}
+.ach.off i{background:#F6E8EC;color:#D8C2CB}
+.ach.off b{color:#C2A8B3}
+.ach.new i{animation:boing .6s both;box-shadow:0 0 0 3px #FFD166,0 3px 0 rgba(0,0,0,.08)}
+.achh{margin:0 0 10px;font-size:18px;font-weight:400;color:var(--pink)}
+#log .ln.ev .who{font-size:13px}
+.etext p{margin:0 0 6px;font-size:17px;line-height:1.8}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar{display:flex;align-items:center;gap:8px;font-size:14px}
+.bar span{width:3.4em}
+.bar div{flex:1;height:10px;background:#F6E8EC;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px}
+.newb{align-self:center;background:#FFE58A;border-radius:999px;padding:3px 12px;font-size:14px}
+
+/* sticker book */
+#book .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.slot{background:transparent;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:13px;text-align:center;line-height:1.3}
+.slot svg{width:100%;max-width:120px;height:auto}
+.slot.off .ph{width:100%;max-width:110px;aspect-ratio:1;border-radius:50%;border:3px dashed #E5C9D2;display:grid;place-items:center;font-size:30px;color:#E5C9D2}
+.slot.off span{color:#C2A8B3}
+.detail{grid-column:1/-1;background:#FFF5F8;border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.7;border:2px solid var(--line)}
+.detail b{font-weight:400;color:var(--pink);font-size:18px}
+
+/* small details */
+.lid ellipse{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:blink 4.6s infinite;animation-delay:var(--d,0s)}
+@keyframes blink{0%,93%,100%{transform:scaleY(0)}96%{transform:scaleY(1)}}
+.emo{transform-box:fill-box;transform-origin:center;animation:emo .45s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes emo{from{transform:scale(0)}to{transform:scale(1)}}
+.chr{animation:breathe 2.6s ease-in-out infinite}
+.chr.b2{animation-delay:-1.3s}
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(1.6px)}}
+.spk{position:absolute;pointer-events:none;font-size:15px;animation:spk .65s ease-out forwards;z-index:3}
+@keyframes spk{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1);opacity:0}}
+.cf{position:fixed;z-index:90;width:8px;height:12px;border-radius:2px;pointer-events:none;animation:cf .9s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.cf.rain{animation-name:cfr;animation-timing-function:linear}
+@keyframes cfr{0%{transform:none;opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.flt{position:absolute;pointer-events:none;font-size:14px;color:#fff;border-radius:999px;padding:2px 10px;white-space:nowrap;z-index:3;animation:flt 1.1s ease-out forwards;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+@keyframes flt{0%{transform:translate(-50%,6px) scale(.6);opacity:0}20%{transform:translate(-50%,0) scale(1.1);opacity:1}100%{transform:translate(-50%,-40px) scale(1);opacity:0}}
+#tMe svg{width:120px;height:auto;display:block;animation:tmhop .9s ease-in-out infinite}
+@keyframes tmhop{0%,100%{transform:translateY(0)}45%{transform:translateY(-14px)}}
+.mkpv{padding:8px}
+.mkpv svg{width:100%;height:auto;display:block;border-radius:16px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:#fff;border:2px solid var(--line);border-radius:999px;padding:6px 13px;font-size:15px}
+.tab.on{background:var(--pink);border-color:var(--pink);color:#fff}
+.sw{border-color:#fff}
+.sw.on{box-shadow:0 0 0 3px var(--ink)}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes bump{40%{transform:scale(1.35)}}
+@keyframes boing{0%{transform:scale(.3)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes bob{50%{transform:translateY(4px)}}
+@keyframes peel{0%{transform:rotate(-30deg) scale(.2);opacity:0}100%{transform:rotate(-4deg) scale(1);opacity:1}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+.hopme{animation:hop .45s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div id="app">
+  <div id="bar"><span class="age" id="bAge">5 歲</span><span class="tt" id="bTitle"></span><button type="button" class="pill" id="bBook">貼紙簿 <span id="bN">0</span>/15</button><button type="button" class="pill" id="bSnd" data-snd="0">♪ 開</button><button type="button" class="pill" id="bMenu">選單</button></div>
+  <div id="stage"><div id="scene"></div></div>
+  <div id="traits"></div>
+  <div id="log" aria-live="polite"></div>
+  <div id="ctl"><button type="button" id="ff">跳到下一題</button><button type="button" id="nx">下一句 ▸</button></div>
+</div>
+<div id="turn" hidden><div id="tMe"></div><div class="a" id="tA"></div><div class="t" id="tT"></div><div class="h">點一下開始</div></div>
+<section class="scr" id="home" hidden></section>
+<section class="scr" id="maker" hidden></section>
+<section class="scr" id="end" hidden></section>
+<section class="scr" id="book" hidden></section>
+
+<script>
+(function(){
+var KEY='grow-sticker-v1';
+var $=function(i){return document.getElementById(i);};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================= 個性 ================= */
+var TR=['kind','brave','funny','smart','free'];
+var TN={kind:'溫柔',brave:'勇敢',funny:'搞笑',smart:'認真',free:'自由'};
+var TI={kind:'♡',brave:'★',funny:'☺',smart:'✎',free:'✈'};
+var TC={kind:'#F07CA0',brave:'#F2994A',funny:'#E9B824',smart:'#3FB6E0',free:'#4CBF86'};
+
+/* ================= Q 版人物 ================= */
+var HAIRS=[['short','短短'],['spiky','刺刺'],['side','旁分'],['buzz','平頭'],['curly','捲捲'],['bob','妹妹頭'],['twin','雙馬尾'],['pony','馬尾'],['bun','包包頭'],['long','長髮'],['wavy','大波浪']];
+var HCOL=['#3B2A22','#7A4A2E','#C98A4B','#E8B04A','#F2EEE6','#E27A8E','#F3A6C8','#B68BE0','#6A7BD0','#7FCFB8'];
+var SKIN=['#FFF0E6','#FFE3CF','#F6CDA8','#E8B48C','#D9A27A','#A8754F'];
+var EYES=[['round','圓圓眼'],['dot','豆豆眼'],['star','星星眼'],['lash','長睫毛'],['smile','瞇瞇眼'],['sleepy','睏睏眼']];
+var CHEEK=[['blush','腮紅'],['heart','愛心腮紅'],['freckle','雀斑'],['none','不要']];
+var HACC=[['none','不用'],['clip','星星髮夾'],['bow','蝴蝶結'],['flower','小花'],['cat','貓耳'],['bunny','兔耳'],['ahoge','呆毛'],['crown','小皇冠'],['phones','耳機']];
+var FACC=[['none','不用'],['glasses','圓眼鏡'],['band','OK 繃'],['whisk','貓鬍鬚'],['mole','小痣']];
+var FAV=['#F27BA0','#F2994A','#FFD166','#4CBF86','#3FB6E0','#8E6BD8','#5A4A57','#FFFFFF'];
+var HEADACC=['clip','flower','bow','cat','bunny','ahoge','crown','phones'];
+var STAGE_OUT={k:{o:'#8EC9E8',p:'#5E8FB8',hat:1,deco:'tag'},e:{o:'#FFFFFF',p:'#2F4A6E',scarf:'#2F4A6E',deco:'pack'},j:{o:'#FFFFFF',p:'#2F4A6E',tie:'#2F4A6E',deco:'strap'},s:{o:'#D8C394',p:'#6B5B45',deco:'strap'},u:{o:'#F2B33D',p:'#3B4A66',deco:'hood'},w:{o:'#7FA3D6',p:'#3B4A66',deco:'lanyard'},a:{o:'#F7A6BE',p:'#3B4A66'},m:{o:'#9ED3E8',p:'#3B4A66'},h:{o:'#C9A0DC',p:'#3B4A66'},r:{o:'#F2C14E',p:'#6B5B45'},o:{o:'#E8B4B8',p:'#6B5B45'}};
+var LATE=['m','h','r','o'];
+
+var NPC={
+ mom:{n:'媽媽',hair:'bob',hc:'#3B2A22',skin:'#FFE3CF',o:'#F28FAD',p:'#8A6A7A',apron:1,eye:'smile',st:{w:{hc:'#6A5850'},a:{hc:'#7A6860'},m:{hc:'#9A8C84'},h:{hc:'#E8E6E2',facc:'glasses',old:1}}},
+ dad:{n:'爸爸',hair:'side',hc:'#2A2A2A',skin:'#F6CDA8',o:'#7A8FA6',p:'#3B4A66',acc:'glasses',st:{w:{hc:'#A0A0A0'}}},
+ azhe:{n:'阿哲',hair:'spiky',hc:'#4A2E1E',skin:'#F6CDA8',acc:'band',st:{u:{o:'#4CBF86'},w:{o:'#4CBF86'},a:{o:'#F2994A'}}},
+ xq:{n:'小晴',uskirt:1,hair:'twin',hc:'#5A3426',skin:'#FFE3CF',acc:'flower',eye:'lash',st:{j:{hair:'bob'},s:{hair:'bob'},u:{hair:'pony',o:'#B9A0E8'},w:{hair:'pony',o:'#B9A0E8'},a:{hair:'long',o:'#9ED3E8'},r:{hair:'bun'},o:{hair:'bun'}}},
+ datou:{n:'大頭',hair:'buzz',hc:'#1D1D1D',skin:'#F0C49E',bigh:1,eye:'dot',st:{a:{o:'#FFFFFF',apronR:1}}},
+ akai:{n:'阿凱',hair:'curly',hc:'#6B4A35',skin:'#F6CDA8',o:'#D35D3B',eye:'sleepy',cheek:'freckle'},
+ lin:{n:'小林',hair:'side',hc:'#22252B',skin:'#FFE3CF',o:'#2B3550',acc:'glasses',eye:'dot'},
+ anan:{n:'小安',hair:'bob',hc:'#7A4A2E',skin:'#FFF0E6',o:'#9FD8B8',p:'#3B4A66',hacc:'clip',eye:'dot',cheek:'freckle'},
+ mi:{n:'小米',hair:'bun',hc:'#C98A4B',skin:'#FFE3CF',eye:'star',hacc:'bow',cheek:'heart',st:{u:{o:'#FFD166'},w:{o:'#FFD166'},a:{o:'#FFD166'}}},
+ yz:{n:'柚子',hair:'short',hc:'#B07A3A',skin:'#F6CDA8',eye:'lash',hacc:'flower',st:{u:{o:'#B9A0E8'},w:{o:'#B9A0E8'},a:{o:'#B9A0E8'}}},
+ guang:{n:'阿光',hair:'short',hc:'#2B201C',skin:'#E8B48C',o:'#3FB6E0',p:'#4A5A3A',eye:'smile',hacc:'phones'}
+};
+var NCOL={mom:'#E26A92',dad:'#5F7FA8',azhe:'#E07A2E',xq:'#C25A9E',datou:'#6E8A2E',akai:'#C2502E',lin:'#3A4E8A',anan:'#2E9E7A',guang:'#2F86C2',mi:'#E0961A',yz:'#8E62C8'};
+
+function mixHex(a,b,t){
+  function p(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+  var x=p(a),y=p(b);return '#'+[0,1,2].map(function(i){var v=Math.round(x[i]+(y[i]-x[i])*t);return (v<16?'0':'')+v.toString(16);}).join('');
+}
+function ageHair(o,st){
+  if(st==='h')o.hc=mixHex(o.hc,'#A8A8A8',.3);
+  if(st==='r'){o.hc=mixHex(o.hc,'#CFCFCF',.7);o.old=1;}
+  if(st==='o'){o.hc='#F0EFEC';o.old=1;}
+}
+function npcLook(id,st){
+  var b=NPC[id],o={};for(var k in b)if(k!=='st')o[k]=b[k];
+  var so=STAGE_OUT[st]||STAGE_OUT.a;
+  if(!o.o||['k','e','j','s'].indexOf(st)>-1&&(id==='azhe'||id==='xq'||id==='datou'||id==='mi'||id==='yz')){o.o=so.o;o.p=so.p;o.hat=so.hat;o.tie=so.tie;o.scarf=so.scarf;o.deco=so.deco;}
+  if(LATE.indexOf(st)>-1&&b.st&&b.st.a)for(var ka in b.st.a)o[ka]=b.st.a[ka];
+  var s2=b.st&&b.st[st];if(s2)for(var k2 in s2)o[k2]=s2[k2];
+  if(o.uskirt&&(st==='e'||st==='j'||st==='s')){o.skirt=1;if(o.tie){o.bowtie=o.tie;o.tie=0;}}
+  if(id!=='mom'&&id!=='dad')ageHair(o,st);
+  return o;
+}
+function normMe(m){
+  m=m||SAVE.me;
+  if(!m.hair)m.hair='short';if(!m.hc)m.hc=HCOL[0];if(!m.skin)m.skin=SKIN[1];
+  if(!m.eye)m.eye='round';if(!m.cheek)m.cheek='blush';
+  if(m.hacc==null)m.hacc=HEADACC.indexOf(m.acc)>-1?m.acc:'none';
+  if(m.facc==null)m.facc=(m.acc==='glasses'||m.acc==='band')?m.acc:'none';
+  if(!m.fav)m.fav='#F27BA0';if(!m.sex)m.sex='m';if(!m.wear)m.wear={};
+  return m;
+}
+function youLook(st,cost,me){
+  me=normMe(me||SAVE.me);
+  var so=STAGE_OUT[st]||STAGE_OUT.a;
+  var o={hair:me.hair,hc:me.hc,skin:me.skin,eye:me.eye,cheek:me.cheek,hacc:me.hacc,facc:me.facc,shoe:me.fav,dino:1,
+    o:so.o,p:so.p,hat:so.hat,tie:so.tie,scarf:so.scarf,deco:so.deco};
+  if(!cost&&['u','w','a','m','h','r','o'].indexOf(st)>-1)o.o=me.fav;
+  var wr=(me.wear&&me.wear[st])||{},nc=so.tie||so.scarf||'#E5484D';
+  if(wr.b==='skirt')o.skirt=1;else if(wr.b==='shorts')o.shorts=1;
+  if(wr.n&&wr.n!=='auto'){o.tie=0;o.scarf=0;o.bowtie=0;if(wr.n==='tie')o.tie=nc;if(wr.n==='bow')o.bowtie=nc;if(wr.n==='scarf')o.scarf=nc;}
+  if(cost){o.o=cost.o;o.hat=0;o.tie=0;o.scarf=0;o.bowtie=0;o.deco=0;o.cost=cost;}
+  if(!cost)ageHair(o,st);
+  return o;
+}
+function heartP(x,y,sc,col){return '<path transform="translate('+x+' '+y+') scale('+sc+')" d="M0 5 C-12 -3 -7 -13 0 -6 C7 -13 12 -3 0 5Z" fill="'+col+'"/>';}
+function starP(x,y,sc,col){return '<path transform="translate('+x+' '+y+') scale('+sc+')" d="M0 -8 L2.3 -2.5 L8 -2.3 L3.5 1.5 L5 7.5 L0 4.2 L-5 7.5 L-3.5 1.5 L-8 -2.3 L-2.3 -2.5Z" fill="'+col+'"/>';}
+// returns inner svg (viewBox 0 0 120 160), feet at y≈157
+function chibi(c,ex){
+  var s='',k=c.hc,sk=c.skin,R=c.bigh?44:40,ink='#4A3B47',cost=c.cost||{};
+  var hacc=c.hacc||(HEADACC.indexOf(c.acc)>-1?c.acc:'none');
+  var facc=c.facc||((c.acc==='glasses'||c.acc==='band')?c.acc:'none');
+  var es=c.eye||'round',chk=c.cheek||'blush';
+  if(cost.under)s+=cost.under;
+  if(hacc==='bunny')s+='<ellipse cx="42" cy="8" rx="8" ry="22" transform="rotate(-14 42 8)" fill="#fff" stroke="#EBD9DE" stroke-width="2"/><ellipse cx="42" cy="10" rx="3.8" ry="14" transform="rotate(-14 42 10)" fill="#FFC2D3"/><ellipse cx="78" cy="8" rx="8" ry="22" transform="rotate(14 78 8)" fill="#fff" stroke="#EBD9DE" stroke-width="2"/><ellipse cx="78" cy="10" rx="3.8" ry="14" transform="rotate(14 78 10)" fill="#FFC2D3"/>';
+  // back hair
+  if(c.hair==='bob')s+='<path d="M16 62 Q14 12 60 12 Q106 12 104 62 L106 92 Q60 100 14 92Z" fill="'+k+'"/>';
+  if(c.hair==='twin')s+='<ellipse cx="14" cy="76" rx="12" ry="20" fill="'+k+'"/><ellipse cx="106" cy="76" rx="12" ry="20" fill="'+k+'"/><circle cx="20" cy="58" r="5" fill="#F27BA0"/><circle cx="100" cy="58" r="5" fill="#F27BA0"/>';
+  if(c.hair==='long')s+='<path d="M14 60 Q12 12 60 12 Q108 12 106 60 L110 124 Q60 132 10 124Z" fill="'+k+'"/>';
+  if(c.hair==='wavy')s+='<path d="M16 62 Q14 12 60 12 Q106 12 104 62 L106 112 Q60 120 14 112Z" fill="'+k+'"/>'+[[14,70],[9,90],[14,110],[106,70],[111,90],[106,110]].map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="11" fill="'+k+'"/>';}).join('');
+  if(c.hair==='pony')s+='<path d="M96 38 Q122 50 112 100 Q104 76 92 64Z" fill="'+k+'"/><circle cx="98" cy="40" r="4" fill="#F27BA0"/>';
+  if(c.hair==='bun')s+='<circle cx="60" cy="12" r="14" fill="'+k+'"/>';
+  if(c.hair==='curly')s+=[[18,52],[22,30],[38,16],[60,10],[82,16],[98,30],[102,52]].map(function(p){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="14" fill="'+k+'"/>';}).join('');
+  // legs, shoes, arms, body
+  var shoe=c.shoe||ink;
+  if(c.skirt)s+='<rect x="45" y="130" width="11" height="20" rx="5" fill="'+sk+'"/><rect x="64" y="130" width="11" height="20" rx="5" fill="'+sk+'"/><rect x="44.5" y="141" width="12" height="9" rx="3" fill="#fff"/><rect x="63.5" y="141" width="12" height="9" rx="3" fill="#fff"/>';
+  else if(c.shorts)s+='<rect x="45" y="130" width="11" height="20" rx="5" fill="'+sk+'"/><rect x="64" y="130" width="11" height="20" rx="5" fill="'+sk+'"/><rect x="44.5" y="143" width="12" height="7" rx="3" fill="#fff"/><rect x="63.5" y="143" width="12" height="7" rx="3" fill="#fff"/><rect x="42" y="126" width="17" height="12" rx="4" fill="'+(c.p||'#3B4A66')+'"/><rect x="61" y="126" width="17" height="12" rx="4" fill="'+(c.p||'#3B4A66')+'"/>';
+  else s+='<rect x="44" y="130" width="13" height="20" rx="6" fill="'+(c.p||'#3B4A66')+'"/><rect x="63" y="130" width="13" height="20" rx="6" fill="'+(c.p||'#3B4A66')+'"/>';
+  s+='<ellipse cx="50" cy="152" rx="9" ry="5" fill="'+shoe+'" stroke="'+ink+'" stroke-width="1.5"/><ellipse cx="70" cy="152" rx="9" ry="5" fill="'+shoe+'" stroke="'+ink+'" stroke-width="1.5"/><ellipse cx="47" cy="150.5" rx="3" ry="1.4" fill="#fff" opacity=".5"/><ellipse cx="67" cy="150.5" rx="3" ry="1.4" fill="#fff" opacity=".5"/>';
+  s+='<ellipse cx="34" cy="114" rx="7" ry="12" transform="rotate(20 34 114)" fill="'+sk+'"/><ellipse cx="86" cy="114" rx="7" ry="12" transform="rotate(-20 86 114)" fill="'+sk+'"/>';
+  s+='<path d="M38 106 Q38 94 50 92 L70 92 Q82 94 82 106 L84 136 Q60 142 36 136Z" fill="'+(c.o||'#fff')+'" stroke="rgba(74,59,71,.15)" stroke-width="1.5"/>';
+  if(c.scarf)s+='<path d="M48 94 L60 106 L72 94" fill="none" stroke="'+c.scarf+'" stroke-width="5" stroke-linejoin="round"/>';
+  if(c.skirt)s+='<path d="M38 124 L82 124 L90 141 Q60 148 30 141Z" fill="'+(c.p||'#3B4A66')+'"/><path d="M48 126 L44 143 M60 126 L60 145 M72 126 L76 143" stroke="rgba(0,0,0,.15)" stroke-width="1.5"/>';
+  if(c.tie)s+='<path d="M57 95 L63 95 L65 112 L60 117 L55 112Z" fill="'+c.tie+'"/>';
+  if(c.bowtie)s+='<path d="M60 99 L49 93 L49 105Z M60 99 L71 93 L71 105Z" fill="'+c.bowtie+'"/><circle cx="60" cy="99" r="3" fill="'+c.bowtie+'"/>';
+  if(c.apron)s+='<path d="M46 104 L74 104 L77 134 Q60 138 43 134Z" fill="#FFFFFF" opacity=".9"/>'+heartP(60,118,.5,'#F27BA0');
+  if(c.apronR)s+='<path d="M46 104 L74 104 L77 134 Q60 138 43 134Z" fill="#E5484D"/>';
+  var d=c.deco;
+  if(d==='tag')s+='<g transform="translate(72 106)">'+[0,1,2,3,4].map(function(i){var a=i/5*Math.PI*2;return '<circle cx="'+(Math.cos(a)*4.5).toFixed(1)+'" cy="'+(Math.sin(a)*4.5).toFixed(1)+'" r="3.4" fill="#FF8FAB"/>';}).join('')+'<circle r="2.8" fill="#FFD84D"/></g>';
+  if(d==='pack')s+='<path d="M44 95 L46 132" stroke="#E5484D" stroke-width="5" stroke-linecap="round"/><path d="M76 95 L74 132" stroke="#E5484D" stroke-width="5" stroke-linecap="round"/>';
+  if(d==='strap')s+='<path d="M45 95 L78 134" stroke="#5A4A3A" stroke-width="5" stroke-linecap="round"/>';
+  if(d==='hood')s+='<path d="M42 99 Q60 90 78 99" stroke="rgba(0,0,0,.14)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M54 99 v13 M66 99 v13" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="54" cy="113" r="2.2" fill="#fff"/><circle cx="66" cy="113" r="2.2" fill="#fff"/>';
+  if(d==='lanyard')s+='<path d="M48 94 L60 113 L72 94" stroke="#3FB6E0" stroke-width="3" fill="none"/><rect x="53" y="112" width="14" height="17" rx="2" fill="#fff" stroke="'+ink+'" stroke-width="1.5"/><rect x="56" y="115" width="8" height="6" rx="1" fill="#BFE3F2"/>';
+  if(c.dino)s+='<g transform="translate(80 121)"><path d="M2 0 v6" stroke="#C9B48A" stroke-width="1.5"/><ellipse cx="3" cy="12" rx="6" ry="5" fill="#7FD08A"/><circle cx="7" cy="8" r="4" fill="#7FD08A"/><circle cx="8.3" cy="7.4" r=".95" fill="'+ink+'"/><path d="M-2 10 l1.6 -3.2 l1.6 3.2 M1.4 8.4 l1.6 -3.2 l1.6 3.2" fill="#5BB86A"/></g>';
+  // head
+  s+='<circle cx="22" cy="60" r="6" fill="'+sk+'"/><circle cx="98" cy="60" r="6" fill="'+sk+'"/>';
+  s+='<circle cx="60" cy="56" r="'+R+'" fill="'+sk+'"/>';
+  // cheeks
+  var bl=ex==='w'?.95:.55;
+  if(chk==='blush'||ex==='w')s+='<ellipse cx="36" cy="70" rx="7" ry="4.5" fill="#FF8FAB" opacity="'+bl+'"/><ellipse cx="84" cy="70" rx="7" ry="4.5" fill="#FF8FAB" opacity="'+bl+'"/>';
+  if(chk==='heart')s+=heartP(36,70,.62,'#FF8FAB')+heartP(84,70,.62,'#FF8FAB');
+  if(chk==='freckle')s+='<g fill="#C98A6A" opacity=".75"><circle cx="32" cy="69" r="1.3"/><circle cx="36" cy="72.5" r="1.3"/><circle cx="39" cy="68" r="1.3"/><circle cx="81" cy="68" r="1.3"/><circle cx="84" cy="72.5" r="1.3"/><circle cx="88" cy="69" r="1.3"/></g>';
+  // eyes
+  function eyes(){
+    if(es==='dot')return '<circle cx="45" cy="61" r="3.8" fill="'+ink+'"/><circle cx="75" cy="61" r="3.8" fill="'+ink+'"/><circle cx="46.2" cy="59.8" r="1.1" fill="#fff"/><circle cx="76.2" cy="59.8" r="1.1" fill="#fff"/>';
+    if(es==='smile')return '<path d="M40 62 q5 -6 10 0 M70 62 q5 -6 10 0" fill="none" stroke="'+ink+'" stroke-width="3" stroke-linecap="round"/>';
+    if(es==='sleepy')return '<path d="M40 60 q5 5 10 0 M70 60 q5 5 10 0" fill="none" stroke="'+ink+'" stroke-width="3" stroke-linecap="round"/>';
+    if(es==='star')return starP(45,60,.85,ink)+starP(75,60,.85,ink)+'<circle cx="46.5" cy="58" r="1.5" fill="#fff"/><circle cx="76.5" cy="58" r="1.5" fill="#fff"/>';
+    var b='<ellipse cx="45" cy="60" rx="5" ry="6.5" fill="'+ink+'"/><ellipse cx="75" cy="60" rx="5" ry="6.5" fill="'+ink+'"/><circle cx="47" cy="57.5" r="2" fill="#fff"/><circle cx="77" cy="57.5" r="2" fill="#fff"/><circle cx="43.5" cy="62" r="1" fill="#fff"/><circle cx="73.5" cy="62" r="1" fill="#fff"/>';
+    if(es==='lash')b+='<path d="M40 55 l-3.5 -2.5 M41.5 53.5 l-2 -3.5 M80 55 l3.5 -2.5 M78.5 53.5 l2 -3.5" stroke="'+ink+'" stroke-width="2" stroke-linecap="round"/>';
+    return b;
+  }
+  var E='',X='',lid=false;
+  if(ex==='h')E='<path d="M40 61 q5 -7 10 0 M70 61 q5 -7 10 0" fill="none" stroke="'+ink+'" stroke-width="3" stroke-linecap="round"/><path d="M53 69 Q60 79 67 69Z" fill="#C2405E"/><path d="M56 73 q4 3 8 0" fill="#FF8FAB"/>';
+  else if(ex==='w')E='<path d="M40 57 l8 4 l-8 4 M80 57 l-8 4 l8 4" fill="none" stroke="'+ink+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 71 q5 4 10 0" fill="none" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/>';
+  else if(ex==='x')E='<circle cx="45" cy="60" r="6" fill="#fff" stroke="'+ink+'" stroke-width="2.5"/><circle cx="75" cy="60" r="6" fill="#fff" stroke="'+ink+'" stroke-width="2.5"/><circle cx="45" cy="60" r="2.4" fill="'+ink+'"/><circle cx="75" cy="60" r="2.4" fill="'+ink+'"/><ellipse cx="60" cy="74" rx="4.5" ry="5.5" fill="#C2405E"/>';
+  else{
+    E=eyes();lid=['round','lash','star','dot'].indexOf(es)>-1;
+    if(ex==='d')X='<path d="M54 74 q6 -5 12 0" fill="none" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/><path d="M92 40 q4 8 0 10 q-4 -2 0 -10Z" fill="#8FD0F0"/>';
+    else if(ex==='c')X='<path d="M42 68 q-2 6 1 10 M78 68 q2 6 -1 10" fill="none" stroke="#7FC4F0" stroke-width="3" stroke-linecap="round"/><path d="M54 75 q6 -5 12 0" fill="none" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/>';
+    else if(ex==='a')X='<path d="M38 50 l12 4 M82 50 l-12 4" stroke="'+ink+'" stroke-width="3" stroke-linecap="round"/><path d="M54 74 q6 -4 12 0" fill="none" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/>';
+    else if(ex==='t')X='<path d="M55 72 h10" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/>';
+    else if(ex==='s')X='<path d="M53 70 q7 7 14 0" fill="none" stroke="'+ink+'" stroke-width="2.6" stroke-linecap="round"/>';
+    else X='<path d="M56 71 q4 3 8 0" fill="none" stroke="'+ink+'" stroke-width="2.5" stroke-linecap="round"/>';
+  }
+  s+=E;
+  if(lid)s+='<g class="lid" style="--d:-'+(Math.random()*4.6).toFixed(2)+'s"><ellipse cx="45" cy="60" rx="7.5" ry="8.5" fill="'+sk+'"/><ellipse cx="75" cy="60" rx="7.5" ry="8.5" fill="'+sk+'"/></g>';
+  s+=X;
+  // front hair
+  var F='';
+  if(c.hair==='short')F='M20 58 Q18 14 60 14 Q102 14 100 58 Q96 36 80 32 Q60 44 40 32 Q24 38 20 58Z';
+  if(c.hair==='spiky')F='M20 56 L14 30 L30 34 L28 10 L46 24 L56 2 L66 22 L84 6 L84 28 L104 24 L100 56 Q92 34 60 32 Q28 34 20 56Z';
+  if(c.hair==='bob'||c.hair==='long'||c.hair==='wavy')F='M20 56 Q20 16 60 14 Q100 16 100 56 Q90 34 76 30 L60 40 L44 30 Q28 34 20 56Z';
+  if(c.hair==='twin'||c.hair==='pony'||c.hair==='bun')F='M20 56 Q18 14 60 14 Q102 14 100 56 Q92 32 76 30 L66 38 L56 28 L44 38 Q28 34 20 56Z';
+  if(c.hair==='curly')F='M22 52 Q24 22 60 20 Q96 22 98 52 Q88 36 74 40 Q66 30 56 38 Q44 30 34 42 Q26 40 22 52Z';
+  if(c.hair==='buzz')F='M20 46 Q20 12 60 12 Q100 12 100 46 Q90 26 60 24 Q30 26 20 46Z';
+  if(c.hair==='side')F='M20 56 Q18 14 60 14 Q102 14 100 56 Q98 40 90 30 Q70 42 34 28 Q22 38 20 56Z';
+  if(F)s+='<path d="'+F+'" fill="'+k+'"/>';
+  if(c.hair==='curly')s+='<circle cx="40" cy="26" r="10" fill="'+k+'"/><circle cx="60" cy="20" r="11" fill="'+k+'"/><circle cx="80" cy="26" r="10" fill="'+k+'"/>';
+  if(c.hair!=='buzz')s+='<path d="M34 25 q10 -8 24 -8" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".38"/>';
+  // head accessories
+  if(hacc==='clip')s+=starP(90,36,.8,'#FFD84D');
+  if(hacc==='flower')s+='<g transform="translate(88 32)"><circle r="4" cx="0" cy="-5" fill="#FF8FAB"/><circle r="4" cx="5" cy="0" fill="#FF8FAB"/><circle r="4" cx="0" cy="5" fill="#FF8FAB"/><circle r="4" cx="-5" cy="0" fill="#FF8FAB"/><circle r="3" fill="#FFE07A"/></g>';
+  if(hacc==='bow')s+='<g transform="translate(86 26) rotate(18)"><path d="M0 0 L-13 -8 Q-16 0 -13 8Z M0 0 L13 -8 Q16 0 13 8Z" fill="#F27BA0"/><circle r="3.6" fill="#E05A86"/></g>';
+  if(hacc==='cat')s+='<path d="M24 30 L28 2 L50 18Z" fill="'+k+'"/><path d="M30 24 L32 9 L43 17Z" fill="#FFC2D3"/><path d="M96 30 L92 2 L70 18Z" fill="'+k+'"/><path d="M90 24 L88 9 L77 17Z" fill="#FFC2D3"/>';
+  if(hacc==='ahoge')s+='<path d="M60 16 Q54 0 66 -4 Q60 4 63 16Z" fill="'+k+'"/>';
+  if(hacc==='crown')s+='<path d="M44 16 L46 0 L53 9 L60 -4 L67 9 L74 0 L76 16Z" fill="#FFD84D" stroke="#E9B824" stroke-width="1.5" stroke-linejoin="round"/><circle cx="60" cy="8" r="2.2" fill="#F27BA0"/>';
+  if(hacc==='phones')s+='<path d="M19 58 Q19 4 60 4 Q101 4 101 58" fill="none" stroke="'+ink+'" stroke-width="5"/><rect x="11" y="50" width="14" height="22" rx="7" fill="#F27BA0"/><rect x="95" y="50" width="14" height="22" rx="7" fill="#F27BA0"/>';
+  // face accessories
+  if(facc==='glasses')s+='<circle cx="45" cy="60" r="10" fill="rgba(255,255,255,.25)" stroke="'+ink+'" stroke-width="2.5"/><circle cx="75" cy="60" r="10" fill="rgba(255,255,255,.25)" stroke="'+ink+'" stroke-width="2.5"/><path d="M55 60 h10" stroke="'+ink+'" stroke-width="2.5"/>';
+  if(facc==='band')s+='<g transform="rotate(-20 82 76)"><rect x="74" y="72" width="16" height="7" rx="3" fill="#F7D3A8" stroke="#D9A97A" stroke-width="1"/><rect x="80" y="72" width="4" height="7" fill="#EBC08E"/></g>';
+  if(facc==='whisk')s+='<path d="M22 66 h11 M23 72 l10 -2 M98 66 h-11 M97 72 l-10 -2" stroke="'+ink+'" stroke-width="1.8" stroke-linecap="round"/>';
+  if(facc==='mole')s+='<circle cx="79" cy="76" r="1.7" fill="'+ink+'"/>';
+  if(c.old)s+='<path d="M30 57 l-5 -2 M30 62 l-5 1 M90 57 l5 -2 M90 62 l5 1" stroke="rgba(74,59,71,.35)" stroke-width="1.6" stroke-linecap="round"/>';
+  if(c.cane)s+='<path d="M93 112 L98 156" stroke="#8A5A2B" stroke-width="4" stroke-linecap="round"/><path d="M93 112 q-7 -7 -12 1" stroke="#8A5A2B" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  if(c.hat)s+='<path d="M14 40 Q18 0 60 0 Q102 0 106 40Z" fill="#FFD84D"/><path d="M8 42 Q60 30 112 42 Q60 52 8 42Z" fill="#F2C230"/><circle cx="60" cy="2" r="4" fill="#F27BA0"/>';
+  if(cost.over)s+=cost.over;
+  // emotion marks
+  if(ex==='h')s+='<g class="emo">'+starP(106,16,.8,'#FFD84D')+starP(114,32,.45,'#FFD84D')+'</g>';
+  if(ex==='w')s+='<g class="emo">'+heartP(106,20,1,'#FF6B9A')+heartP(114,8,.5,'#FF8FAB')+'</g>';
+  if(ex==='a')s+='<g class="emo"><path transform="translate(104 22)" d="M-7 -2 Q-2 -2 -2 -7 M2 -7 Q2 -2 7 -2 M7 2 Q2 2 2 7 M-2 7 Q-2 2 -7 2" stroke="#E5484D" stroke-width="3" fill="none" stroke-linecap="round"/></g>';
+  if(ex==='x')s+='<g class="emo"><rect x="102" y="2" width="6" height="18" rx="3" fill="#F2994A"/><circle cx="105" cy="27" r="3.2" fill="#F2994A"/></g>';
+  if(ex==='t')s+='<g class="emo"><circle cx="96" cy="14" r="2.5" fill="#9A8794"/><circle cx="104" cy="14" r="2.5" fill="#9A8794"/><circle cx="112" cy="14" r="2.5" fill="#9A8794"/></g>';
+  return s;
+}
+function svgWrap(inner,vb){return '<svg viewBox="'+(vb||'0 0 120 160')+'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+inner+'</svg>';}
+function place(inner,x,y,sc){return '<g transform="translate('+x+' '+y+') scale('+sc+')">'+inner+'</g>';}
+
+/* ================= 場景 ================= */
+function rep(n,f){var s='';for(var i=0;i<n;i++)s+=f(i);return s;}
+var BG={
+ kinder:'<rect width="360" height="200" fill="#FFF3CC"/>'+rep(9,function(i){var c=['#F27BA0','#4CBF86','#3FB6E0','#F2994A'][i%4];return '<path d="M'+(i*42)+' 14 l30 0 l-15 22Z" fill="'+c+'"/>';})+'<path d="M0 14 Q180 24 360 14" stroke="#C99A5A" stroke-width="2" fill="none"/>'+[60,300].map(function(x){return '<g transform="translate('+x+' 70)">'+rep(8,function(j){var a=j/8*Math.PI*2;return '<circle cx="'+Math.cos(a)*14+'" cy="'+Math.sin(a)*14+'" r="8" fill="#FFD84D"/>';})+'<circle r="9" fill="#A8723F"/></g>';}).join('')+'<rect y="150" width="360" height="50" fill="#F4D7A6"/>',
+ classroom:'<rect width="360" height="200" fill="#E8F3E4"/><rect x="70" y="20" width="220" height="90" rx="8" fill="#3E7D5E" stroke="#B88A5A" stroke-width="6"/><text x="90" y="52" font-size="16" fill="#fff" opacity=".85" font-family="sans-serif">值日生</text><path d="M180 80 q15 -12 30 0 t30 0" stroke="#fff" stroke-width="2" fill="none" opacity=".6"/><rect y="150" width="360" height="50" fill="#D8CDB8"/>',
+ home:'<rect width="360" height="200" fill="#FFE4E9"/><rect x="250" y="30" width="70" height="120" rx="10" fill="#fff" stroke="#E7C9D0" stroke-width="3"/><rect x="262" y="72" width="22" height="26" fill="#FFF7D6" transform="rotate(-5 273 85)"/><path d="M268 84 q5 -7 10 0 q-5 7 -10 0" fill="#F27BA0"/><rect x="30" y="30" width="90" height="70" rx="6" fill="#BFE3F2" stroke="#fff" stroke-width="5"/><rect y="150" width="360" height="50" fill="#E9C9B6"/>',
+ hallway:'<rect width="360" height="200" fill="#FFF0DC"/><rect y="20" width="360" height="90" fill="#FFC9A6"/><circle cx="280" cy="80" r="20" fill="#FFF0C2"/>'+rep(5,function(i){return '<rect x="'+(i*90-6)+'" y="16" width="12" height="130" fill="#EADBC6"/>';})+'<rect y="104" width="360" height="5" fill="#B9C6C0"/>'+rep(30,function(i){return '<rect x="'+(i*12)+'" y="109" width="3" height="30" fill="#B9C6C0"/>';})+'<rect y="150" width="360" height="50" fill="#E3D6C1"/>',
+ beach:'<rect width="360" height="200" fill="#2B3266"/>'+rep(26,function(i){return '<circle cx="'+((i*97)%360)+'" cy="'+((i*41)%90)+'" r="'+(1+i%2)+'" fill="#FFF6C8"/>';})+'<circle cx="300" cy="34" r="14" fill="#FFF3CF"/><rect y="100" width="360" height="40" fill="#3A4C8C"/><rect y="140" width="360" height="60" fill="#5A4E66"/><path d="M170 150 l10 -22 l10 22Z" fill="#FFB050"/><ellipse cx="180" cy="148" rx="80" ry="22" fill="#FFB050" opacity=".25"/>',
+ dorm:'<rect width="360" height="200" fill="#5A5590"/><rect x="250" y="24" width="80" height="64" fill="#2B2F5E" stroke="#E6D7B8" stroke-width="5"/><circle cx="305" cy="44" r="10" fill="#FFF3CF"/><rect x="20" y="40" width="110" height="10" fill="#B08A6A"/><rect x="20" y="100" width="110" height="10" fill="#B08A6A"/><rect x="24" y="90" width="100" height="10" rx="5" fill="#9EB6E0"/><rect y="150" width="360" height="50" fill="#47457A"/>',
+ office:'<rect width="360" height="200" fill="#E6F1FA"/><rect x="40" y="20" width="280" height="100" fill="#D2E6F4" stroke="#A9C2D4" stroke-width="4"/><rect x="110" y="40" width="140" height="60" fill="#fff"/><path d="M120 85 l30 -15 l30 8 l30 -20 l30 6" stroke="#F27BA0" stroke-width="4" fill="none"/><rect y="150" width="360" height="50" fill="#C2D0DC"/>',
+ restaurant:'<rect width="360" height="200" fill="#FFD9A8"/>'+rep(4,function(i){var x=45+i*90;return '<line x1="'+x+'" y1="0" x2="'+x+'" y2="20" stroke="#4A3B47" stroke-width="1.5"/><circle cx="'+x+'" cy="30" r="12" fill="#E5484D"/><ellipse cx="'+x+'" cy="36" rx="40" ry="18" fill="#FFF0B8" opacity=".35"/>';})+'<rect x="20" y="58" width="100" height="56" fill="#FFF7E2" stroke="#C99A5A" stroke-width="3"/><text x="30" y="80" font-size="13" fill="#C8302A" font-family="sans-serif">熱炒 100</text><text x="30" y="100" font-size="10" fill="#4A3B47" font-family="sans-serif">三杯雞 炒水蓮</text><rect y="150" width="360" height="50" fill="#C99A70"/>',
+ ktv:'<rect width="360" height="200" fill="#3B2A5E"/><rect x="110" y="18" width="140" height="84" rx="6" fill="#1E1638" stroke="#8E6BD8" stroke-width="4"/><text x="180" y="66" text-anchor="middle" font-size="14" fill="#FFD166" font-family="sans-serif">♪ 點歌中</text><rect x="0" y="122" width="360" height="34" rx="10" fill="#B5487A"/><rect y="156" width="360" height="44" fill="#2A1E44"/><rect x="150" y="140" width="60" height="10" rx="3" fill="#6B5A8A"/>',
+ mountain:'<defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD3F4"/><stop offset="1" stop-color="#E6F6FF"/></linearGradient></defs><rect width="360" height="200" fill="url(#mg)"/><path d="M0 140 L70 62 L130 118 L200 40 L270 108 L360 54 V200 H0Z" fill="#8CC79A"/><path d="M200 40 l-15 17 l8 -2 l7 9 l7 -9 l8 2Z" fill="#fff"/><path d="M0 160 Q180 128 360 160 V200 H0Z" fill="#5FA86A"/>'+[20,320,345].map(function(x){return '<path d="M'+x+' 168 l14 -34 l14 34Z" fill="#3E8A55"/><rect x="'+(x+12)+'" y="166" width="4" height="10" fill="#7A5A3A"/>';}).join(''),
+ hospital:'<rect width="360" height="200" fill="#E6F4EF"/><rect x="24" y="24" width="90" height="70" rx="6" fill="#BFE3F2" stroke="#fff" stroke-width="5"/><rect x="250" y="20" width="76" height="92" rx="6" fill="#fff" stroke="#BFD9CF" stroke-width="3"/><path d="M278 50 h20 M288 40 v20" stroke="#E5484D" stroke-width="6" stroke-linecap="round"/><text x="288" y="90" text-anchor="middle" font-size="11" fill="#4A3B47" font-family="sans-serif">健康檢查</text><rect x="128" y="36" width="90" height="56" rx="4" fill="#fff" stroke="#BFD9CF" stroke-width="2"/><path d="M136 70 l12 -10 l10 8 l12 -16 l14 12 l18 -6" stroke="#4CBF86" stroke-width="3" fill="none"/><rect y="150" width="360" height="50" fill="#CFE6DD"/>',
+ park:'<rect width="360" height="200" fill="#CDEBFA"/><circle cx="300" cy="38" r="20" fill="#FFE59A"/><rect y="118" width="360" height="82" fill="#A3D98F"/><ellipse cx="70" cy="176" rx="60" ry="14" fill="#8FD0F0"/>'+[[30,90],[330,84]].map(function(t){return '<rect x="'+(t[0]-4)+'" y="'+t[1]+'" width="8" height="40" fill="#8A5A3A"/><circle cx="'+t[0]+'" cy="'+(t[1]-10)+'" r="26" fill="#6CBF6A"/>';}).join('')+'<rect x="240" y="138" width="70" height="8" rx="3" fill="#B07A4A"/><rect x="246" y="146" width="5" height="14" fill="#8A5A3A"/><rect x="299" y="146" width="5" height="14" fill="#8A5A3A"/>',
+ wedding:'<rect width="360" height="200" fill="#FFF1F5"/><rect y="150" width="360" height="50" fill="#E3F2DA"/><path d="M110 162 V74 Q180 4 250 74 V162" fill="none" stroke="#F7C2D2" stroke-width="12"/>'+[0,1,2,3,4,5,6,7,8].map(function(i){var a=Math.PI*(1-i/8),x=180+Math.cos(a)*70,y=74-Math.sin(a)*58;return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7" fill="'+(i%2?'#fff':'#F27BA0')+'"/>';}).join('')+'<path d="M0 20 Q90 40 180 20 Q270 40 360 20" stroke="#F7C2D2" stroke-width="3" fill="none"/>',
+ gate:'<defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E8CD8"/><stop offset="1" stop-color="#FFC59E"/></linearGradient></defs><rect width="360" height="200" fill="url(#gg)"/><rect x="90" y="40" width="180" height="90" fill="#FFF3DA" stroke="#E0B97A" stroke-width="4"/><text x="180" y="62" text-anchor="middle" font-size="14" fill="#F27BA0" font-family="sans-serif">向日葵幼稚園</text><rect x="110" y="76" width="44" height="36" fill="#fff" stroke="#E0B97A" stroke-width="3"/><rect x="118" y="94" width="26" height="10" rx="2" fill="#E5484D"/><circle cx="123" cy="106" r="3" fill="#4A3B47"/><circle cx="139" cy="106" r="3" fill="#4A3B47"/>'+rep(13,function(i){return '<rect x="'+(i*30)+'" y="130" width="4" height="30" fill="#9AA4B8"/>';})+'<rect y="130" width="360" height="4" fill="#9AA4B8"/><rect y="160" width="360" height="40" fill="#E9D6BE"/>'
+};
+/* 場景小動畫 */
+function fUp(x,y,r,col,dur,beg,rise,op){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+col+'" opacity="0"><animate attributeName="cy" values="'+y+';'+(y-rise)+'" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;'+(op||.7)+';0" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/></circle>';}
+function twk(x,y,r,col,dur,beg){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+col+'"><animate attributeName="opacity" values=".15;1;.15" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/></circle>';}
+function petal(x,col,dur,beg){return '<ellipse cx="'+x+'" cy="-10" rx="4" ry="2.4" fill="'+col+'"><animate attributeName="cy" values="-10;210" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/><animate attributeName="cx" values="'+x+';'+(x+18)+';'+(x-8)+';'+(x+12)+'" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/></ellipse>';}
+function drift(inner,y,dur,beg){return '<g><animateTransform attributeName="transform" type="translate" values="-60 '+y+';420 '+y+'" dur="'+dur+'s" begin="-'+beg+'s" repeatCount="indefinite"/>'+inner+'</g>';}
+function zz(x,y,beg,col){return '<text x="'+x+'" y="'+y+'" font-size="13" font-weight="700" fill="'+col+'" font-family="sans-serif" opacity="0">z<animate attributeName="y" values="'+y+';'+(y-32)+'" dur="2.4s" begin="-'+beg+'s" repeatCount="indefinite"/><animate attributeName="x" values="'+x+';'+(x+10)+'" dur="2.4s" begin="-'+beg+'s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.95;0" dur="2.4s" begin="-'+beg+'s" repeatCount="indefinite"/></text>';}
+function steam(x,y,beg){return '<path d="M'+x+' '+y+' q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0"><animate attributeName="opacity" values="0;.85;0" dur="2.2s" begin="-'+beg+'s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -10" dur="2.2s" begin="-'+beg+'s" repeatCount="indefinite"/></path>';}
+var BFLY='<g><animateMotion path="M40 70 C 90 20, 150 90, 210 50 S 330 40, 300 90 S 120 110, 40 70Z" dur="16s" repeatCount="indefinite"/><ellipse cx="-4" cy="0" rx="5" ry="7" fill="#F27BA0"><animate attributeName="rx" values="5;1.5;5" dur=".35s" repeatCount="indefinite"/></ellipse><ellipse cx="4" cy="0" rx="5" ry="7" fill="#FF9FBE"><animate attributeName="rx" values="5;1.5;5" dur=".35s" repeatCount="indefinite"/></ellipse><rect x="-1" y="-6" width="2" height="12" rx="1" fill="#4A3B47"/></g>';
+var BIRD='<path d="M0 0 q4 -4 8 0 q4 -4 8 0" stroke="#4A3B47" stroke-width="1.6" fill="none" stroke-linecap="round"><animate attributeName="d" values="M0 0 q4 -4 8 0 q4 -4 8 0;M0 -2 q4 2 8 2 q4 0 8 -2;M0 0 q4 -4 8 0 q4 -4 8 0" dur=".6s" repeatCount="indefinite"/></path>';
+var PLANE='<g><animateMotion path="M-30 70 Q180 30 400 80" dur="11s" keyPoints="0;1;1" keyTimes="0;.45;1" calcMode="linear" repeatCount="indefinite" rotate="auto"/><path d="M0 0 L18 5 L0 10 L5 5Z" fill="#fff" stroke="#9AA8B8" stroke-width="1"/></g>';
+var CAT='<g transform="translate(320 148)"><ellipse cx="0" cy="0" rx="18" ry="10" fill="#F2A65A"/><circle cx="-14" cy="-5" r="8.5" fill="#F2A65A"/><path d="M-21 -10 l2 -8 l5 6Z M-11 -11 l3 -7 l3 7Z" fill="#F2A65A"/><path d="M-18 -5 q2 2 4 0 M-12 -5 q2 2 4 0" stroke="#4A3B47" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M-2 -6 l4 0 M2 -2 l4 0" stroke="#E08A3A" stroke-width="2"/><path d="M16 2 q12 -2 10 -14" stroke="#F2A65A" stroke-width="5" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" values="0 16 2;-22 16 2;0 16 2" dur="2.6s" repeatCount="indefinite"/></path></g>';
+var MUG='<rect x="320" y="132" width="16" height="16" rx="3" fill="#fff" stroke="#A9C2D4" stroke-width="2"/><path d="M336 136 q6 0 6 5 q0 5 -6 5" stroke="#A9C2D4" stroke-width="2" fill="none"/>'+heartP(328,141,.35,'#F27BA0');
+var CL='<g fill="#fff" opacity=".9"><ellipse cx="0" cy="0" rx="20" ry="9"/><ellipse cx="12" cy="-6" rx="12" ry="9"/><ellipse cx="-10" cy="-4" rx="10" ry="7"/></g>';
+var FX={
+ kinder:BFLY+[30,110,330,250,150,300].map(function(x,i){return fUp(x,160,3+i%3,'#BFE3F2',5+i%3,i*1.1,110,.85);}).join(''),
+ classroom:PLANE+rep(9,function(i){return twk(90+i*24,40+(i*17)%60,1.3,'#fff',2+i%3,i*.5);}),
+ home:CAT+zz(298,130,0,'#B9A0C8')+zz(298,130,1.2,'#B9A0C8')+twk(48,44,2,'#fff',2.4,0)+twk(98,64,1.5,'#fff',3,1),
+ hallway:rep(5,function(i){return petal(40+i*70,'#FFB3C8',7+i%3,i*1.6);})+rep(8,function(i){return twk(30+i*42,40+(i*23)%60,1.4,'#FFF3C2',2.6,i*.4);}),
+ beach:rep(10,function(i){return twk((i*53+20)%360,(i*29)%90+6,1.4,'#FFF6C8',1.6+i%3*.6,i*.3);})+rep(7,function(i){return fUp(40+i*48,150,1.8,'#FFE07A',4+i%3,i*.8,60,.9);})+twk(180,140,7,'#FFE07A',.5,0),
+ dorm:zz(84,82,0,'#fff')+zz(84,82,.8,'#fff')+zz(84,82,1.6,'#fff')+twk(305,44,14,'rgba(255,243,207,.25)',3,0),
+ office:MUG+steam(326,130,0)+steam(331,130,1.1)+rep(4,function(i){return twk(130+i*30,50+(i%2)*20,1.4,'#F27BA0',2,i*.5);}),
+ restaurant:steam(240,142,0)+steam(250,142,.7)+steam(300,142,1.4)+rep(4,function(i){return twk(45+i*90,30,9,'rgba(255,240,184,.35)',2.2,i*.6);}),
+ ktv:rep(12,function(i){return twk(20+i*30,20+(i*37)%90,3+i%3,['#F27BA0','#FFD166','#3FB6E0','#4CBF86'][i%4],1+i%3*.4,i*.25);}),
+ mountain:drift(CL,30,22,0)+drift(CL,52,30,12)+drift(BIRD,40,18,4),
+ hospital:twk(60,50,3,'#fff',2.4,0)+twk(214,52,2.5,'#4CBF86',1,0),
+ park:drift(CL,26,26,6)+drift(BIRD,46,18,0)+rep(5,function(i){return petal(30+i*70,'#8BCF6A',9+i%3,i*1.7);}),
+ wedding:rep(9,function(i){return petal(15+i*40,i%2?'#FFFFFF':'#F7A6BE',7+i%3,i*1.1);}),
+ gate:rep(7,function(i){return petal(20+i*52,i%2?'#FFB3C8':'#FFD0DC',8+i%3,i*1.3);})+drift(BIRD,34,16,0)+drift(BIRD,50,20,8)
+};
+
+var curBg='kinder',curSpk=null,curEx='n',meEx='n',sceneKey='';
+function drawScene(hop){
+  var st=STORY[G.ch].stage,sc=$('scene');
+  if(sceneKey!==curBg||!sc.querySelector('#chL')){
+    sc.innerHTML=svgWrap(BG[curBg]+'<g>'+(FX[curBg]||'')+'</g><g id="chL"></g>','0 0 360 200');sceneKey=curBg;
+  }
+  var kid=st==='k'?.82:(st==='e'?.9:1),s='';
+  s+='<g class="chr"><g'+(hop==='me'?' class="hopme"':'')+'>'+place(chibi((function(){var y=youLook(st);if(st==='o'&&G.hp<6)y.cane=1;return y;})(),meEx),62,200-160*kid*1.02,kid*1.02)+'</g></g>';
+  if(curSpk){var lk=npcLook(curSpk,st);var big=(curSpk==='mom'||curSpk==='dad')&&kid<1?1.02:kid*1.02;
+    s+='<g class="chr b2"><g'+(hop==='npc'?' class="hopme"':'')+'>'+place(chibi(lk,curEx),178,200-160*big,big)+'</g></g>';}
+  sc.querySelector('#chL').innerHTML=s;
+}
+function drawTraits(bumpK){
+  var t=$('traits');t.innerHTML='';
+  TR.forEach(function(k){var d=el('span','tr'+(k===bumpK?' bump':''));var i=el('i','',TI[k]);i.style.color=TC[k];d.appendChild(i);d.appendChild(el('b','',TN[k]+' '+G.t[k]));t.appendChild(d);});
+  var hv=G.hp==null?5:G.hp,hd=el('span','tr'+(bumpK==='hp'?' bump':''));var hi=el('i','','✚');hi.style.color=hv>=6?'#4CBF86':(hv>=3?'#F2994A':'#E5484D');hd.appendChild(hi);hd.appendChild(el('b','','健康 '+hv));t.appendChild(hd);
+}
+
+/* ================= 結局 ================= */
+var COST={
+ teacher:{o:'#FFD166',over:'<path d="M46 104 L74 104 L77 134 Q60 138 43 134Z" fill="#fff"/><g transform="translate(60 118)">'+rep(6,function(j){var a=j/6*Math.PI*2;return '<circle cx="'+Math.cos(a)*5+'" cy="'+Math.sin(a)*5+'" r="3.5" fill="#FFD84D"/>';})+'<circle r="3" fill="#A8723F"/></g>'},
+ fire:{o:'#E5484D',over:'<path d="M14 40 Q18 2 60 2 Q102 2 106 40Z" fill="#E5484D"/><rect x="8" y="36" width="104" height="9" rx="4" fill="#B83224"/><rect x="52" y="8" width="16" height="18" rx="3" fill="#FFD84D"/><rect x="38" y="120" width="46" height="5" fill="#FFD84D"/>'},
+ comic:{o:'#3B3346',over:'<path d="M50 94 L60 100 L50 106Z M70 94 L60 100 L70 106Z" fill="#E5484D"/><circle cx="60" cy="100" r="3" fill="#C2405E"/><rect x="92" y="98" width="5" height="22" rx="2" fill="#666"/><circle cx="94.5" cy="94" r="8" fill="#444"/>'},
+ sci:{o:'#FFFFFF',over:'<path d="M50 94 L60 112 L70 94" fill="none" stroke="#C9D3DA" stroke-width="3"/><rect x="32" y="24" width="56" height="13" rx="6.5" fill="#8FD0F0" opacity=".85" stroke="#4A3B47" stroke-width="2"/><path d="M93 96 h9 v10 l8 16 h-25 l8 -16Z" fill="#7FE0A8" stroke="#4A3B47" stroke-width="2"/>'},
+ travel:{o:'#4CBF86',under:'<rect x="74" y="90" width="36" height="46" rx="12" fill="#B07A4A"/><rect x="80" y="100" width="24" height="12" rx="4" fill="#94633A"/>',over:'<rect x="6" y="104" width="26" height="20" rx="2" fill="#FFF7D6" stroke="#4A3B47" stroke-width="1.5"/><path d="M10 112 l6 -4 l6 6 l6 -4" stroke="#F27BA0" stroke-width="1.5" fill="none"/>'},
+ dog:{o:'#F2994A',over:'<g transform="translate(88 124)"><ellipse cx="10" cy="20" rx="16" ry="11" fill="#E8C49A"/><circle cx="10" cy="6" r="11" fill="#E8C49A"/><ellipse cx="0" cy="2" rx="4" ry="8" fill="#B88A5A"/><ellipse cx="20" cy="2" rx="4" ry="8" fill="#B88A5A"/><circle cx="6" cy="6" r="1.8" fill="#4A3B47"/><circle cx="14" cy="6" r="1.8" fill="#4A3B47"/><circle cx="10" cy="10" r="2" fill="#4A3B47"/></g>'},
+ clown:{o:'#FFFFFF',over:'<circle cx="60" cy="67" r="6.5" fill="#E5484D"/><circle cx="58" cy="65" r="2" fill="#fff" opacity=".6"/><path d="M48 96 Q48 116 60 116 Q72 116 72 96" stroke="#7A7A8A" stroke-width="3" fill="none"/><circle cx="60" cy="118" r="4" fill="#B0B0BC"/>'},
+ kid:{o:'#FFFFFF',over:'<path d="M48 96 Q48 116 60 116 Q72 116 72 96" stroke="#7A7A8A" stroke-width="3" fill="none"/><circle cx="60" cy="118" r="4" fill="#B0B0BC"/><g transform="translate(6 108)"><circle cx="10" cy="14" r="10" fill="#C99A6A"/><circle cx="10" cy="2" r="7" fill="#C99A6A"/><circle cx="5" cy="-4" r="3" fill="#C99A6A"/><circle cx="15" cy="-4" r="3" fill="#C99A6A"/><circle cx="8" cy="2" r="1" fill="#4A3B47"/><circle cx="12" cy="2" r="1" fill="#4A3B47"/></g>'},
+ cat:{o:'#F7A6BE',over:'<path d="M46 104 L74 104 L77 134 Q60 138 43 134Z" fill="#fff"/>'+[[4,128,'#F2A65A'],[96,130,'#8A8A9A']].map(function(c){return '<g transform="translate('+c[0]+' '+c[1]+')"><ellipse cx="10" cy="14" rx="11" ry="8" fill="'+c[2]+'"/><circle cx="10" cy="2" r="9" fill="'+c[2]+'"/><path d="M2 -4 l2 -8 l5 6Z M18 -4 l-2 -8 l-5 6Z" fill="'+c[2]+'"/><circle cx="7" cy="2" r="1.4" fill="#4A3B47"/><circle cx="13" cy="2" r="1.4" fill="#4A3B47"/></g>';}).join('')},
+ chicken:{o:'#FFFFFF',over:'<path d="M46 104 L74 104 L77 134 Q60 138 43 134Z" fill="#E5484D"/><rect x="88" y="100" width="24" height="30" rx="2" fill="#F4E2C0" stroke="#C99A5A" stroke-width="1.5"/><text x="100" y="119" text-anchor="middle" font-size="8" fill="#C8302A" font-family="sans-serif">雞排</text>'},
+ astro:{o:'#EEF0F4',over:'<circle cx="60" cy="56" r="49" fill="rgba(170,215,255,.25)" stroke="#BFD9F2" stroke-width="4"/><path d="M30 34 q10 -12 22 -14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/><rect x="50" y="104" width="20" height="12" rx="3" fill="#3FB6E0"/><path d="M104 18 l3 7 l7 1 l-5 5 l1 7 l-6 -3 l-6 3 l1 -7 l-5 -5 l7 -1Z" fill="#FFD84D"/>'},
+ surf:{o:'#3A6FD8',under:'<ellipse cx="100" cy="92" rx="12" ry="58" fill="#FFD84D" stroke="#4A3B47" stroke-width="2"/><path d="M100 36 V148" stroke="#F27BA0" stroke-width="3"/>'},
+ game:{o:'#8E6BD8',over:'<rect x="42" y="108" width="36" height="15" rx="7.5" fill="#4A3B47"/><circle cx="50" cy="115" r="2.5" fill="#FFD84D"/><circle cx="70" cy="113" r="2" fill="#F27BA0"/><circle cx="73" cy="117" r="2" fill="#3FB6E0"/>'},
+ busk:{o:'#E07A5F',over:'<rect x="62" y="88" width="34" height="5" rx="2" transform="rotate(-32 62 92)" fill="#8A5A2B"/><ellipse cx="56" cy="120" rx="17" ry="13" fill="#D9A066" stroke="#8A5A2B" stroke-width="2"/><circle cx="56" cy="120" r="4" fill="#5A3A1B"/><path d="M0 150 Q12 138 24 150Z" fill="#4A3B47"/><circle cx="10" cy="146" r="2" fill="#FFD84D"/>'},
+ writer:{o:'#3FB6E0',over:'<path d="M42 96 Q60 108 78 96 L80 104 Q60 116 40 104Z" fill="#F27BA0"/><rect x="47" y="106" width="26" height="17" rx="3" fill="#4A3B47"/><circle cx="60" cy="114.5" r="5.5" fill="#A0A8B8"/><circle cx="60" cy="114.5" r="2.5" fill="#4A3B47"/>'}
+};
+var ENDS=[
+ {k:'kind',c:'teacher',t:'向日葵班老師',bg:'#FFE58A',x:['你回到向日葵班當老師。','第一天上課，有個小男生抱著消防車不給別人玩。你從口袋裡，拿出了一隻暴龍。']},
+ {k:'brave',c:'fire',t:'消防員',bg:'#FFB8A8',x:['你成了真正的消防員。','每次出勤經過向日葵幼稚園，窗台上那台小小的紅色消防車都還在。']},
+ {k:'funny',c:'comic',t:'搞笑藝人',bg:'#FFE08A',x:['你的脫口秀專場賣光了。','第一排永遠有一個位子留給阿哲。他每次都笑最大聲，笑到被保全請出去一次。']},
+ {k:'smart',c:'sci',t:'青椒科學家',bg:'#BFE8F7',x:['你在實驗室研究怎麼讓青椒變甜。','論文刊出來那天，媽媽把報導貼在冰箱上，就貼在那張母親節卡片旁邊。']},
+ {k:'free',c:'travel',t:'環島旅人',bg:'#C6EFD6',x:['你騎著機車環島第十二圈了。','每到一個地方就寄一張明信片回家，家裡的冰箱已經貼不下了。']},
+ {k:'brave+kind',c:'dog',t:'救難犬訓練師',bg:'#FFD2B0',x:['你跟一隻叫「暴龍」的救難犬一起出任務。','牠最喜歡的玩具，是一台紅色的消防車。']},
+ {k:'funny+kind',c:'clown',t:'醫院小丑',bg:'#FFD0DE',x:['你戴著紅鼻子，在兒童病房表演。','有個小女生笑到打嗝，跟小晴五歲的時候一模一樣。']},
+ {k:'kind+smart',c:'kid',t:'小兒科醫生',bg:'#CFE9F7',x:['你是小朋友最喜歡的醫生。','診間桌上放著一盒貼紙。打完針的小孩，可以挑一張帶回家。']},
+ {k:'free+kind',c:'cat',t:'貓咪中途之家',bg:'#FFD7E4',x:['你開了一間貓咪中途之家。','最兇的那隻橘貓叫「大頭」，牠每天都把鉛筆盒推下桌。']},
+ {k:'brave+funny',c:'chicken',t:'雞排攤老闆',bg:'#FFE3A8',x:['你在夜市擺了雞排攤，生意好到要排隊。','招牌上寫著：九層塔多，不加青椒。']},
+ {k:'brave+smart',c:'astro',t:'太空人',bg:'#C9CFF5',x:['你從太空站往下看，台灣小小一顆。','視訊的時候，媽媽第一句話還是：「有沒有好好吃飯？」']},
+ {k:'brave+free',c:'surf',t:'衝浪教練',bg:'#BDE6F2',x:['你回到墾丁當衝浪教練。','每天收攤以後，你都在畢旅那片沙灘生一堆營火。']},
+ {k:'funny+smart',c:'game',t:'遊戲設計師',bg:'#E0D2F7',x:['你做了一款遊戲，叫《長大貼紙簿》。','第一個破關的人是阿哲。他說：「這個主角怎麼那麼像你？」']},
+ {k:'free+funny',c:'busk',t:'街頭藝人',bg:'#FFD6C2',x:['你在西門町彈吉他唱歌。','帽子裡有零錢、糖果，還有一張青椒造型的貼紙。']},
+ {k:'free+smart',c:'writer',t:'旅行作家',bg:'#C8EEF0',x:['你出了一本旅行書，寫了四十個國家。','最後一章寫的，是向日葵幼稚園的門口。']}
+];
+function pairKey(a,b){return [a,b].sort().join('+');}
+function hintFor(e){var ks=e.k.split('+');return ks.length===1?'多選「'+TN[ks[0]]+'」的答案':'「'+TN[ks[0]]+'」和「'+TN[ks[1]]+'」都要多一點';}
+
+/* ================= 劇情 ================= */
+// ['bg',場景,地點] ['n',旁白] ['c',角色,表情,台詞] ['p',你說] ['q',題目,[[選項,效果]]] ['sw',{confess:[],friend:[],match:[]}] ['ending']
+// 效果 {tr:個性, z:阿哲, g:小晴, rom:感情線, r:[接著發生的事]}
+// 'L' = 你喜歡的人（沒選時是小晴），'F' = 另一個好朋友
+/* ================= 隨機事件 ================= */
+function EVQ(text,opts){return [['ev',text],['q','你要？',opts]];}
+var EVENTS={
+ kid:[
+  {id:'dog',s:EVQ('放學路上下著小雨，一隻淋濕的小狗一直跟著你。',[
+   ['抱回家，拜託媽媽讓你養',{tr:'kind',fl:'dog',r:[['c','mom','d','……好啦。可是你要負責餵牠喔。'],['n','你幫牠取名叫「豆花」。牠陪了你十五年。']]}],
+   ['帶去派出所，幫牠找主人',{tr:'smart',r:[['n','隔天，小狗的主人哭著來道謝，送了你一大盒餅乾。']]}],
+   ['分牠半個麵包，然後拔腿就跑',{tr:'funny',r:[['n','牠追了你三條街。最後你們一起坐在公園，把麵包吃完。']]}],
+   ['用紙箱幫牠蓋一個小房子',{tr:'free',r:[['n','紙箱上寫著「豆花的家」。隔天，有個阿姨把牠帶回家了。']]}]])},
+  {id:'typhoon',s:EVQ('颱風來了，停課一天！',[
+   ['跟媽媽一起包水餃',{tr:'kind',fl:'typhoon',r:[['n','你包的水餃每一顆都破掉了。媽媽說那叫「開花水餃」。']]}],
+   ['跑去樓下踩水坑',{tr:'brave',fl:'typhoon',r:[['n','你全身濕透，被媽媽唸了半小時。可是真的好好玩。']]}],
+   ['在家把一整天睡掉',{tr:'free',fl:'typhoon',hp:1,r:[['n','醒來的時候，颱風已經走了。']]}],
+   ['趁機把作業全部寫完',{tr:'smart',fl:'typhoon',r:[['n','隔天全班只有你交作業。老師感動到差點哭出來。']]}]])},
+  {id:'sports',s:EVQ('學校運動會，你被選進大隊接力。',[
+   ['拚命跑，連超三個人',{tr:'brave',hp:1,r:[['n','你們班拿了第一名。阿哲把你舉起來繞操場。']]}],
+   ['在終點幫每一個人加油',{tr:'kind',r:[['n','你喊到聲音沙啞。小晴遞給你一瓶水。']]}],
+   ['跑一跑，跑錯方向',{tr:'funny',r:[['n','全場笑翻。這段影片，在班級群組流傳了十年。']]}],
+   ['研究了一個禮拜的交棒技巧',{tr:'smart',r:[['n','你們班的交棒，被體育老師拿去當示範。']]}]])},
+  {id:'silkworm',s:EVQ('班上開始養蠶寶寶，老師說每個人要負責一隻。',[
+   ['每天放學都去摘新鮮的桑葉',{tr:'kind',r:[['n','你的蠶寶寶，是全班最胖的一隻。']]}],
+   ['幫牠取名叫「麻糬」，還幫牠寫日記',{tr:'smart',r:[['n','日記寫到第三十天，麻糬結成了一顆白白的繭。']]}],
+   ['不小心把牠帶回家，嚇到媽媽',{tr:'funny',r:[['c','mom','x','鉛筆盒裡怎麼有蟲！'],['n','那天晚上，全家人一起趴在桌上看麻糬吃葉子。']]}],
+   ['等牠變成蛾，帶到外面放生',{tr:'free',r:[['n','白色的蛾飛過操場，你跟牠揮手說再見。']]}]])}
+ ],
+ teen:[
+  {id:'lottery',s:EVQ('你對了一張路邊撿到的發票，中了 200 元！',[
+   ['請大家喝飲料',{tr:'kind',fl:'lottery',r:[['n','200 元只夠買四杯。大家輪流喝，喝得好開心。']]}],
+   ['存進撲滿',{tr:'smart',fl:'lottery',r:[['n','撲滿越來越重。後來，它變成你第一台機車的頭期款。']]}],
+   ['買一隻超大的暴龍玩偶',{tr:'funny',fl:'lottery',r:[['n','暴龍玩偶比你的書桌還大。媽媽每次經過都會嚇一跳。']]}],
+   ['買一張車票，一個人去看海',{tr:'free',fl:'lottery',r:[['n','你坐在海邊，覺得自己好像突然長大了一點。']]}]])},
+  {id:'club',s:EVQ('社團博覽會，每個攤位都在搶人。',[
+   ['熱舞社',{tr:'funny',hp:1,r:[['n','成發的時候你跳錯一個拍子，結果全場以為是故意的。']]}],
+   ['熱音社',{tr:'free',r:[['n','你們的樂團叫「青椒」，只會彈三首歌。']]}],
+   ['辯論社',{tr:'smart',r:[['n','你吵架從來沒輸過。媽媽開始有點後悔讓你參加。']]}],
+   ['籃球社',{tr:'brave',hp:1,r:[['n','你投進了人生第一顆三分球。阿哲在場邊叫得比你還大聲。']]}]])},
+  {id:'move',s:EVQ('家裡要搬到隔壁城市了。',[
+   ['每天坐一個小時公車，回原本的學校',{tr:'brave',r:[['n','你在公車上，背完了一整本英文單字。']]}],
+   ['開一個視訊群組，每天晚上聊天',{tr:'smart',r:[['n','後來大家才發現，你們聊天的時間比以前還長。']]}],
+   ['在新家附近，認識新朋友',{tr:'free',r:[['n','巷口麵攤的老闆娘，每次都幫你多加一顆滷蛋。']]}],
+   ['哭著跟大家道別，約好每週寫信',{tr:'kind',r:[['n','一年後，你們家又搬回來了。那疊信，你留到現在。']]}]])},
+  {id:'lost',s:EVQ('校外教學，你跟大家走散了。',[
+   ['冷靜看地圖，自己走回集合點',{tr:'smart',r:[['n','你比老師還早回到遊覽車。']]}],
+   ['大聲喊大家的名字',{tr:'brave',r:[['n','你喊到第三聲，整條老街的人都回頭看你。']]}],
+   ['乾脆在路邊吃一碗豆花，等大家來找',{tr:'free',r:[['n','老師找到你的時候，你已經吃到第二碗了。']]}],
+   ['問路邊的阿嬤，結果被拉去她家吃飯',{tr:'kind',r:[['n','阿嬤一直夾菜給你，還送你一袋自己種的橘子。']]}]])}
+ ],
+ young:[
+  {id:'scam',s:EVQ('手機響了：「您好，這裡是銀行。您的帳戶被盜用，請馬上到 ATM 操作……」',[
+   ['「你是哪個分行？我打回去問。」然後掛掉',{tr:'smart',fl:'scam',r:[['n','你打給 165 反詐騙專線。對方說：「您做得非常好。」']]}],
+   ['開始講冷笑話，講到對方先掛電話',{tr:'funny',fl:'scam',r:[['n','詐騙集團把你的號碼加進了黑名單。']]}],
+   ['「好，我現在就去 ATM！」',{r:[['n','你在 ATM 前面被一個阿姨攔下來：「是不是有人叫你操作 ATM？那是詐騙！」'],['n','好險，差一點就被騙了。']]}],
+   ['提醒爸媽也要小心這種電話',{tr:'kind',fl:'scam',r:[['c','mom','h','我上禮拜才接到一樣的！我直接罵回去了！']]}]])},
+  {id:'latenight',s:EVQ('凌晨一點，你突然好餓。',[
+   ['喝杯溫水，去睡覺',{tr:'smart',hp:1,r:[['n','隔天早上，你精神超好。']]}],
+   ['叫一份鹹酥雞外送',{hp:-1,r:[['n','好好吃。可是隔天早上，臉腫得像麵包。']]}],
+   ['煮一碗泡麵，加兩顆蛋',{tr:'funny',r:[['n','你在泡麵裡加了青椒。意外地好吃。']]}],
+   ['去樓下便利商店，順便看看星星',{tr:'free',r:[['n','那天的月亮好圓。你買了一顆茶葉蛋，慢慢走回家。']]}]])},
+  {id:'concert',s:EVQ('你抽中了一張演唱會門票，可是只有一張。',[
+   ['送給最想去的朋友',{tr:'kind',r:[['n','朋友在現場打視訊給你，讓你聽完了整首安可曲。']]}],
+   ['自己去，一個人唱到沙啞',{tr:'free',r:[['n','你在演唱會上，跟旁邊的陌生人一起哭。']]}],
+   ['賣掉，存起來旅行',{tr:'smart',r:[['n','那筆錢，後來變成你去日本的機票。']]}],
+   ['在場外辦一場應援大會',{tr:'funny',r:[['n','場外的人，比場內的還嗨。']]}]])},
+  {id:'wallet',s:EVQ('你在捷運站撿到一個錢包，裡面有好多錢。',[
+   ['馬上交給站務人員',{tr:'kind',r:[['n','失主是一位老爺爺。他寫了一張卡片給你，字寫得好工整。']]}],
+   ['照著證件上的地址，親自送回去',{tr:'brave',r:[['n','開門的是一個小妹妹。她抱著錢包哭了，那是她媽媽的。']]}],
+   ['拍照發到失物招領社團',{tr:'smart',r:[['n','十分鐘後，失主就私訊你了。']]}],
+   ['站在原地大喊：「這是誰的錢包！」',{tr:'funny',r:[['n','五個人同時舉手。你只好把錢包交給站務人員。']]}]])},
+  {id:'towed',s:EVQ('你的機車被拖吊了。',[
+   ['默默走去拖吊場，繳錢領車',{tr:'smart',r:[['n','你學到了一件事：紅線真的不能停。']]}],
+   ['在拖吊場，跟其他倒楣的人交朋友',{tr:'funny',r:[['n','你們建了一個群組，叫「紅線受害者聯盟」。']]}],
+   ['從此改騎腳踏車',{tr:'free',hp:1,r:[['n','你的小腿，越來越壯了。']]}],
+   ['打給朋友，請他載你去領車',{tr:'kind',r:[['n','朋友載你去，還順便請你吃了一碗肉圓。']]}]])}
+ ],
+ adult:[
+  {id:'blackout',s:EVQ('颱風天，整棟大樓停電了。',[
+   ['點蠟燭，跟鄰居一起聊天',{tr:'kind',r:[['n','你第一次知道，對門的阿伯以前是歌手。']]}],
+   ['拿手電筒，挨家挨戶問大家還好嗎',{tr:'brave',r:[['n','管委會頒給你一張「好鄰居」獎狀。']]}],
+   ['在黑暗中講鬼故事',{tr:'funny',r:[['n','你自己講到最後，嚇得不敢去廁所。']]}],
+   ['早早睡覺，聽雨聲',{tr:'free',hp:1,r:[['n','你很久沒有睡得那麼好了。']]}]])},
+  {id:'bonus',s:EVQ('今年的年終獎金，比你想的還要多！',[
+   ['帶爸媽去吃一頓大餐',{tr:'kind',r:[['n','爸爸點菜的時候，一直偷偷看價錢。']]}],
+   ['存起來，當作以後的旅行基金',{tr:'smart',r:[['n','存摺上的數字，讓你很有安全感。']]}],
+   ['買一台一直想要的腳踏車',{tr:'brave',hp:1,r:[['n','你每個週末都騎著它去河堤。']]}],
+   ['全部拿去旅行一個月',{tr:'free',r:[['n','你在冰島的溫泉裡，傳了一張照片到群組。']]}]])},
+  {id:'borrow',s:EVQ('一個很久沒聯絡的同學，突然跟你借錢。',[
+   ['「我先借你一點，不用急著還。」',{tr:'kind',r:[['n','三年後，他把錢還你，還多附了一盒鳳梨酥。']]}],
+   ['「發生什麼事了？我陪你想辦法。」',{tr:'smart',r:[['n','你陪他把帳一筆一筆算清楚。他說，這比借錢還有用。']]}],
+   ['「我也很窮耶！」然後請他吃一碗牛肉麵',{tr:'funny',r:[['n','他邊吃邊笑：「謝謝你，我好久沒有這樣笑了。」']]}],
+   ['好好拒絕：「抱歉，我沒辦法借錢。」',{tr:'brave',r:[['n','他沉默了一下，說：「我懂。謝謝你老實跟我說。」']]}]])},
+  {id:'bouquet',s:EVQ('朋友的婚禮上，捧花朝你飛過來了。',[
+   ['跳起來接住',{tr:'brave',r:[['n','你接住了。全場尖叫。']]}],
+   ['把捧花轉送給旁邊的阿嬤',{tr:'kind',r:[['n','阿嬤笑得好開心，說她還想再嫁一次。']]}],
+   ['被捧花打到頭',{tr:'funny',r:[['n','那張照片超好笑，被新人放在婚禮影片的最後一幕。']]}],
+   ['研究一下，這束是什麼花',{tr:'smart',r:[['n','是滿天星和白色桔梗。你回家也買了一小束。']]}]])}
+ ],
+ old:[
+  {id:'phone',s:EVQ('社區開了一堂「長輩學手機」的課。',[
+   ['認真抄筆記',{tr:'smart',r:[['n','你學會了傳貼圖、視訊，還有把字放大。']]}],
+   ['去當助教，教其他人',{tr:'kind',r:[['n','隔壁的阿嬤，第一次用視訊看到了在國外的孫子。']]}],
+   ['學會自拍以後，一天拍一百張',{tr:'funny',r:[['n','你的相簿裡，有九十張是你的鼻孔。']]}],
+   ['翹課，去公園餵鴿子',{tr:'free',r:[['n','公園的鴿子，現在全部都認得你。']]}]])},
+  {id:'kidq',s:EVQ('鄰居的小朋友跑來問你：「你小時候都在玩什麼？」',[
+   ['教他折紙飛機',{tr:'free',r:[['n','紙飛機飛過整條巷子，停在一台紅色的玩具消防車旁邊。']]}],
+   ['講你五歲吃青椒的故事',{tr:'funny',r:[['n','小朋友聽完，回家主動吃了一口青椒。他媽媽特地來跟你道謝。']]}],
+   ['陪他一起寫功課',{tr:'smart',r:[['n','你發現，現在的數學好難。']]}],
+   ['送他一隻暴龍玩偶',{tr:'kind',r:[['n','他抱著暴龍，說要用你的名字幫它取名。']]}]])},
+  {id:'bbq',s:EVQ('社區辦中秋烤肉。',[
+   ['幫大家烤肉，烤到滿臉黑',{tr:'kind',r:[['n','大家都說，你烤的香腸是全社區最好吃的。']]}],
+   ['帶大家唱老歌',{tr:'funny',r:[['n','你唱到一半忘詞，全場一起幫你接下去。']]}],
+   ['只吃青菜跟柚子',{tr:'smart',hp:1,r:[['n','你是全場唯一一個隔天沒有拉肚子的人。']]}],
+   ['躺在草地上看月亮',{tr:'free',r:[['n','你想起小時候，媽媽說月亮上有一隻兔子。']]}]])}
+ ]
+};
+function pickEvent(pool,chance){
+  if(Math.random()>(chance==null?.6:chance))return null;
+  var c=(EVENTS[pool]||[]).filter(function(e){return G.ev.indexOf(e.id)<0;});
+  if(!c.length)return null;
+  var e=c[Math.floor(Math.random()*c.length)];G.ev.push(e.id);return e;
+}
+
+/* ================= 人生成就 ================= */
+var ACH=[
+ {id:'pepper',t:'青椒勇者',i:'✦',c:'#4CBF86',h:'幼稚園的午餐時間',f:function(){return G.fl.pepper;}},
+ {id:'ambulance',t:'喔咿喔咿',i:'♪',c:'#E5484D',h:'幼稚園，阿哲的消防車',f:function(){return G.fl.ambulance;}},
+ {id:'detective',t:'名偵探',i:'✎',c:'#3FB6E0',h:'有人被冤枉的時候',f:function(){return G.fl.detective;}},
+ {id:'trio',t:'辣椒柚子暴龍',i:'✿',c:'#E0961A',h:'閨蜜手環，貪心一點',f:function(){return G.bffEver==='both';}},
+ {id:'confess',t:'告白成功',i:'♥',c:'#F27BA0',h:'畢旅最後一晚',f:function(){return G.confessed;}},
+ {id:'button',t:'第二顆釦子',i:'●',c:'#8E62C8',h:'畢業典禮',f:function(){return G.fl.button;}},
+ {id:'match',t:'月老',i:'∞',c:'#C25A9E',h:'把喜歡的人推給別人',f:function(){return G.rom==='match';}},
+ {id:'self',t:'做自己',i:'☆',c:'#4CBF86',h:'最後一晚，一個人去海邊走走',f:function(){return G.rom==='self';}},
+ {id:'married',t:'我願意',i:'♥',c:'#E26A92',h:'三十五歲，求婚',f:function(){return G.life==='married';}},
+ {id:'together',t:'不結婚也很好',i:'⌂',c:'#F2994A',h:'兩個人一起，不一定要結婚',f:function(){return G.life==='together';}},
+ {id:'single',t:'自由的一生',i:'✈',c:'#3FB6E0',h:'一個人，過一輩子',f:function(){return G.life==='single';}},
+ {id:'bye',t:'好好說再見',i:'☁',c:'#8E9CC8',h:'三十五歲，和平分開',f:function(){return !!G.byeDone;}},
+ {id:'clean',t:'不碰菸酒',i:'✚',c:'#4CBF86',h:'每一次都拒絕菸和酒',f:function(){return !G.smoke&&!G.drink;}},
+ {id:'quit',t:'戒菸成功',i:'✚',c:'#F2994A',h:'抽過菸，然後戒掉',f:function(){return G.smoke>0&&G.quit;}},
+ {id:'strong',t:'80 歲溜滑梯',i:'▲',c:'#4CBF86',h:'健康 8 以上活到 80 歲',f:function(){return G.hp>=8;}},
+ {id:'iron',t:'鐵人',i:'★',c:'#E5484D',h:'健康衝到滿分 12',f:function(){return G.hp>=12;}},
+ {id:'comfort',t:'被接住的夜晚',i:'☾',c:'#8E62C8',h:'難過的時候，有人來陪你',f:function(){return G.react==='comfort';}},
+ {id:'joke',t:'幹話療癒',i:'☺',c:'#E9B824',h:'難過的時候，有人講幹話',f:function(){return G.react==='joke';}},
+ {id:'chance',t:'第二次機會',i:'✉',c:'#3FB6E0',h:'原諒來道歉的朋友',f:function(){return G.healed==='chance';}},
+ {id:'reunion',t:'同學會和好',i:'✿',c:'#F27BA0',h:'絕交以後，在同學會和好',f:function(){return G.healed==='reunion'&&G.callee&&G.rel[G.callee]==='ok';}},
+ {id:'far',t:'點頭之交',i:'◡',c:'#8E7F8A',h:'同學會上，保持一點距離',f:function(){return G.callee&&G.rel[G.callee]==='far';}},
+ {id:'alone',t:'一個人撐過去',i:'☕',c:'#8E9CC8',h:'難過的夜晚，誰都不找',f:function(){return G.called==='self';}},
+ {id:'parent',t:'當爸媽了',i:'☺',c:'#F27BA0',h:'家裡多了一個小孩',f:function(){return G.kid==='baby'||G.kid==='adopt';}},
+ {id:'world',t:'環遊世界',i:'✈',c:'#3FB6E0',h:'把世界走一圈',f:function(){return G.kid==='trip';}},
+ {id:'datou',t:'大頭的好朋友',i:'◉',c:'#6E8A2E',h:'對大頭好一點',f:function(){return G.dt>=5;}},
+ {id:'bestfriends',t:'一輩子的三人組',i:'❀',c:'#E07A2E',h:'跟阿哲、小晴都非常要好',f:function(){return G.z>=10&&G.g>=10&&!isGone('azhe')&&!isGone('xq');}},
+ {id:'marathon',t:'跑完馬拉松',i:'⚑',c:'#E5484D',h:'健康檢查之後',f:function(){return G.fl.marathon;}},
+ {id:'magic',t:'尾牙魔術師',i:'✧',c:'#8E62C8',h:'公司尾牙',f:function(){return G.fl.magic;}},
+ {id:'diary',t:'十件事完成',i:'✓',c:'#4CBF86',h:'八十歲，交換日記',f:function(){return G.fl.diary;}},
+ {id:'dog',t:'豆花',i:'❤',c:'#C98A4B',h:'隨機事件：雨天的小狗',f:function(){return G.fl.dog;}},
+ {id:'lottery',t:'中獎了',i:'$',c:'#E9B824',h:'隨機事件：一張發票',f:function(){return G.fl.lottery;}},
+ {id:'typhoon',t:'颱風假',i:'☂',c:'#3FB6E0',h:'隨機事件：停課一天',f:function(){return G.fl.typhoon;}},
+ {id:'scam',t:'識破詐騙',i:'!',c:'#E5484D',h:'隨機事件：奇怪的電話',f:function(){return G.fl.scam;}}
+];
+function achN(){var n=0;for(var k in (SAVE.ach||{}))n++;return n;}
+function achBadge(a,on,showHint){
+  var d=el('div','ach'+(on?'':' off'));var i=el('i','',on?a.i:'?');if(on)i.style.background=a.c;d.appendChild(i);
+  d.appendChild(el('b','',on?a.t:'？？？'));if(!on&&showHint)d.appendChild(el('small','',a.h));return d;
+}
+
+var BFF65=[
+  ['去日本泡溫泉',{tr:'kind',bf:1,hp:1,r:[['n','泡完溫泉，你們一人一瓶咖啡牛奶，在走廊上乾杯。']]}],
+  ['去非洲看長頸鹿',{tr:'brave',bf:1,r:[['n','一隻長頸鹿低下頭，把{B}的帽子叼走了。']]}],
+  ['回母校，假裝自己是轉學生',{tr:'funny',bf:1,r:[['n','你們坐在國小的小椅子上，膝蓋卡住，站不起來。']]}],
+  ['搭郵輪，環遊世界一圈',{tr:'free',bf:1,r:[['n','你們在甲板上看日出，用手機拍了三百張一模一樣的照片。']]}]];
+var NOTE_LOVE=[
+ ['n','有人傳來一張紙條，是{F}的字：「你是不是喜歡{L}？」'],
+ ['q','你要？',[
+  ['寫「關你屁事」，傳回去',{tr:'funny',fr:1,r:[['c','F','h','（紙條傳回來）「那就是有。」']]}],
+  ['轉頭大聲說：「才沒有！」',{tr:'brave',lv:1,r:[['n','全班都轉過來看你，包括{L}。'],['c','L','w','……']]}],
+  ['摺成紙飛機，射出窗外',{tr:'free',r:[['n','紙飛機飛過操場，剛好掉在教官頭上。'],['n','教官打開看完，抬頭對著你們班的窗戶笑了一下。']]}],
+  ['在紙條上畫一個愛心，傳回去',{tr:'kind',fr:2,r:[['c','F','x','你也太老實了吧！'],['c','F','h','放心，我幫你保密。打勾勾。']]}]]]
+];
+var LOVE17=[
+ ['n','{F}很識相地走開了。營火旁邊，只剩下你和{L}。'],
+ ['c','L','s','……時間過得好快喔。'],
+ ['q','你要對{L}說？',[
+  ['「我喜歡你。從幼稚園{Lmemo}開始。」',{tr:'brave',lv:2,rom:'confess',r:[['c','L','w','……你真的很笨耶。我等這句話，等很久了。']]}],
+  ['寫一封信，偷偷塞進{L}的背包',{tr:'smart',lv:2,rom:'confess',r:[['n','你把信塞進去以後，整晚都睡不著。'],['n','隔天早上，你的課本裡夾著一張紙條，只寫了一個字：「好。」'],['c','L','w','……（假裝在看海）']]}],
+  ['「不管去哪，我們都是好朋友。」',{tr:'kind',lv:1,rom:'friend',r:[['c','L','h','嗯！說好了，永遠的好朋友。']]}],
+  ['「欸，你覺得{F}怎麼樣？」',{tr:'funny',fr:1,rom:'match',r:[['n','{L}愣了一下，然後跑去找{F}聊天。'],['n','你一個人在營火旁邊，吃了三支烤玉米。']]}]]]
+];
+var STORY=[
+{age:'5 歲',t:'向日葵班',stage:'k',steps:[
+ ['bg','kinder','幼稚園'],
+ ['n','幼稚園第一天。媽媽牽著你，站在「向日葵班」門口。'],
+ ['c','mom','s','{me}，媽媽四點就來接你，好不好？'],
+ ['q','你要？',[
+  ['揮揮手：「媽媽掰掰！」',{tr:'brave',r:[['n','你頭也不回地走進教室。結果先哭的是媽媽。']]}],
+  ['抱住媽媽的腿，死都不放',{tr:'funny',r:[['n','你被一路拖進教室。那天媽媽陪你上完整天的課，午睡時還被老師點名。']]}],
+  ['跟媽媽打勾勾：「四點喔，蓋印章。」',{tr:'smart',r:[['c','mom','h','好，蓋印章！'],['n','三點五十九分，媽媽真的出現在門口。']]}],
+  ['抱抱媽媽：「媽媽你也要加油喔。」',{tr:'kind',r:[['c','mom','w','……好，媽媽也會加油。'],['n','媽媽走到門口，又回頭看了你三次。']]}]]],
+ ['n','教室裡，一個頭髮刺刺、臉上貼著 OK 繃的男生，抱著全班唯一一台消防車。'],
+ ['c','azhe','a','這是我的！我先拿到的！'],
+ ['q','你也好想玩消防車。你要？',[
+  ['拿出口袋裡的暴龍：「我們交換玩好不好？」',{tr:'kind',z:2,r:[['c','azhe','h','哇！暴龍耶！我叫阿哲！'],['n','你們交換玩了一整個上午。']]}],
+  ['直接搶過來',{tr:'brave',z:1,r:[['n','你們在地上滾了三圈。老師把消防車沒收，放到櫃子最上面。'],['c','azhe','x','你力氣好大喔……我叫阿哲。']]}],
+  ['用積木自己蓋一間消防局',{tr:'free',z:1,r:[['n','你蓋了一間超大的消防局。'],['c','azhe','s','……我的消防車，可以停進去嗎？我叫阿哲。']]}],
+  ['假裝自己是救護車，「喔咿喔咿」繞著他跑',{fl:'ambulance',tr:'funny',z:2,r:[['c','azhe','x','你在幹嘛？'],['c','azhe','h','……我也要當救護車！我叫阿哲！'],['n','你們兩個「喔咿喔咿」繞著教室跑了十圈。']]}]]],
+ ['n','午餐時間。便當裡有你最討厭的青椒。旁邊綁雙馬尾的女生一直看著你。'],
+ ['c','xq','n','你不吃青椒喔？老師說不吃會長不高。'],
+ ['q','你要？',[
+  ['「那我們一起吃一口！」',{fl:'pepper',tr:'kind',g:2,r:[['n','你們數到三，一起吞下去，兩張臉皺成一團。'],['c','xq','h','你好勇敢喔！我叫小晴。']]}],
+  ['偷偷丟進阿哲的便當',{tr:'funny',g:1,z:-1,r:[['c','azhe','c','我的便當怎麼有青椒……'],['c','xq','h','哈哈哈你好壞！我叫小晴。']]}],
+  ['把青椒排成一張笑臉',{tr:'free',g:1,r:[['n','老師說這是藝術，把你的便當拍照貼在公布欄。'],['c','xq','s','可以教我嗎？我叫小晴。']]}],
+  ['「青椒有維他命C！我們來比誰先吃完！」',{tr:'smart',g:1,r:[['n','小晴贏了。她驕傲地把空便當舉得高高的。'],['c','xq','h','我叫小晴！明天也要跟我比喔！']]}]]],
+ ['rand','kid'],
+ ['n','下午四點，媽媽來了。你回頭跟阿哲、小晴揮手。']
+]},
+{age:'10 歲',t:'四年三班',stage:'e',steps:[
+ ['bg','classroom','國小'],
+ ['n','數學考卷發下來。阿哲把考卷對摺再對摺，塞進抽屜最裡面。'],
+ ['c','azhe','c','42 分……我爸會把我的遊戲機丟掉。'],
+ ['q','你要？',[
+  ['「放學一起訂正，我教你。」',{tr:'smart',z:1,r:[['n','期末阿哲考了 78 分。他爸請你們吃了一整份炸雞。']]}],
+  ['「我幫你把 4 改成 9。」',{tr:'funny',z:1,r:[['n','老師一眼就看出來了。你們兩個一起罰站到下課，站著站著就一起笑了。']]}],
+  ['「走，我陪你去跟你爸說。」',{tr:'brave',z:2,r:[['n','阿哲爸爸安靜了很久，最後只說：「下次加油。」遊戲機保住了。'],['c','azhe','h','你是我最好的朋友！']]}],
+  ['把自己的考卷給他看：「我第 7 題也錯了，我們一起錯。」',{tr:'kind',z:1,r:[['c','azhe','w','……你人真的很好耶。'],['n','那天放學，你們在公園把錯的題目全部訂正完。']]}]]],
+ ['n','下課。大頭搶走小晴的鉛筆盒，一把丟出窗外。'],
+ ['c','datou','h','哈哈哈！去撿啊！'],
+ ['q','你要？',[
+  ['陪小晴下樓撿，再一起告訴老師',{tr:'kind',g:2,r:[['c','xq','w','謝謝你……這張貼紙給你，是很稀有的那種。']]}],
+  ['把大頭的鉛筆盒也丟出去',{tr:'brave',g:1,dt:1,r:[['n','兩個鉛筆盒掉進校長的魚池，錦鯉吞了一顆橡皮擦。'],['n','你們在朝會上一起道歉。大頭偷偷對你比了一個讚。']]}],
+  ['在黑板上畫一張大頭的醜醜畫',{tr:'funny',g:1,dt:1,r:[['n','全班笑翻，連大頭自己都笑了。'],['c','datou','w','……畫得還滿像的啦。'],['n','他默默下樓，把鉛筆盒撿回來還給小晴。']]}],
+  ['記下時間地點，寫一份報告交給老師',{fl:'detective',tr:'smart',g:1,r:[['n','你的報告有標題、有證人，還有現場示意圖。'],['n','老師看完沉默了一下，請大頭寫了一千字的道歉信。'],['c','xq','h','你好像名偵探喔！']]}]]],
+ ['n','這學期，班上來了一個轉學生。她綁著包子頭，一進教室就大聲說：'],
+ ['c','mi','h','大家好！我叫小米！我最喜歡的東西是辣椒跟恐龍！'],
+ ['n','老師讓她坐在你旁邊。她一直偷看你鉛筆盒上的暴龍貼紙。'],
+ ['q','你要？',[
+  ['撕一張暴龍貼紙送她',{tr:'kind',mi:2,r:[['c','mi','w','真的可以嗎？！我要貼在最重要的地方！'],['n','隔天，那張貼紙出現在她的額頭上。']]}],
+  ['「下課我帶你逛學校！」',{tr:'brave',mi:2,r:[['n','你帶她去看了福利社、秘密樹洞，還有校長的錦鯉。'],['c','mi','h','這間學校好好玩！']]}],
+  ['跟她比賽誰知道比較多種恐龍',{tr:'smart',mi:1,r:[['n','你們從三角龍比到甲龍，比到上課鐘響都沒分出輸贏。']]}],
+  ['表演一段暴龍走路給她看',{tr:'funny',mi:2,r:[['c','mi','x','哈哈哈哈！你好奇怪！'],['c','mi','h','我喜歡奇怪的人。']]}]]],
+ ['n','母親節前一天，老師發下一張粉紅色的卡紙。'],
+ ['q','卡片要怎麼做？',[
+  ['寫「媽媽辛苦了，我愛你」，畫一朵康乃馨',{tr:'kind',r:[['bg','home','家裡'],['c','mom','c','……我要貼在冰箱上。']]}],
+  ['寫完再加一句：「P.S. 可以買 Switch 嗎？」',{tr:'funny',r:[['bg','home','家裡'],['c','mom','h','哈哈哈，P.S. 不行。'],['n','這張卡片在冰箱上貼了十年。每年過年，都有親戚唸出 P.S. 那一行。']]}],
+  ['熬夜研究，做一張會跳出花的立體卡片',{tr:'smart',r:[['bg','home','家裡'],['n','媽媽打開的時候，紙花「啵」一聲跳出來。'],['c','mom','x','哇！'],['n','她嚇了一跳，然後笑了好久。']]}],
+  ['把整張卡片貼滿亮片，閃到發光',{tr:'free',r:[['bg','home','家裡'],['n','亮片掉了整個客廳，三年後還能在沙發縫裡找到。'],['c','mom','h','這是我收過最閃亮的卡片！']]}]]],
+ ['rand','kid']
+]},
+{age:'14 歲',t:'心跳的聲音',stage:'j',steps:[
+ ['bg','classroom','國中'],
+ ['n','國二。小晴剪了短頭髮，坐在你前面。阿哲坐你後面，整天踢你的椅子。'],
+ ['n','這學期，你上課常常不小心，一直看著某個人。'],
+ ['q','你一直在看的是誰？',[
+  ['坐在前面的小晴',{tr:'kind',crush:'xq',g:1,r:[['c','xq','s','（回頭）欸，立可白借我一下。'],['n','你把立可白遞過去，心跳大聲到怕她聽見。']]}],
+  ['坐在後面的阿哲',{tr:'brave',crush:'azhe',z:1,r:[['c','azhe','h','（戳你的背）欸，橡皮擦借一下。'],['n','你把橡皮擦遞過去，心跳大聲到怕他聽見。']]}],
+  ['窗外的雲。那朵好像一隻貓',{tr:'free',crush:'none',r:[['n','你在課本空白處，畫了一整排雲做成的貓。'],['c','xq','h','（回頭）好可愛！可以畫一隻給我嗎？']]}],
+  ['黑板啦，下週要段考',{tr:'smart',crush:'none',r:[['n','你的筆記整齊到被全班借去影印。'],['c','azhe','w','（戳你的背）大神，筆記借我。']]}]]],
+ ['sw',{xq:NOTE_LOVE,azhe:NOTE_LOVE,none:[
+  ['n','阿哲傳來一張紙條：「欸，全班都在猜誰喜歡誰。你呢？」'],
+  ['q','你要怎麼回？',[
+   ['「我喜歡的是週末。」',{tr:'funny',z:1,r:[['c','azhe','h','（紙條傳回來）「同意。」']]}],
+   ['「我現在只想跟你們兩個一起玩。」',{tr:'kind',z:1,g:1,r:[['c','azhe','w','（紙條傳回來）「……好肉麻。不過我也是。」']]}],
+   ['「先考上高中再說。」',{tr:'smart',r:[['c','azhe','d','（紙條傳回來）「你好無聊喔。」'],['n','但段考前一晚，他還是跑來跟你借筆記。']]}],
+   ['把紙條摺成千紙鶴，放在他桌上',{tr:'free',z:1,r:[['n','阿哲把千紙鶴收進鉛筆盒，一放就是好多年。']]}]]]]},'crush'],
+ ['bg','hallway','走廊'],
+ ['n','這學期，阿哲常常一下課就跑去跟大頭他們打球。'],
+ ['sw',{azhe:[['n','你看著他跑走的背影，心裡酸酸的。']]},'crush'],
+ ['c','azhe','n','欸，放學我要跟大頭他們去打球喔。'],
+ ['q','你要？',[
+  ['「好啊，我可以一起去嗎？」',{tr:'brave',z:2,r:[['c','azhe','h','當然！你投籃那麼爛，我教你。']]}],
+  ['「好喔。」然後自己去圖書館',{tr:'smart',r:[['n','你一個學期看完了一整排推理小說。'],['c','azhe','s','欸，那本到底誰是兇手？借我看啦。']]}],
+  ['發一則限動：「有些人真的會變」',{tr:'funny',z:-1,r:[['n','阿哲看到了，全班都看到了，你媽也按了一個愛心。'],['c','azhe','t','（留言）你是在說你的髮型嗎？']]}],
+  ['「好啊！我幫你們買運動飲料。」',{tr:'kind',z:1,dt:2,r:[['n','你提著六瓶運動飲料去球場。'],['c','datou','w','你……你人怎麼這麼好。'],['n','從那天起，大頭再也沒欺負過任何人。']]}]]],
+ ['bg','classroom','國中'],
+ ['n','期末，班費少了 500 元。有人說，最後碰到錢的是小晴。'],
+ ['c','xq','c','大家都在看我……我真的沒有拿。'],
+ ['q','你要？',[
+  ['「我相信你。我們去把收支本再對一次。」',{tr:'smart',g:2,r:[['n','原來是總務把 50 寫成了 500。'],['c','xq','w','……謝謝你相信我。']]}],
+  ['偷偷自己掏 500 元補上',{tr:'kind',g:1,r:[['n','全班以為你才是小偷，你的綽號變成「五百」。'],['n','隔天，你的鉛筆盒裡多了 500 元，還有一張畫著愛心的紙條。']]}],
+  ['站上講台：「這件事，交給我這個偵探！」',{fl:'detective',tr:'brave',g:1,r:[['n','你戴著紙做的偵探帽查了三天，發現總務把 50 寫成了 500。'],['c','xq','h','名偵探！']]}],
+  ['帶全班一起翻垃圾桶找收據，邊找邊唱歌',{tr:'funny',g:1,r:[['n','你們在垃圾桶裡找到收據，上面寫的是 50 元。'],['c','xq','h','謝謝你……這是我這學期最好笑的一天。']]}]]],
+ ['bg','classroom','美術課'],
+ ['n','美術課。坐你旁邊的男生，頭上別著一朵小花髮夾，畫圖畫得超好。'],
+ ['c','yz','s','我是柚子。你的顏料，可以借我一點藍色嗎？'],
+ ['q','你要？',[
+  ['「全部借你！」',{tr:'kind',yz:2,r:[['c','yz','w','……謝謝。那我幫你畫一隻暴龍。']]}],
+  ['「你的髮夾好好看，哪裡買的？」',{tr:'free',yz:2,r:[['c','yz','h','我姐的！你是第一個說好看的人。']]}],
+  ['跟他交換，畫一張對方的肖像',{tr:'funny',yz:1,r:[['n','你把他畫成一顆柚子，他把你畫成一隻暴龍。'],['c','yz','h','我們都好有才華。']]}],
+  ['問他怎麼調出這麼好看的顏色',{tr:'smart',yz:1,r:[['c','yz','s','藍色加一點點橘色，就會變成傍晚的天空喔。']]}]]],
+ ['n','下課，小米拿著一盒彩色的線跑過來。'],
+ ['c','mi','h','欸！我學會編手環了！要不要交換閨蜜手環？'],
+ ['c','yz','s','（在旁邊小聲說）……我也會編。'],
+ ['q','你要跟誰交換閨蜜手環？',[
+  ['小米',{tr:'kind',bff:'mi',mi:2,r:[['c','mi','w','耶！這樣你就是我的閨蜜了！'],['n','她幫你編了一條黃色的手環，上面有一顆小小的暴龍。'],['c','mi','h','我們來開一個 LINE 群組！你取名字！'],['name','幫你們的閨蜜群組取個名字吧！'],['c','mi','h','「{G}」！好可愛，就叫這個！']]}],
+  ['柚子',{tr:'free',bff:'yz',yz:2,r:[['c','yz','w','……男生也可以當閨蜜嗎？'],['p','當然可以啊。'],['n','他幫你編了一條傍晚天空顏色的手環。'],['c','yz','s','那……我們的群組要叫什麼？'],['name','幫你們的閨蜜群組取個名字吧！'],['c','yz','h','「{G}」……我很喜歡。']]}],
+  ['兩個都要！三個人一起當閨蜜',{tr:'funny',bff:'both',mi:2,yz:2,r:[['c','mi','h','三人閨蜜團成立！'],['c','yz','h','團名要叫什麼？'],['n','你們吵了一整個下午，最後決定交給你來取。'],['name','幫你們的三人閨蜜團取個名字吧！'],['c','mi','h','「{G}」！成立！'],['c','yz','h','我要做一面旗子。']]}],
+  ['「我有阿哲跟小晴就夠了啦。」',{tr:'smart',bff:'none',r:[['c','mi','d','好吧……那我們還是可以當朋友喔！'],['n','小米還是每天塞一顆糖果到你的抽屜裡。']]}]]],
+ ['n','放學後，小晴從書包裡拿出一本粉紅色的筆記本。'],
+ ['c','xq','h','我們三個來寫交換日記好不好？'],
+ ['c','azhe','d','粉紅色的喔……好啦。'],
+ ['q','第一頁，你要寫什麼？',[
+  ['「我們要一直當好朋友。」',{tr:'kind',z:1,g:1,r:[['c','xq','w','……我也要寫一樣的。'],['c','azhe','t','（默默在下面寫了「+1」）']]}],
+  ['一個超爛的冷笑話',{tr:'funny',z:1,r:[['n','「青椒為什麼不能當警察？因為它很空心。」'],['c','azhe','x','好爛！可是我笑了！']]}],
+  ['「三十歲以前要一起做的十件事」清單',{tr:'smart',g:1,r:[['n','第一件：一起回幼稚園，看那台消防車。'],['c','xq','h','一定要做到喔！']]}],
+  ['畫我們三個人的 Q 版大頭貼',{tr:'free',g:1,z:1,r:[['n','你把阿哲畫得刺刺的，把小晴畫成一顆草莓。'],['c','xq','a','我才不是草莓！'],['c','xq','w','……好啦，很可愛。']]}]]],
+ ['rand','teen']
+]},
+{age:'17 歲',t:'最後一晚',stage:'s',steps:[
+ ['bg','beach','畢業旅行'],
+ ['n','高三畢旅最後一晚。全班在沙灘上圍著營火。'],
+ ['c','azhe','d','欸，{me}，我大學想去台南念。以後不能每天見面了。'],
+ ['sw',{azhe:[['n','你突然覺得，海風好冷。']]},'crush'],
+ ['q','你要？',[
+  ['「台南不遠，我會去找你吃牛肉湯。」',{tr:'kind',z:1,r:[['c','azhe','h','說好的喔！']]}],
+  ['「那我們一起去台南念！」',{tr:'free',z:2,r:[['n','你回家真的開始查台南的學校。最後沒考上，但阿哲記了你這句話很多年。']]}],
+  ['抱住他大哭',{tr:'funny',z:1,r:[['n','全班以為你們在排話劇，在旁邊鼓掌了五分鐘。'],['n','這張照片後來被選成畢業紀念冊的封面。']]}],
+  ['「那我們每天晚上視訊寫作業。」',{tr:'smart',z:1,r:[['c','azhe','x','你是魔鬼嗎？'],['c','azhe','h','……好啦。不准先掛我電話喔。']]}]]],
+ ['sw',{xq:LOVE17,azhe:LOVE17,none:[
+  ['n','小晴和阿哲一左一右，坐在你旁邊。'],
+  ['c','xq','s','……時間過得好快喔。'],
+  ['q','最後一晚，你想做什麼？',[
+   ['三個人一起許願：「三十歲還要一起來這裡。」',{tr:'kind',z:1,g:1,rom:'friend',r:[['c','xq','w','打勾勾！'],['c','azhe','h','蓋印章！']]}],
+   ['偷偷問阿哲：「你是不是喜歡小晴？」',{tr:'funny',z:1,rom:'match',r:[['c','azhe','x','你、你怎麼知道！'],['n','他的臉紅得跟營火一樣。你推了他一把，他終於走過去了。']]}],
+   ['一個人去海邊走走，想想以後想做什麼',{tr:'free',rom:'self',r:[['n','浪一直打到你的腳邊。你在沙灘上寫下一個夢想，看著它被海帶走。'],['n','你覺得，這樣也很好。']]}],
+   ['拿出交換日記，三個人一起寫最後一頁',{tr:'smart',z:1,g:1,rom:'friend',r:[['n','最後一頁寫著：「十件事，還剩九件。」']]}]]]]},'crush'],
+ ['n','半夜，大家偷溜到海邊。教官的手電筒照過來了。'],
+ ['q','你要？',[
+  ['站出來：「是我約大家出來的。」',{tr:'brave',z:1,r:[['n','你被罰在大廳站到兩點。全班輪流偷偷送零食給你。']]}],
+  ['帶大家趴進沙堆，假裝是海龜',{tr:'funny',r:[['n','教官照了半天，自言自語：「今年海龜好多喔。」然後走了。']]}],
+  ['拉大家一起看星星：「我們在上天文課！」',{tr:'smart',r:[['n','教官愣住，然後坐下來，教大家找北極星，找了一個小時。']]}],
+  ['拉著大家一起衝進海裡',{tr:'free',g:1,r:[['n','教官追到海邊，看了你們很久，然後也脫鞋走進海裡。'],['c','xq','h','這是我這輩子最好玩的一晚！']]}]]],
+ ['bg','classroom','畢業典禮'],
+ ['n','畢業典禮結束，大家在制服上互相簽名。'],
+ ['c','L','h','欸！幫我簽名！要簽大一點喔。'],
+ ['q','你要在{L}的制服上寫什麼？',[
+  ['「三十歲，幼稚園門口見。」',{tr:'kind',lv:1,r:[['c','L','w','……那你不准遲到。']]}],
+  ['在簽名旁邊畫一顆超大的青椒',{tr:'funny',lv:1,r:[['c','L','x','這件我要留一輩子耶！'],['n','{Lta}笑到眼淚都流出來了。']]}],
+  ['把自己制服的第二顆釦子拔下來，送給{L}',{fl:'button',tr:'brave',lv:2,r:[['c','L','w','……'],['n','{L}把釦子握在手心，一整天都沒有放開。']]}],
+  ['寫一句自己翻譯的英文詩',{tr:'smart',lv:1,r:[['c','L','t','……看不懂。'],['c','L','h','可是我會一直留著。']]}]]],
+ ['sw',{
+  mi:[['c','mi','c','畢業了……以後不能每天一起吃午餐了。'],['q','你要跟{B}說？',[
+  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
+  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
+  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
+  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]],
+  yz:[['c','yz','c','畢業了……以後不能每天一起畫畫了。'],['q','你要跟{B}說？',[
+  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
+  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
+  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
+  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]],
+  both:[['c','mi','c','畢業了……'],['c','yz','c','「{G}」不准解散喔。'],['q','你要跟{B}說？',[
+  ['「我們去拍一張超醜的大頭貼！」',{tr:'funny',bf:1,r:[['n','你們擠進大頭貼機，畫上鬍子和貓耳。那張照片，你在手機殼裡夾了好多年。']]}],
+  ['「不管去哪裡，我都會第一個接你的電話。」',{tr:'kind',bf:1,r:[['c','B','w','……你說的喔。半夜三點也要接喔。']]}],
+  ['「我們約好，每年生日都要一起過。」',{tr:'smart',bf:1,r:[['c','B','h','打勾勾！蓋印章！']]}],
+  ['「畢旅還沒玩夠，我們騎車去墾丁！」',{tr:'free',bf:1,r:[['n','你們騎了八個小時，屁股痛了三天。']]}]]]]},'bff'],
+ ['rand','teen']
+]},
+{age:'20 歲',t:'各自的城市',stage:'u',steps:[
+ ['bg','dorm','大學宿舍'],
+ ['n','大學宿舍。室友阿凱打呼，像在開怪手。'],
+ ['c','akai','t','（呼——嚕——呼——嚕——）'],
+ ['q','凌晨三點，你要？',[
+  ['隔天買早餐給他，問他要不要一起想辦法',{tr:'kind',r:[['c','akai','x','真的假的？我會打呼？……那我去買止鼾貼，你不要搬走啦！']]}],
+  ['錄下來，傳到系上群組',{tr:'funny',r:[['n','影片被轉了三十萬次。'],['c','akai','h','我紅了！我要去當 ASMR 網紅！']]}],
+  ['熬夜做出一個防打呼枕頭',{tr:'smart',r:[['n','阿凱一覺到天亮。你們拿著枕頭去參加創業比賽，拿了佳作。']]}],
+  ['戴上耳機，把打呼聲想成海浪',{tr:'free',r:[['n','你夢到自己在衝浪。醒來的時候，阿凱正在幫你蓋被子。']]}]]],
+ ['rand','young'],
+ ['n','晚上十一點，手機響了。是阿哲。'],
+ ['c','azhe','c','我被當了三科……可能要休學了。我不敢跟我爸說。'],
+ ['sw',{azhe:[['n','聽到他的聲音在發抖，你的心也跟著揪了一下。']]},'crush'],
+ ['q','你要？',[
+  ['「你在哪？我週末坐車下去找你。」',{tr:'kind',z:2,r:[['c','azhe','h','……你真的要來喔？我帶你去吃最好吃的那家牛肉湯。']]}],
+  ['「那我們一起騎車環島，想清楚再說！」',{tr:'free',z:2,r:[['n','你們騎機車繞了半個台灣。'],['c','azhe','s','我想清楚了。我要回去好好念。']]}],
+  ['傳給他二十支勵志影片',{tr:'funny',r:[['n','阿哲看到第三支就封鎖你了。'],['n','兩年後他解封，傳來一句：「那支早晨習慣，我現在每天都在做。」']]}],
+  ['「我們來排讀書計畫，我每天陪你視訊念書。」',{tr:'smart',z:2,r:[['n','你們連續視訊念書了一百天。'],['c','azhe','h','我全部都過了！你是我的恩人！']]}]]],
+ ['sw',{
+  confess:[
+   ['n','你跟{L}交往三年了。最近你忙著報告和打工，很少見面。'],
+   ['c','L','a','你最近好忙喔……我們上次約會是什麼時候？'],
+   ['q','你要？',[
+    ['「對不起。這週末我整天都是你的。」',{tr:'kind',lv:1,r:[['c','L','s','……好啦。我要吃那家很貴的鬆餅。']]}],
+    ['「那我們現在就出發去看海！」',{tr:'free',lv:2,r:[['n','你們搭末班車到基隆，在海邊吃了一整袋雞蛋糕。']]}],
+    ['傳一張自己跪在宿舍地板的照片',{tr:'funny',lv:1,r:[['c','L','h','哈哈哈哈，原諒你啦！']]}],
+    ['做一張兩個人的行事曆，每週固定約會',{tr:'smart',lv:1,r:[['c','L','x','你是在做期末報告嗎？'],['c','L','w','……可是我好喜歡。']]}]]]
+  ],
+  friend:[
+   ['c','L','w','跟你說！我在跟一個人交往了！你可以幫我看看對方怎麼樣嗎？'],
+   ['q','你要？',[
+    ['「好啊，下次一起吃飯，我請客。」',{tr:'kind',lv:1,r:[['c','L','h','你最好了！']]}],
+    ['半夜去翻對方的 IG，一路翻到三年前',{tr:'funny',r:[['n','你手滑，按到對方三年前的海灘照。'],['n','對方隔天加了你好友。現在你們每週一起打羽球。']]}],
+    ['「對方要先通過我的十道考題！」',{tr:'smart',lv:1,r:[['n','對方十題全對，還附上解析。你只好承認，這個人真的不錯。']]}],
+    ['「誰敢對你不好，我第一個去找他算帳。」',{tr:'brave',lv:1,r:[['c','L','w','……你好帥喔。謝謝你。']]}]]]
+  ],
+  self:[
+   ['n','你一個人住，學會了煮飯、修水管，還有一個人去看電影。'],
+   ['c','xq','h','欸！週末要不要三個人一起去夜市？'],
+   ['q','你要？',[
+    ['「好啊！我要吃三攤。」',{tr:'kind',g:1,z:1,r:[['n','你們三個吃到撐，在夜市門口拍了一張很醜的合照。']]}],
+    ['「我要去爬山，你們要不要一起來？」',{tr:'free',g:1,r:[['n','你們三個在山頂看日出。阿哲一路抱怨到山腳。']]}],
+    ['「我在寫報告，帶我的份回來就好。」',{tr:'smart',r:[['n','晚上，門把上掛著一袋雞排，袋子上寫著：「不要太累。」']]}],
+    ['「我們來辦夜市大胃王比賽！」',{tr:'funny',z:1,r:[['n','阿哲贏了，然後在回家的捷運上睡著，靠在你肩膀上流口水。']]}]]]
+  ],
+  match:[
+   ['c','azhe','w','欸……我跟小晴在一起了。你不會生氣吧？'],
+   ['sw',{azhe:[['n','你心裡有一點點痛，但更多的是開心。']]},'crush'],
+   ['q','你要？',[
+    ['「我超開心！以後我要當{best}！」',{tr:'kind',z:1,r:[['c','azhe','h','一言為定！']]}],
+    ['「我早就知道了，名偵探嘛。」',{tr:'smart',r:[['c','azhe','x','你什麼時候知道的？！']]}],
+    ['「除非你請我吃一個月牛肉湯。」',{tr:'funny',z:1,r:[['n','阿哲真的請了你一個月。最後是你先投降。']]}],
+    ['「那我要當你們的專屬攝影師！」',{tr:'free',g:1,r:[['n','你幫他們拍的照片，後來印在了喜帖上。']]}]]]
+  ]}],
+ ['bg','ktv','系上聯誼'],
+ ['n','系上聯誼。包廂裡很吵，有個學長遞了一根菸給你。'],
+ ['n','「來一根啦，大家都在抽。」'],
+ ['q','你要？',[
+  ['「不用了，我不抽菸。」',{tr:'brave',hp:1,r:[['n','學長聳聳肩：「好啦，不勉強。」'],['n','後來你才發現，好幾個人其實也不想抽，只是不敢說。']]}],
+  ['「試一根就好。」',{hp:-2,smoke:1,r:[['n','你咳到眼淚都流出來，衣服上全是菸味。'],['n','可是第二次，就沒那麼嗆了。']]}],
+  ['「我要去買雞排，有人要一起嗎？」',{tr:'funny',r:[['n','你帶走了一半的人去夜市。聯誼變成了雞排大會。']]}],
+  ['把菸還給學長：「你也少抽一點啦。」',{tr:'kind',r:[['n','學長愣了一下，笑了。'],['n','半年後，他傳訊息給你：「我戒菸了，謝啦。」']]}]]],
+ ['bg','dorm','宿舍樓梯間'],
+ ['n','期中考考砸了，打工又被店長罵。晚上，你一個人坐在宿舍的樓梯間，眼淚一直掉。'],
+ ['n','你拿起手機，滑過通訊錄。'],
+ ['q','你想找誰聊聊心事？',[
+  ['打給阿哲',{tr:'brave',call:'azhe'}],
+  ['打給小晴',{tr:'kind',call:'xq'}],
+  ['打給{B1}',{tr:'funny',call:'B'}],
+  ['誰都不找，一個人待一下',{tr:'free',call:'self'}]]]
+]},
+{age:'24 歲',t:'新的人',stage:'w',steps:[
+ ['bg','office','第一份工作'],
+ ['n','第一份正職工作。隔壁座位的人，桌上擺了一整排多肉植物。'],
+ ['c','anan','h','嗨！我是小安，以後請多指教！你要不要認養一盆多肉？'],
+ ['q','你要？',[
+  ['「好啊！我會好好照顧它。」',{tr:'kind',an:1,r:[['c','anan','w','它叫圓圓，一個禮拜澆一次水就好。']]}],
+  ['幫每一盆多肉取一個名字',{tr:'funny',an:2,r:[['n','你把最胖的那盆取名叫「大頭」。'],['c','anan','h','哈哈哈，這個名字好適合它！']]}],
+  ['查好澆水的方法，做成一張表格貼在桌上',{tr:'smart',an:1,r:[['c','anan','x','你好認真喔！'],['n','後來整個部門的植物，都照著你的表格澆水。']]}],
+  ['回送一張旅行時買的明信片',{tr:'free',an:1,r:[['c','anan','s','這是哪裡？好漂亮。'],['n','她把明信片貼在螢幕旁邊，貼了好多年。']]}]]],
+ ['bg','mountain','爬山社'],
+ ['n','週末，你參加了公司的爬山社。帶隊的人背著一個超大的登山包。'],
+ ['c','guang','s','我是阿光。第一次爬山嗎？我走你後面，累了就跟我說。'],
+ ['q','你要？',[
+  ['衝第一個，一路爬到山頂',{tr:'brave',gu:1,hp:1,r:[['c','guang','x','你也太快了吧！'],['n','你在山頂等了二十分鐘，看到阿光滿頭大汗地爬上來。']]}],
+  ['幫走得慢的人拿水',{tr:'kind',gu:2,hp:1,r:[['c','guang','w','謝謝你。你人真好。']]}],
+  ['一路唱歌，唱到大家都跟著唱',{tr:'funny',gu:1,hp:1,r:[['n','山上的回音，把你的走音放大了三倍。'],['c','guang','h','哈哈哈，下次還要找你來！']]}],
+  ['研究地圖，找到一條沒人走過的小路',{tr:'smart',gu:1,hp:1,r:[['n','小路的盡頭，是一片開滿野花的草地。'],['c','guang','s','我爬了十年，都不知道這裡有這麼美的地方。']]}]]],
+ ['bg','restaurant','公司尾牙'],
+ ['n','公司尾牙。主管拿著酒杯，一桌一桌敬酒。'],
+ ['n','「年輕人，乾了！」'],
+ ['q','你要？',[
+  ['舉起果汁：「我等一下要騎車，用果汁敬您！」',{tr:'smart',hp:1,r:[['n','主管笑著說：「好！有分寸！」']]}],
+  ['一杯接一杯，全部乾掉',{hp:-2,drink:1,r:[['n','你記得的最後一件事，是自己站在台上唱歌。'],['n','隔天頭痛到起不來，手機裡多了四十張你抱著馬桶的照片。']]}],
+  ['表演一段魔術，讓大家忘了敬酒這件事',{fl:'magic',tr:'funny',r:[['n','你從主管的耳朵後面變出一枚十塊錢。全場尖叫。'],['n','那天你拿到了最佳表演獎。']]}],
+  ['陪喝醉的小安去外面吹風',{tr:'kind',an:1,r:[['c','anan','d','……謝謝你。我其實不會喝，又不好意思拒絕。'],['n','你們坐在便利商店門口，一人一瓶運動飲料。']]}]]],
+ ['sw',{
+  yes:[
+   ['bg','home','租屋處'],
+   ['n','週末，{P}第一次見到小安和阿光。'],
+   ['q','你要怎麼介紹大家認識？',[
+    ['找大家一起去爬山',{tr:'free',lv:1,an:1,gu:1,hp:1,r:[['n','四個人在山頂吃泡麵。{P}跟阿光聊得最開心。']]}],
+    ['煮一桌菜，請大家來家裡吃飯',{tr:'kind',lv:1,an:1,r:[['c','anan','h','你也太會煮了吧！'],['c','P','w','對吧，我每天都吃這個。']]}],
+    ['辦一場桌遊大賽',{tr:'funny',an:1,gu:1,r:[['n','你們玩到半夜三點。最後是{P}贏了，得意了一整個禮拜。']]}],
+    ['做一份「我的朋友使用說明書」給{P}',{tr:'smart',lv:1,r:[['c','P','x','你這也太誇張了吧！'],['c','P','h','……不過真的很有用。']]}]]]
+  ],
+  none:[
+   ['bg','home','租屋處'],
+   ['n','某天晚上睡覺前，你發現自己最常傳訊息的人是……'],
+   ['q','是誰？',[
+    ['小安',{tr:'kind',pt:'anan',an:2,r:[['c','anan','w','……其實我也是。週末要不要一起去看多肉展？'],['n','後來，你們在一起了。']]}],
+    ['阿光',{tr:'brave',pt:'guang',gu:2,r:[['c','guang','w','……那下次，只有我們兩個去爬山好不好？'],['n','後來，你們在一起了。']]}],
+    ['自己。一個人過也很好',{tr:'free',r:[['n','你學會一個人吃火鍋、一個人看電影，也學會一個人去旅行。'],['n','你覺得自由的感覺，好好。']]}],
+    ['媽媽。她每天晚上都問你吃飽沒',{tr:'funny',r:[['c','mom','h','（LINE）吃飽沒？'],['n','你傳了一張自己煮的泡麵。媽媽回了十個貼圖。']]}]]]
+  ]},'pt'],
+ ['sw',{
+  mi:[['c','mi','h','（群組「{G}」）欸！聽說你最近過得不錯？快點全部講給我聽！'],['q','你要跟{B}怎麼聊？',[
+    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
+    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
+    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
+    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]],
+  yz:[['c','yz','h','（群組「{G}」）欸！聽說你最近過得不錯？快點全部講給我聽！'],['q','你要跟{B}怎麼聊？',[
+    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
+    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
+    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
+    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]],
+  both:[['c','mi','h','（群組「{G}」）欸！聽說你最近過得不錯？'],['c','yz','h','（群組「{G}」）快點全部講給我們聽！'],['q','你要跟{B}怎麼聊？',[
+    ['約在老地方吃火鍋，聊到店打烊',{tr:'kind',bf:1,r:[['n','老闆關燈的時候，你們還在笑。']]}],
+    ['一起去逛夜市，邊吃邊聊',{tr:'free',bf:1,r:[['n','你們從頭吃到尾，又從尾吃回頭。']]}],
+    ['開視訊，一起敷面膜聊天',{tr:'funny',bf:1,r:[['n','{B}的面膜一直滑下來，笑到你的面膜也掉了。']]}],
+    ['把最近發生的事，做成一份簡報講給{B}聽',{tr:'smart',bf:1,r:[['c','B','x','你連這個都要做簡報喔！'],['c','B','h','……第七頁那個人是誰？講清楚！']]}]]]]},'bff'],
+ ['rand','young']
+]},
+{age:'28 歲',t:'大人的事',stage:'w',steps:[
+ ['bg','home','租屋處'],
+ ['n','出社會好幾年了。你很久沒回家了。今天，爸爸打電話來。'],
+ ['c','dad','t','……{me}，你媽說，你過年不回來？'],
+ ['q','你要？',[
+  ['「我會回去。爸，你最近好嗎？」',{tr:'kind',r:[['c','dad','s','好，好。……還有，我退休了。'],['p','辛苦了，爸。']]}],
+  ['「今年我帶你們出國過年吧！」',{tr:'free',r:[['c','dad','t','太貴了啦。'],['n','結果在機場，爸爸比誰都興奮，還穿了一件印著「I ♥ 日本」的衣服。']]}],
+  ['「我在趕專案，晚點回你。」',{tr:'smart',r:[['n','你忙到半夜才想起來，回撥過去。'],['c','dad','s','我是想跟你說，我退休了。……你也別太累。'],['n','那天你們聊了兩個小時。']]}],
+  ['「爸，你是不是在想我？」',{tr:'funny',r:[['c','dad','w','……少臭美。'],['n','然後他講了一個小時，從阿嬤的腰講到隔壁的狗。']]}]]],
+ ['bg','office','公司'],
+ ['n','會議上，主管大力稱讚 Q3 企劃，但他說那是小林做的。其實是你熬了三個晚上做的。'],
+ ['c','lin','c','……'],
+ ['q','你要？',[
+  ['會後私下找小林，一起去跟主管說清楚',{tr:'kind',r:[['c','lin','c','對不起……主管誤會的時候，我不敢開口。'],['c','lin','s','下次你的企劃，我幫你一起報告。']]}],
+  ['當場拍桌：「那是我做的！」',{tr:'brave',r:[['n','你拍得太大力，咖啡灑在投影機上，會議室整個黑了。'],['n','黑暗中有人小聲說：「可是他說得沒錯。」']]}],
+  ['遞出辭呈：「我要自己做。」',{tr:'free',r:[['c','lin','x','等一下！帶我一起走！']]}],
+  ['把三個晚上的存檔紀錄印出來，交給主管',{tr:'smart',r:[['n','主管看了看檔案時間，推了推眼鏡。'],['n','下週，你的名字出現在企劃書的第一行。']]}]]],
+ ['n','連續加班一個月，你累到不行。'],
+ ['q','下班以後，你要？',[
+  ['去河堤跑步，跑到腦袋空空',{tr:'brave',hp:2,r:[['n','跑完五公里，你覺得整個人輕了一半。']]}],
+  ['買一包菸，站在樓梯間抽',{hp:-3,smoke:1,r:[['n','抽完以後，好像比較放鬆了一點點。'],['n','可是隔天，你又想抽了。']]}],
+  ['回家倒頭就睡，睡滿十二個小時',{tr:'free',hp:1,r:[['n','醒來的時候，窗外的天空好藍。']]}],
+  ['打電話給好朋友，聊到心情變好',{tr:'kind',fr:1,r:[['c','F','h','你累了就打給我啊，笨蛋。']]}]]],
+ ['sw',{yes:[['bg','home','租屋處'],['n','晚上回家，{P}在門口等你，手上拿著兩杯珍奶。'],['c','P','s','辛苦了。今天也很棒喔。']],none:[['bg','home','租屋處'],['n','晚上回家，門把上掛著一袋滷味。是媽媽寄來的。']]},'pt'],
+ ['sw',{yes:[
+   ['n','手機突然亮了。是好久沒聯絡的{X}。'],
+   ['c','X','d','那天晚上……對不起。我那時候不知道你那麼難過。'],
+   ['q','你要？',[
+    ['「沒關係，我們和好吧。」',{tr:'kind',xa:2,rel:'ok',r:[['c','X','c','……謝謝你。'],['n','你們約了一頓宵夜，把這幾年的事全部講了一遍。']]}],
+    ['「謝謝你道歉。我們慢慢來。」',{tr:'smart',xa:1,rel:'ok',r:[['n','你們從一個月聊一次，慢慢變回一週聊一次。']]}],
+    ['「我還沒準備好。」',{tr:'free',rel:'cut',r:[['c','X','d','……好。我等你。'],['n','後來，你們就真的沒有再聯絡了。']]}],
+    ['「我等這句話，等好久了。」然後一起大哭',{tr:'funny',xa:2,rel:'ok',r:[['n','兩個大人，在電話兩頭哭得亂七八糟。']]}]]]],_:[]},'chance'],
+ ['n','週末，你終於有空了。'],
+ ['q','你要？',[
+  ['去流浪動物之家當志工',{tr:'kind',r:[['n','一隻小橘貓一直跟著你。牠的眼神，很像國小時的大頭。']]}],
+  ['報名脫口秀開放麥',{tr:'funny',r:[['n','你講了五分鐘，台下只有一個人笑。'],['n','後來發現，是坐在第一排的阿哲。']]}],
+  ['一個人背包去花蓮',{tr:'free',r:[['n','火車上，一個阿嬤分你一顆釋迦，說你很像她孫子。']]}],
+  ['去報名潛水證照',{tr:'brave',r:[['n','你在綠島看到一隻海龜，想起畢旅那晚趴在沙堆裡的大家。']]}]]],
+ ['rand','young']
+]},
+{age:'30 歲',t:'同學會',stage:'a',steps:[
+ ['bg','restaurant','熱炒店'],
+ ['n','國中小聯合同學會。大頭現在開早餐店，胖了一圈。'],
+ ['c','datou','d','欸，我小時候是不是很討厭？我一直想跟小晴道歉，那個鉛筆盒。'],
+ ['q','你要？',[
+  ['「那你現在去跟她說啊，她就在那邊。」',{tr:'kind',r:[['n','大頭走過去，跟小晴說了好久。小晴笑著拍拍他的肩膀。']]}],
+  ['「你誰？」',{tr:'funny',r:[['n','大頭拿出畢業紀念冊，指著你自己寫的「大頭是笨蛋」。'],['n','全桌笑了五分鐘。']]}],
+  ['「謝謝你。是你讓我學會站出來的。」',{tr:'brave',r:[['c','datou','w','……幹嘛啦，突然這樣講。今天我請客！']]}],
+  ['「我們來拍一張跟國小一樣的合照！」',{tr:'free',r:[['n','全班擠在熱炒店門口。大頭一個人就佔了兩個位子。']]}]],{need:'datou'}],
+ ['sw',{yes:[
+   ['n','你看到{X}一個人站在角落。你們已經好幾年沒說話了。'],
+   ['c','X!','d','……好久不見。'],
+   ['q','你要？',[
+    ['主動走過去：「好久不見。」',{tr:'brave',xa:2,rel:'ok',r:[['c','X!','c','……我一直想跟你說對不起。那天，我真的很糟。'],['p','都過去了。'],['n','你們坐在熱炒店門口，聊到老闆來收桌子。']]}],
+    ['等{X}先開口',{tr:'smart',xa:1,rel:'ok',r:[['c','X!','c','那天的事……對不起。'],['n','你點點頭。好像有什麼東西，終於放下了。']]}],
+    ['點頭打招呼，但保持一點距離',{tr:'free',rel:'far',r:[['n','你們客氣地聊了天氣、工作，還有大頭的早餐店。'],['n','有些朋友，就是會變成點頭之交。這樣也沒關係。']]}],
+    ['假裝沒看到，轉身去拿飲料',{rel:'cut',r:[['n','{X}在你背後站了很久，最後先離開了。'],['n','你們這輩子，沒有再說過話。']]}]]]],_:[]},'cutp'],
+ ['c','azhe','s','欸，{me}，你這幾年過得怎樣？'],
+ ['q','你要說？',[
+  ['「很認真。每天都在學新東西。」',{tr:'smart',r:[['c','azhe','h','你從小就這樣耶。']]}],
+  ['「很自由。想去哪就去哪。」',{tr:'free',r:[['c','azhe','h','好羨慕喔，下次帶我去！']]}],
+  ['「很好笑。每天都有奇怪的事。」',{tr:'funny',r:[['c','azhe','h','那你要一件一件講給我聽。']]}],
+  ['「很溫暖。身邊的人都很好。」',{tr:'kind',r:[['c','azhe','w','……包括我嗎？']]}]],{need:'azhe'}],
+ ['bg','gate','幼稚園門口'],
+ ['n','散場後，你們走到向日葵幼稚園。窗台上，擺著一台褪了色的紅色消防車。'],
+ ['c','azhe','x','欸！那台！老師真的一直沒拿下來耶！'],
+ ['sw',{
+  confess:[['c','L','w','原來它一直在這裡。……欸，以後我們的小孩，也送來這裡好不好？']],
+  friend:[['c','L','h','我家那位一定不相信，我們三個從五歲就認識了。']],
+  self:[['c','xq','h','交換日記的十件事，今天終於做完最後一件了。']],
+  match:[['c','xq','h','月老，我跟阿哲決定了，小孩以後也要讀這裡。']]}],
+ ['q','最後，大家要？',[
+  ['照著二十五年前的姿勢，拍一張合照',{tr:'free',r:[['n','快門按下去的時候，三個人都笑得跟五歲一樣。']]}],
+  ['念出交換日記的第一頁',{tr:'kind',r:[['n','念到一半，小晴先哭了，然後阿哲也哭了。']]}],
+  ['比賽誰先爬上門口的溜滑梯',{tr:'brave',r:[['n','警衛伯伯跑出來，你們三個笑著逃走，跟小時候一模一樣。']]}],
+  ['對窗台上的消防車，認真地鞠躬打招呼',{tr:'funny',r:[['c','azhe','h','好久不見，消防車！']]}]]],
+]},
+{age:'35 歲',t:'我們的家',stage:'m',steps:[
+ ['sw',{
+  yes:[
+   ['bg','park','河濱公園'],
+   ['n','你跟{P}在一起很多年了。某天傍晚散步的時候，{P}突然停下來，很認真地看著你。'],
+   ['q','你們的未來，你想要？',[
+    ['單膝跪下：「我們結婚吧。」',{tr:'brave',life:'married',lv:1,r:[['c','P','c','……好。我願意。'],['bg','wedding','婚禮'],['n','婚禮在一座開滿花的小花園舉行。{F}哭得比誰都大聲。']]}],
+    ['寫一封長長的信，問{P}要不要跟你一起變老',{tr:'smart',life:'married',lv:1,r:[['c','P','w','……你從十七歲就很會寫信。我願意。'],['bg','wedding','婚禮'],['n','婚禮上，你把那封信唸了出來。全場都哭了。']]}],
+    ['「不一定要結婚。我們就這樣一起過日子吧。」',{tr:'free',life:'together',lv:1,r:[['c','P','h','好啊。我們家，我們自己決定。']]}],
+    ['「我們想要的好像不一樣……好好說再見吧。」',{tr:'kind',life:'single',bye:1,r:[['c','P','c','……嗯。謝謝你這些年。'],['n','你們抱了很久。後來，你們變成了很好的朋友。']]}]]]
+  ],
+  none:[
+   ['bg','home','家裡'],
+   ['n','三十五歲的過年。親戚又問了：「什麼時候要結婚啊？」'],
+   ['q','你要？',[
+    ['「我一個人過得很好，謝謝關心！」',{tr:'brave',life:'single',r:[['n','媽媽在旁邊偷偷幫你比了一個讚。']]}],
+    ['拿出旅行相簿，一張一張介紹給親戚看',{tr:'free',life:'single',r:[['n','介紹到第四十個國家的時候，親戚已經睡著了。']]}],
+    ['「我把時間都花在朋友跟工作上，很開心。」',{tr:'kind',life:'single',r:[['c','mom','s','你開心就好。媽媽只要你吃飽睡飽。']]}],
+    ['答應媽媽，去相親一次看看',{tr:'funny',life:'single',r:[['n','相親對象一坐下就說：「其實我是被我媽逼來的。」'],['n','你們笑成一團，後來變成了很好的朋友。']]}]]]
+  ]},'pt'],
+ ['sw',{mi:[['c','B','w','不管你結婚還是一個人，我都會在。'],['n','{B}送了你一份禮物：一本全新的交換日記。']],yz:[['c','B','w','不管你結婚還是一個人，我都會在。'],['n','{B}送了你一份禮物：一幅畫，畫的是十四歲的你們。']],both:[['c','mi','w','不管你結婚還是一個人，我們都會在。'],['c','yz','h','「{G}」，終身有效！']]},'bff'],
+ ['sw',{
+  married:[['q','你們的家，要變成什麼樣子？',[
+   ['生一個小孩',{tr:'kind',kid:'baby',r:[['n','小孩出生那天，{F}帶了一台紅色的玩具消防車來醫院。']]}],
+   ['領養一個小孩',{tr:'brave',kid:'adopt',r:[['n','第一次見面，那個孩子躲在社工後面，偷偷看著你。'],['n','你從口袋裡，拿出了一隻暴龍。']]}],
+   ['養一隻狗和兩隻貓',{tr:'funny',kid:'pet',r:[['n','第一個禮拜，沙發就被咬破了三個洞。']]}],
+   ['兩個人一起，把世界走一圈',{tr:'free',kid:'trip',r:[['n','你們的護照，蓋滿了四十個國家的章。']]}]]]],
+  together:[['q','你們的家，要變成什麼樣子？',[
+   ['領養一個小孩',{tr:'brave',kid:'adopt',r:[['n','第一次見面，那個孩子躲在社工後面，偷偷看著你。'],['n','你從口袋裡，拿出了一隻暴龍。']]}],
+   ['養一隻狗和兩隻貓',{tr:'funny',kid:'pet',r:[['n','第一個禮拜，沙發就被咬破了三個洞。']]}],
+   ['一起開一間小小的早午餐店',{tr:'kind',kid:'shop',r:[['n','招牌菜是青椒炒蛋。奇怪的是，賣得最好的也是它。']]}],
+   ['兩個人一起，把世界走一圈',{tr:'free',kid:'trip',r:[['n','你們的護照，蓋滿了四十個國家的章。']]}]]]],
+  single:[['q','一個人的生活，你最喜歡？',[
+   ['養一隻貓，每天回家都有人等',{tr:'kind',kid:'cat',r:[['n','牠叫「青椒」，是一隻很兇的綠眼睛黑貓。']]}],
+   ['每年去一個新的國家',{tr:'free',kid:'trip',r:[['n','你在冰島看到極光，傳了照片給小晴和阿哲。他們半夜三點回你：「好美！」']]}],
+   ['學一樣新樂器',{tr:'smart',kid:'music',r:[['n','你學了大提琴。鄰居一開始以為你家在殺豬，三年後會跟著你一起哼。']]}],
+   ['週末在家開派對，朋友來來去去',{tr:'funny',kid:'party',r:[['n','你家變成了大家的秘密基地。冰箱上貼滿了朋友們留的便利貼。']]}]]]]
+  },'life'],
+ ['rand','adult']
+]},
+{age:'45 歲',t:'健康檢查',stage:'h',steps:[
+ ['bg','hospital','健康檢查'],
+ ['n','公司安排了健康檢查。醫生看著你的報告，推了推眼鏡。'],
+ ['sw',{
+  smoke:[
+   ['n','醫生：「你的肺，比同年紀的人老了十歲。菸，要不要考慮戒掉？」'],
+   ['q','你要？',[
+    ['今天開始戒菸，把菸盒丟進垃圾桶',{tr:'brave',hp:3,quit:1,r:[['n','前兩個禮拜很難熬。你嚼了好多口香糖，還打給{F}抱怨了一整晚。'],['n','三個月後，你爬樓梯不會喘了。']]}],
+    ['去戒菸門診，照著計畫慢慢減',{tr:'smart',hp:3,quit:1,r:[['n','你在月曆上，一天畫一個圈。'],['n','第一百天，你買了一個蛋糕獎勵自己。']]}],
+    ['「再說啦。」',{hp:-2,r:[['n','你把報告摺起來，塞進抽屜最裡面。'],['n','就跟十歲那年，阿哲把 42 分的考卷藏起來一樣。']]}],
+    ['請大家監督你，抽一根就請大家吃一頓飯',{tr:'funny',hp:2,quit:1,r:[['n','第一個月，你請了六頓飯。'],['n','第二個月開始，你一頓都沒有再請過。']]}]]]
+  ],
+  drink:[
+   ['n','醫生：「你的肝指數有點高。最近是不是常喝酒？」'],
+   ['q','你要？',[
+    ['從今天開始不喝了',{tr:'brave',hp:3,quit:1,r:[['n','聚餐的時候，你都點烏龍茶。後來大家也跟著點。']]}],
+    ['改成每天晚上去散步',{tr:'free',hp:2,quit:1,r:[['n','散步的時候，你發現家附近有一間很好吃的豆花店。']]}],
+    ['「我又沒有喝很多。」',{hp:-2,r:[['n','你把報告丟進了回收桶。']]}],
+    ['做一張表，記錄每天喝了什麼',{tr:'smart',hp:2,quit:1,r:[['n','表格上的啤酒，一週比一週少。']]}]]]
+  ],
+  great:[
+   ['n','醫生：「你的身體很健康，比很多年輕人都好喔。」'],
+   ['q','你要怎麼慶祝？',[
+    ['報名人生第一場馬拉松',{fl:'marathon',tr:'brave',hp:1,r:[['n','你跑完全程，在終點線抱著陌生人一起哭。']]}],
+    ['請家人吃一頓大餐',{tr:'kind',r:[['n','媽媽一直說太貴了，然後吃了三碗飯。']]}],
+    ['排一張更好的作息表',{tr:'smart',hp:1,r:[['n','你的作息表被公司拿去當健康講座的範本。']]}],
+    ['去學衝浪',{tr:'free',hp:1,r:[['n','你被浪打翻了二十次，第二十一次終於站起來了。']]}]]]
+  ],
+  ok:[
+   ['n','醫生：「大致上還好。不過要多運動，少熬夜喔。」'],
+   ['q','你要？',[
+    ['每天走路一萬步',{tr:'brave',hp:2,r:[['n','你的手機跳出通知：「恭喜！您已經走完一座玉山的高度。」']]}],
+    ['跟朋友一起去學跳舞',{tr:'funny',hp:2,r:[['n','你們是舞蹈教室裡最吵的一組，也是最開心的一組。']]}],
+    ['開始每天十一點前睡覺',{tr:'smart',hp:1,r:[['n','一個月後，同事問你：「你是不是去做了臉？」']]}],
+    ['「好啦好啦。」然後繼續熬夜追劇',{hp:-1,r:[['n','你追完了三部韓劇，眼睛下面多了兩圈黑眼圈。']]}]]]
+  ]},'health'],
+ ['bg','home','媽媽家'],
+ ['n','媽媽打電話來，說她最近膝蓋不太好，走路變得好慢。'],
+ ['c','mom','d','沒事啦，老了都這樣。你不用特地回來。'],
+ ['q','你要？',[
+  ['每個週末都回家陪她',{tr:'kind',r:[['n','你們每個週末一起去市場。她走得很慢，你就走得更慢。']]}],
+  ['帶她去看醫生，順便做一次完整的檢查',{tr:'smart',r:[['c','mom','t','花這個錢幹嘛……'],['n','檢查結果出來，醫生說只要好好復健就會好。媽媽偷偷鬆了一口氣。']]}],
+  ['教她用視訊，每天晚上聊十分鐘',{tr:'funny',r:[['n','她每次都只拍到額頭。可是你每天都很期待那十分鐘。']]}],
+  ['帶她去泡溫泉',{tr:'free',r:[['c','mom','w','好舒服喔……我上一次泡溫泉，是你五歲的時候。']]}]]],
+ ['rand','adult']
+]},
+{age:'65 歲',t:'退休的第一天',stage:'r',steps:[
+ ['sw',{mi:[['bg','park','公園'],['c','mi','h','欸！我們去一趟閨蜜旅行吧！'],['q','要去哪裡？',BFF65]],yz:[['bg','park','公園'],['c','yz','h','欸！我們去一趟閨蜜旅行吧！'],['q','要去哪裡？',BFF65]],both:[['bg','park','公園'],['c','mi','h','欸！「{G}」，出發旅行吧！'],['c','yz','s','我已經把行李收好了。'],['q','要去哪裡？',BFF65]]},'bff'],
+ ['bg','park','公園'],
+ ['n','你退休了。第一天早上，你突然不知道要做什麼。'],
+ ['sw',{strong:[['n','你在公園繞了五圈，一點都不喘。打太極的阿伯們叫你「公園之光」。']],
+  cane:[['n','你在公園走了一圈，就坐在長椅上休息。膝蓋有點痠，不過太陽很舒服。']],
+  weak:[['n','你走到公園門口就喘不過氣，只好坐下來休息。'],['sw',{smoke:[['n','醫生說過，這是年輕時抽的那些菸。']]},'health']]},'old'],
+ ['q','退休以後，你想做什麼？',[
+  ['去向日葵幼稚園當說故事志工',{tr:'kind',r:[['n','小朋友最喜歡聽的故事，是〈消防車與暴龍〉。']]}],
+  ['去爬一座從來沒爬過的山',{tr:'brave',hp:1,r:[['sw',{yes:[['n','爬到一半，你們坐在石頭上分一顆橘子。']]},'pt'],['n','山頂的風好大，你大聲喊了自己的名字。']]}],
+  ['跟一群老朋友組一個樂團',{tr:'funny',r:[['n','樂團叫「青椒五人組」，其實只有四個人。']]}],
+  ['開露營車，慢慢環島',{tr:'free',r:[['n','你在台東看了日出，在墾丁看了日落。']]}]]],
+ ['sw',{
+  married:[['c','P','w','欸，我們一起變老了耶。'],['n','你們坐在陽台上，一人一杯熱茶。']],
+  together:[['c','P','w','欸，我們一起變老了耶。'],['n','你們坐在陽台上，一人一杯熱茶。']],
+  single:[['n','晚上，你一個人坐在陽台上喝熱茶。手機一直響，是朋友們在群組裡吵晚餐要吃什麼。']]},'life'],
+ ['c','azhe','h','（電話）欸，我們三個的交換日記，你還留著嗎？'],
+ ['q','你要？',[
+  ['「當然留著。我每年都會拿出來看一次。」',{tr:'kind',z:1,r:[['c','azhe','w','……我也是。']]}],
+  ['「我拿去護貝了，誰都弄不壞。」',{tr:'smart',z:1,r:[['c','azhe','x','你也太誇張了吧！']]}],
+  ['「我把它掃描起來，做成一本書了。」',{tr:'free',g:1,r:[['c','xq','h','（群組）真的假的！我要一本！']]}],
+  ['「你說那本粉紅色的？我拿來墊泡麵了。」',{tr:'funny',z:1,r:[['c','azhe','a','你這個人喔！'],['n','他在電話那頭，笑到咳嗽。']]}]],{need:'azhe'}],
+ ['rand','old']
+]},
+{age:'80 歲',t:'向日葵門口',stage:'o',steps:[
+ ['bg','gate','幼稚園門口'],
+ ['n','八十歲生日。向日葵幼稚園要改建了，今天是最後一天開放參觀。'],
+ ['sw',{strong:[['n','你自己走了過去，是第一個到的。']],
+  cane:[['n','你拄著拐杖，慢慢走了過去。老朋友們在門口等你。']],
+  weak:[['bg','hospital','醫院'],['n','你已經沒辦法走那麼遠了。'],['n','門被推開。老朋友們走了進來，手上捧著那台紅色的消防車。']]},'old'],
+ ['c','azhe','h','{me}！生日快樂！'],
+ ['c','xq','w','我們從五歲認識到現在，七十五年了耶。'],
+ ['sw',{mi:[['c','mi','h','還有我！手環我還戴著喔！']],yz:[['c','yz','h','還有我！手環我還戴著喔！']],both:[['c','mi','h','還有我們！'],['c','yz','w','手環，我們都還戴著喔。']]},'bff'],
+ ['sw',{married:[['c','P','s','我也來了。蛋糕在我這裡。']],together:[['c','P','s','我也來了。蛋糕在我這裡。']],_:[]},'life'],
+ ['n','你口袋裡，那隻小暴龍吊飾已經掉漆了。'],
+ ['q','最後，你要？',[
+  ['把小暴龍和消防車放在一起，拍一張照',{tr:'free',r:[['n','照片裡，暴龍坐在消防車上，好像要去很遠的地方。']]}],
+  ['跟大家說：「謝謝你們，陪我長大。」',{tr:'kind',r:[['c','xq','c','……幹嘛突然這樣啦。'],['c','azhe','c','討厭，我眼睛進沙子了。']]}],
+  ['「我們來比賽，看誰先吃完青椒！」',{tr:'funny',r:[['n','一群八十歲的人，對著一盤青椒，數到三。'],['n','每一張臉，又都皺成了一團。']]}],
+  ['打開交換日記，寫下最後一行字',{fl:'diary',tr:'smart',r:[['n','「十件事，全部完成。」']]}]]],
+ ['ending']
+]}
+
+];
+
+/* ================= 存檔 ================= */
+function load(){try{var s=localStorage.getItem(KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
+var SAVE=load()||{me:{hair:'short',hc:HCOL[0],skin:SKIN[1],name:''},found:{},runs:0};normMe();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(SAVE));}catch(e){}}
+function foundN(){var n=0;for(var k in SAVE.found)n++;return n;}
+function nm(){return (SAVE.me.name||'').trim()||'你';}
+/* ================= 音效 ================= */
+var AC=null;
+function ac(){
+  if(SAVE.mute)return null;
+  try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();}if(AC.state==='suspended')AC.resume();}catch(e){return null;}
+  return AC;
+}
+function tone(f,d,type,vol,at,f2){
+  var c=ac();if(!c)return;
+  try{var t=c.currentTime+(at||0);var o=c.createOscillator(),g=c.createGain();
+  o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.1,t+.012);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.03);}catch(e){}
+}
+function noise(d,vol,ff,at,ff2){
+  var c=ac();if(!c)return;
+  try{var t=c.currentTime+(at||0),len=Math.floor(c.sampleRate*d),b=c.createBuffer(1,len,c.sampleRate),x=b.getChannelData(0);
+  for(var i=0;i<len;i++)x[i]=Math.random()*2-1;
+  var s=c.createBufferSource();s.buffer=b;var f=c.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(ff||1200,t);if(ff2)f.frequency.exponentialRampToValueAtTime(ff2,t+d);f.Q.value=.8;
+  var g=c.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.1,t+d*.3);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  s.connect(f);f.connect(g);g.connect(c.destination);s.start(t);s.stop(t+d+.03);}catch(e){}
+}
+var NT={C:523.25,D:587.33,E:659.25,G:783.99,A:880,C2:1046.5,D2:1174.66,E2:1318.5,G2:1568};
+var SFX={
+ tap:function(){tone(990,.05,'sine',.05);},
+ pop:function(){tone(380,.1,'sine',.12,0,820);},
+ pick:function(){tone(NT.G,.07,'triangle',.1);tone(NT.C2,.12,'triangle',.1,.05);},
+ page:function(){noise(.3,.07,500,0,2800);},
+ chapter:function(a){a=a||0;[NT.C,NT.E,NT.G,NT.C2].forEach(function(f,i){tone(f,.2,'triangle',.08,a+i*.09);});tone(NT.E2,.45,'sine',.05,a+.36);},
+ heart:function(a){a=a||0;tone(NT.A,.12,'sine',.07,a);tone(NT.D2,.22,'sine',.07,a+.09);},
+ peel:function(){noise(.4,.1,3000,0,600);},
+ fanfare:function(a){a=a||0;[NT.C,NT.E,NT.G,NT.C2,NT.E2,NT.G2].forEach(function(f,i){tone(f,.24,'triangle',.08,a+i*.08);});tone(NT.C2,.7,'sine',.05,a+.5);tone(NT.E2,.7,'sine',.05,a+.5);},
+ sheet:function(){tone(700,.08,'sine',.07,0,1050);},
+ trait:{
+  kind:function(a){[NT.C,NT.E,NT.G].forEach(function(f,i){tone(f*2,.22,'sine',.06,a+i*.07);});},
+  brave:function(a){[NT.G,NT.C2,NT.D2].forEach(function(f,i){tone(f,.12,'square',.03,a+i*.06);});},
+  funny:function(a){tone(200,.18,'sine',.13,a,620);tone(620,.16,'sine',.11,a+.17,260);},
+  smart:function(a){tone(NT.E2,.14,'sine',.07,a);tone(NT.G2,.26,'sine',.07,a+.11);},
+  free:function(a){tone(650,.34,'sine',.07,a,1400);}
+ }
+};
+var VOICE={mi:960,yz:620,mom:620,dad:290,azhe:540,xq:860,datou:330,akai:400,lin:470,me:720};
+function blip(v){if(SAVE.mute||!AC)return;if(v)tone(v*(.9+Math.random()*.2),.045,'triangle',.035);else tone(1500+Math.random()*400,.016,'sine',.01);}
+function sndLabel(){return SAVE.mute?'♪ 關':'♪ 開';}
+function toggleSnd(){SAVE.mute=!SAVE.mute;save();var b=$('bSnd');if(b)b.textContent=sndLabel();var h=$('hSnd');if(h)h.textContent='音效：'+(SAVE.mute?'關':'開');if(!SAVE.mute)SFX.pick();}
+
+/* ================= 小特效 ================= */
+var CFC=['#F27BA0','#FFD166','#3FB6E0','#4CBF86','#F2994A','#B68BE0','#fff'];
+function rmLater(n,ms){setTimeout(function(){if(n.parentNode)n.parentNode.removeChild(n);},ms);}
+function confetti(n,x,y,rain){
+  if(reduce)return;
+  var W=window.innerWidth||360,H=window.innerHeight||640;
+  for(var i=0;i<n;i++){
+    var d=el('i',rain?'cf rain':'cf');
+    d.style.left=(rain?Math.random()*W:x)+'px';d.style.top=(rain?-20:y)+'px';d.style.background=CFC[i%CFC.length];
+    if(i%3===0)d.style.borderRadius='50%';
+    d.style.setProperty('--dx',(rain?Math.random()*80-40:Math.random()*180-90)+'px');
+    d.style.setProperty('--dy',(rain?H+40:-(Math.random()*90+20))+'px');
+    d.style.setProperty('--r',(Math.random()*720-360)+'deg');
+    d.style.animationDuration=(rain?2.2+Math.random()*1.6:.7+Math.random()*.4)+'s';
+    if(rain)d.style.animationDelay=(Math.random()*1.2)+'s';
+    document.body.appendChild(d);rmLater(d,4400);
+  }
+}
+function floatTag(txt,col,left,top){
+  if(reduce)return;
+  var d=el('span','flt',txt);d.style.background=col;d.style.left=left;d.style.top=top;$('stage').appendChild(d);rmLater(d,1200);
+}
+function spark(x,y,host){
+  if(reduce)return;
+  for(var i=0;i<5;i++){
+    var d=el('span','spk',['✦','♥','✧','•','♥'][i]);d.style.left=x+'px';d.style.top=y+'px';d.style.color=CFC[i];
+    var a=Math.random()*Math.PI*2,r=18+Math.random()*24;
+    d.style.setProperty('--dx',(Math.cos(a)*r).toFixed(1)+'px');d.style.setProperty('--dy',(Math.sin(a)*r).toFixed(1)+'px');
+    host.appendChild(d);rmLater(d,700);
+  }
+}
+var TA={xq:'她',azhe:'他',anan:'她',guang:'他',mi:'她',yz:'他',datou:'他',akai:'他'},MEMO={xq:'那顆青椒',azhe:'那台消防車'};
+function Lid(){return G.crush==='azhe'?'azhe':'xq';}
+function Fid(){return Lid()==='xq'?'azhe':'xq';}
+function aff(id){return id==='xq'?G.g:G.z;}
+function addAff(id,n){if(id==='xq')G.g+=n;else G.z+=n;}
+function Pid(){return G.pt&&G.pt!=='none'?G.pt:Lid();}
+function Bid(){return G.bff==='yz'?'yz':'mi';}
+function Bname(){return G.bff==='both'?'小米和柚子':NPC[Bid()].n;}
+function who(id){return id==='L'?Lid():(id==='F'?Fid():(id==='P'?Pid():(id==='B'?Bid():(id==='X'?G.callee:id))));}
+function swKey(k){
+  if(k==='crush')return G.crush;
+  if(k==='pt')return G.pt&&G.pt!=='none'?'yes':'none';
+  if(k==='life')return G.life;
+  if(k==='bff')return G.bff||'none';
+  if(k==='chance'){for(var q in G.rel)if(G.rel[q]==='chance'){G.callee=q;return 'yes';}return 'none';}
+  if(k==='cutp')return G.callee&&G.rel[G.callee]==='cut'?'yes':'none';
+  if(k==='health')return (G.smoke>0&&!G.quit)?'smoke':((G.drink>0&&!G.quit)?'drink':(G.hp>=7?'great':'ok'));
+  if(k==='old')return G.hp>=6?'strong':(G.hp>=2?'cane':'weak');
+  return G.rom;
+}
+function sub(t){var n=(SAVE.me.name||'').trim(),L=Lid(),F=Fid();
+  return t.replace(/\{me\}，/g,n?n+'，':'').replace(/\{me\}/g,n||'你').replace(/\{Lta\}/g,TA[L]).replace(/\{Fta\}/g,TA[F]).replace(/\{Lmemo\}/g,MEMO[L]).replace(/\{B1\}/g,G.bff==='none'?'大頭':NPC[Bid()].n).replace(/\{Xta\}/g,TA[G.callee]||'他').replace(/\{X\}/g,G.callee?NPC[G.callee].n:'').replace(/\{G\}/g,G.gname||'暴龍小分隊').replace(/\{B\}/g,Bname()).replace(/\{Pta\}/g,TA[Pid()]).replace(/\{P\}/g,NPC[Pid()].n).replace(/\{L\}/g,NPC[L].n).replace(/\{F\}/g,isGone(F)?'老朋友們':NPC[F].n).replace(/\{best\}/g,SAVE.me.sex==='f'?'伴娘':(SAVE.me.sex==='m'?'伴郎':'致詞的好朋友'));}
+
+
+/* ================= 心事 ================= */
+var REACT={
+ azhe:{
+  comfort:[['c','azhe','c','……你在哪？我現在過去。'],['n','二十分鐘後，阿哲騎著機車出現，手上提著兩碗牛肉湯。'],['c','azhe','s','先吃。吃完再哭。']],
+  joke:[['c','azhe','h','你難過什麼？我被當三科都還活得好好的。'],['c','azhe','h','來，我教你：先睡一覺，醒來就是明天的事了。']],
+  refuse:[['c','azhe','t','欸……我在打工，現在很忙耶。改天再說好不好？'],['n','電話掛掉了。嘟——嘟——']],
+  snark:[['c','azhe','a','你也會難過喔？誰叫你考前都在玩。'],['n','他說完就笑了。可是你一點都笑不出來。']]},
+ xq:{
+  comfort:[['c','xq','c','……你不要一個人哭。我陪你，講到你想睡為止。'],['n','你們講了三個小時。最後是她先睡著，電話那頭傳來小小的打呼聲。']],
+  joke:[['c','xq','h','好啦好啦，你知道企鵝為什麼不會飛嗎？因為牠們買不起機票。'],['c','xq','h','……沒笑？那我再講一個。']],
+  refuse:[['c','xq','d','我在跟朋友吃飯耶……你可以晚點再打嗎？'],['n','你等到半夜，她都沒有打回來。']],
+  snark:[['c','xq','t','又來了。你每次都只有難過的時候才會想到我。'],['n','你愣住了，不知道該說什麼。']]},
+ mi:{
+  comfort:[['c','mi','c','什麼！誰欺負你！我現在就帶辣椒過去！'],['n','她真的帶了一整包辣椒餅乾，還有一個超大的擁抱。']],
+  joke:[['c','mi','h','難過的時候，就要學暴龍大吼一聲！來，吼——！'],['n','你們兩個在電話裡一起大吼。隔壁室友跑來敲門了。']],
+  refuse:[['c','mi','d','欸我明天要報告，今天真的不行……對不起啦！'],['n','她傳了一個抱抱的貼圖，然後就下線了。']],
+  snark:[['c','mi','t','你的難過可以排在我後面嗎？我今天也超慘耶。'],['n','她開始講自己的事，一講就是四十分鐘。']]},
+ yz:{
+  comfort:[['c','yz','s','……我不太會說話。我畫一張圖給你好不好？'],['n','半小時後，你收到一張圖：一隻暴龍，抱著一個哭哭的你。']],
+  joke:[['c','yz','h','你知道嗎？你哭的時候，臉很像一顆皺皺的柚子。'],['c','yz','h','……跟我一樣。所以沒關係。']],
+  refuse:[['c','yz','t','我在趕作品……現在真的沒辦法。'],['n','電話那頭，只剩下鉛筆沙沙的聲音。']],
+  snark:[['c','yz','t','嗯。大家都很辛苦，不是只有你。'],['n','他說得很平靜，平靜到讓你更難過。']]},
+ datou:{
+  comfort:[['c','datou','x','你打給我？我？……好，我在聽。'],['n','大頭聽了很久，最後說：「國小的時候，我很對不起你們。你一定可以的。」']],
+  joke:[['c','datou','h','難過喔？明天來我家，吃我媽做的蛋餅，吃完就好了。'],['n','那份蛋餅，真的很好吃。']],
+  refuse:[['c','datou','d','欸……我們好像沒有那麼熟耶。'],['n','他說完，有點尷尬地掛了電話。']],
+  snark:[['c','datou','a','哈哈，你也有今天喔！'],['n','你突然想起國小那個被丟出窗外的鉛筆盒。']]}
+};
+var FOLLOW={
+ comfort:['q','你要？',[
+  ['「謝謝你。有你在真好。」',{tr:'kind',xa:2,rel:'ok',r:[['c','X','w','笨蛋，本來就應該的啊。']]}],
+  ['哭到睡著，電話都沒有掛',{tr:'free',xa:1,rel:'ok',r:[['n','隔天醒來，電話還通著。{X}傳了一句：「早安，有好一點嗎？」']]}],
+  ['「下次換我請你吃好吃的！」',{tr:'funny',xa:1,rel:'ok',r:[['c','X','h','說好的喔，我要吃最貴的。']]}],
+  ['寫一篇日記，最後一行寫「謝謝{X}」',{tr:'smart',xa:1,rel:'ok',r:[['n','很多年後，你翻到這一頁，還是會笑出來。']]}]]],
+ joke:['q','你要？',[
+  ['跟著一起講幹話，笑到忘記難過',{tr:'funny',xa:2,rel:'ok',r:[['n','你們講到半夜兩點，最後連自己為什麼難過都忘了。']]}],
+  ['「我是認真的啦……」',{tr:'brave',xa:1,rel:'ok',r:[['c','X','c','……對不起。好，我認真聽。'],['n','{X}安靜地聽你講完，一句話都沒有打斷。']]}],
+  ['覺得被敷衍，默默把電話掛掉',{rel:'chance',xa:-1,r:[['n','你把手機丟到床上。{X}傳了三個問號，你都沒有回。']]}],
+  ['「謝謝你逗我笑。」',{tr:'kind',xa:1,rel:'ok',r:[['c','X','w','……我只會這招嘛。']]}]]],
+ refuse:['q','你要怎麼面對{X}？',[
+  ['「沒關係，你也有你的事。」還是好朋友',{tr:'kind',rel:'ok',r:[['n','你自己去河堤走了一圈。風很涼，心慢慢就沒那麼痛了。']]}],
+  ['有點受傷，但願意再給{Xta}一次機會',{tr:'smart',xa:-1,rel:'chance',r:[['n','你把這件事放在心裡。也許哪一天，{Xta}會懂。']]}],
+  ['「以後，我們不要再聯絡了。」',{tr:'brave',xa:-3,rel:'cut',r:[['n','你刪掉了{X}的電話。房間好安靜。'],['n','你哭了很久。哭完以後，心裡好像空出了一點位置。']]}],
+  ['傳一張「已讀不回」的貼圖給{Xta}',{tr:'funny',xa:-1,rel:'chance',r:[['n','{X}回了一個問號。你們誰都沒有再傳下一句。']]}]]],
+ snark:['q','你要怎麼面對{X}？',[
+  ['「我知道你不是故意的。」還是好朋友',{tr:'kind',rel:'ok',r:[['n','你自己去河堤走了一圈。風很涼，心慢慢就沒那麼痛了。']]}],
+  ['很受傷，但願意再給{Xta}一次機會',{tr:'smart',xa:-1,rel:'chance',r:[['n','你把這件事放在心裡。也許哪一天，{Xta}會懂。']]}],
+  ['「我們不用再當朋友了。」',{tr:'brave',xa:-3,rel:'cut',r:[['n','你刪掉了{X}的電話。房間好安靜。'],['n','你哭了很久。哭完以後，心裡好像空出了一點位置。']]}],
+  ['嗆回去：「那你呢？你又好到哪裡？」',{tr:'funny',xa:-1,rel:'chance',r:[['c','X','x','……'],['n','你們同時掛了電話。']]}]]]
+};
+var SELFCALL=[['n','你一個人坐在樓梯間哭完，去便利商店買了一支冰淇淋。'],['n','回到宿舍，阿凱什麼都沒問，只是默默分了你一包洋芋片。'],['c','akai','s','……要不要一起看綜藝節目？']];
+function affOf(id){return id==='azhe'?G.z:id==='xq'?G.g:id==='mi'?G.mi:id==='yz'?G.yz:id==='datou'?G.dt:3;}
+function addAffOf(id,n){if(id==='azhe')G.z+=n;else if(id==='xq')G.g+=n;else if(id==='mi')G.mi+=n;else if(id==='yz')G.yz+=n;else if(id==='datou')G.dt+=n;}
+function isGone(id){return !!(G.rel&&G.rel[id]==='cut');}
+function callSteps(k){
+  if(k==='self'){G.called='self';return SELFCALL.slice();}
+  var id=k==='B'?(G.bff==='none'?'datou':Bid()):k;
+  G.callee=id;G.called=id;
+  var a=affOf(id),r=Math.random(),w;
+  if(a>=6)w=[.55,.3,.15,0];else if(a>=3)w=[.3,.3,.25,.15];else w=[.15,.2,.3,.35];
+  var types=['comfort','joke','refuse','snark'],t='snark',acc=0;
+  for(var i=0;i<4;i++){acc+=w[i];if(r<acc){t=types[i];break;}}
+  G.react=t;
+  return REACT[id][t].concat([FOLLOW[t]]);
+}
+function setRel(id,rel){
+  if(!id)return;var prev=G.rel[id];G.rel[id]=rel;
+  if(rel==='cut'){
+    if(G.pt===id){G.lastPt=id;G.pt='none';if(G.rom==='confess')G.rom='friend';}
+    if(id==='mi'||id==='yz'){if(G.bff==='both'){G.bff=id==='mi'?'yz':'mi';G.bffCut=id;}else if(G.bff===id){G.bff='none';G.bffCut=id;}}
+  }
+  if((rel==='ok'||rel==='far')&&prev==='cut'){if(G.bffCut===id){G.bff=G.bff==='none'?id:'both';G.bffCut=null;}G.healed='reunion';}
+  if(rel==='ok'&&prev==='chance')G.healed='chance';
+}
+
+/* ================= 引擎 ================= */
+var G={ch:0,i:0,steps:[],t:{},z:0,g:0,rom:'friend',last:''};
+var log=$('log'),typing=null,typeDone=null,waiting=null,inQ=false;
+function resetRun(){G.t={kind:0,brave:0,funny:0,smart:0,free:0};G.z=0;G.g=0;G.rom='friend';G.crush='none';G.last='';G.hp=5;G.smoke=0;G.drink=0;G.quit=0;G.pt='none';G.life='single';G.kid='none';G.an=0;G.gu=0;G.bff='none';G.gname='';G.fl={};G.ev=[];G.bffEver=null;G.confessed=0;G.byeDone=0;G.rel={};G.callee=null;G.called=null;G.react=null;G.healed=null;G.bffCut=null;G.dt=1;G.mi=0;G.yz=0;G.lastPt=null;}
+function chapter(ci){
+  G.ch=ci;G.i=0;G.steps=STORY[ci].steps.slice();
+  var c=STORY[ci];$('bAge').textContent=c.age;$('bTitle').textContent=c.t;
+  $('tA').textContent=c.age;$('tT').textContent=c.t;$('tMe').innerHTML=svgWrap(chibi(youLook(c.stage),'h'));SFX.page();SFX.chapter(.25);
+  log.innerHTML='';curSpk=null;meEx='n';curBg='kinder';
+  $('turn').hidden=false;waiting=function(){$('turn').hidden=true;step();};
+  drawTraits();
+}
+function scroll(){log.scrollTop=log.scrollHeight;}
+function write(span,text,voice){
+  clearInterval(typing);
+  if(reduce){span.textContent=text;typeDone=null;return;}
+  var n=0;span.textContent='';
+  typeDone=function(){clearInterval(typing);typing=null;span.textContent=text;typeDone=null;scroll();};
+  typing=setInterval(function(){n++;span.textContent=text.slice(0,n);var ch=text.charAt(n-1);if(n%2===0&&!/[\s，。！？、「」…—：；,.!?（）]/.test(ch))blip(voice);if(n%10===0)scroll();if(n>=text.length)typeDone();},22);
+}
+function addLine(cls,who,col,text,voice){
+  var p=el('p','ln '+cls);
+  if(who){var w=el('span','who',who);if(col)w.style.background=col;p.appendChild(w);}
+  var sp=el('span');p.appendChild(sp);log.appendChild(p);scroll();write(sp,sub(text),voice);
+}
+function setBtns(){$('nx').disabled=inQ;$('ff').disabled=inQ;}
+function snapRun(){
+  var kids=Array.prototype.slice.call(log.children,-40).map(function(n){return n.outerHTML;}).join('');
+  return {G:JSON.parse(JSON.stringify(G)),bg:curBg,spk:curSpk,ex:curEx,me:meEx,log:kids,age:STORY[G.ch].age};
+}
+function persist(){try{SAVE.run=snapRun();save();}catch(e){}}
+function inGame(){return $('home').hidden&&$('maker').hidden&&$('end').hidden&&G.steps&&G.steps.length>0;}
+function resumeRun(r){
+  if(!r||!r.G)return startRun();
+  for(var k in r.G)G[k]=r.G[k];
+  curBg=r.bg||'kinder';curSpk=r.spk||null;curEx=r.ex||'n';meEx=r.me||'n';sceneKey='';
+  var c=STORY[G.ch];$('bAge').textContent=c.age;$('bTitle').textContent=c.t;
+  log.innerHTML=r.log||'';
+  ['home','maker','end','book'].forEach(function(id){$(id).hidden=true;});$('turn').hidden=true;
+  var m=$('menu');if(m)m.hidden=true;
+  inQ=false;waiting=null;typeDone=null;clearInterval(typing);
+  drawScene();drawTraits();scroll();step();
+}
+function step(){
+  persist();
+  var s=G.steps[G.i];inQ=false;setBtns();
+  if(!s){
+    if(G.ch+1<STORY.length){
+      var b=el('button','op','翻到下一頁 ▸');b.type='button';b.style.alignSelf='flex-end';
+      var w=el('div','ch');w.appendChild(b);log.appendChild(w);scroll();
+      waiting=function(){chapter(G.ch+1);};
+      b.addEventListener('click',function(e){e.stopPropagation();if(waiting){var f=waiting;waiting=null;f();}});
+    }
+    return;
+  }
+  var t=s[0];
+  if(t==='bg'){curBg=s[1];addLine('loc','','',s[2]||'');drawScene();G.i++;step();return;}
+  if(t==='sw'){var key=swKey(s[2]);var arr=s[1][key]||s[1]._||(s[2]?null:s[1].friend)||[];Array.prototype.splice.apply(G.steps,[G.i,1].concat(arr));step();return;}
+  if(t==='ending'){showEnding();return;}
+  if(t==='rand'){var ev=pickEvent(s[1],s[2]);Array.prototype.splice.apply(G.steps,[G.i,1].concat(ev?ev.s:[]));step();return;}
+  if(t==='ev'){addLine('n ev','★ 突發事件','#F2994A',s[1]);tone(880,.1,'sine',.06);tone(1320,.16,'sine',.06,.08);drawScene();waiting=function(){G.i++;step();};return;}
+  if(t==='q'){if(s[3]&&s[3].need&&isGone(who(s[3].need))){G.i++;step();return;}ask(s);return;}
+  if(t==='name'){askName(s);return;}
+  if(t==='n'){addLine('n','','',s[1]);drawScene();}
+  else if(t==='p'){meEx='s';addLine('me',nm(),'',s[1],VOICE.me);drawScene('me');}
+  else if(t==='c'){var force=s[1].slice(-1)==='!',cid=who(force?s[1].slice(0,-1):s[1]);if(!force&&isGone(cid)){G.i++;step();return;}curSpk=cid;curEx=s[2];meEx=s[2]==='c'||s[2]==='d'?'d':(s[2]==='h'?'s':'n');addLine('n',npcLook(cid,STORY[G.ch].stage).n,NCOL[cid],s[3],VOICE[cid]);drawScene('npc');}
+  waiting=function(){G.i++;step();};
+}
+function advance(){
+  if(!$('turn').hidden){var w=waiting;waiting=null;if(w)w();return;}
+  if(inQ)return;
+  if(typeDone){typeDone();return;}
+  if(waiting){var f=waiting;waiting=null;f();}
+}
+function fastForward(){
+  var guard=0;
+  while(!inQ&&guard++<60){
+    if(typeDone)typeDone();
+    var s=G.steps[G.i];if(!s||s[0]==='ending')break;
+    if(!waiting)break;
+    var f=waiting;waiting=null;f();
+  }
+  if(typeDone)typeDone();
+}
+function ask(s){
+  inQ=true;setBtns();waiting=null;
+  var w=el('div','ch');w.appendChild(el('p','qh',sub(s[1])));
+  s[2].forEach(function(o){
+    var b=el('button','op');b.type='button';
+    b.appendChild(el('span','lb',sub(o[0])));
+    var tr0=o[1].tr;var tg=el('span','tg',tr0?TI[tr0]:'·');tg.style.background=tr0?TC[tr0]:'#C9BFC6';if(tr0)tg.title=TN[tr0];b.appendChild(tg);
+    b.addEventListener('click',function(e){e.stopPropagation();if(!inQ)return;choose(o,b,w);});
+    w.appendChild(b);
+  });
+  log.appendChild(w);scroll();
+}
+var GN_SUG=['辣椒柚子暴龍','暴龍小分隊','永遠十四歲','不准解散','午餐吃什麼'];
+function askName(s){
+  inQ=true;setBtns();waiting=null;
+  var w=el('div','ch');w.appendChild(el('p','qh',sub(s[1])));
+  var ip=el('input','name');ip.id='gName';ip.maxLength=12;ip.placeholder='最多 12 個字';ip.value=SAVE.lastG||'';
+  w.appendChild(ip);
+  var r=el('div','row');
+  GN_SUG.forEach(function(t){var b=el('button','tx',t);b.type='button';b.setAttribute('data-snd','0');b.addEventListener('click',function(e){e.stopPropagation();ip.value=t;SFX.pop();});r.appendChild(b);});
+  w.appendChild(r);
+  var ok=el('button','op','就叫這個名字！');ok.type='button';
+  function done(e){if(e)e.stopPropagation();if(!inQ)return;
+    var v=(ip.value||'').replace(/\s+/g,' ').trim().slice(0,12)||'暴龍小分隊';
+    G.gname=v;SAVE.lastG=v;save();inQ=false;ip.disabled=true;ok.disabled=true;ok.classList.add('done','pick');
+    Array.prototype.forEach.call(r.children,function(x){x.disabled=true;});
+    SFX.pick();SFX.trait.funny(.12);var br=ok.getBoundingClientRect();confetti(18,br.left+br.width/2,br.top+br.height/2);
+    var c=el('span','chip','群組「'+v+'」成立！');c.style.background=NCOL.mi;var cw=el('div');cw.appendChild(c);log.appendChild(cw);
+    meEx='h';drawScene('me');G.i++;step();}
+  ok.addEventListener('click',done);
+  ip.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();done();}});
+  ip.addEventListener('click',function(e){e.stopPropagation();});
+  w.appendChild(ok);log.appendChild(w);scroll();
+}
+function choose(o,b,w){
+  inQ=false;
+  Array.prototype.forEach.call(w.querySelectorAll('.op'),function(x){x.disabled=true;x.classList.add('done');});
+  b.classList.add('pick');
+  var e=o[1];
+  var z0=G.z,g0=G.g,h0=G.hp,P0=G.pt;
+  if(e.tr){G.t[e.tr]++;G.last=e.tr;}
+  if(e.z)G.z+=e.z;if(e.g)G.g+=e.g;if(e.rom)G.rom=e.rom;if(e.crush)G.crush=e.crush;if(e.lv)addAff(Lid(),e.lv);if(e.fr)addAff(Fid(),e.fr);
+  if(e.rom==='confess')G.pt=Lid();
+  if(e.pt)G.pt=e.pt;if(e.an)G.an+=e.an;if(e.gu)G.gu+=e.gu;
+  if(e.fl)G.fl[e.fl]=1;if(e.bff)G.bffEver=e.bff;if(e.rom==='confess')G.confessed=1;if(e.bye)G.byeDone=1;
+  if(e.dt)G.dt+=e.dt;if(e.xa&&G.callee)addAffOf(G.callee,e.xa);if(e.rel)setRel(G.callee,e.rel);
+  if(e.bff)G.bff=e.bff;var m0=G.mi,y0=G.yz;if(e.mi)G.mi+=e.mi;if(e.yz)G.yz+=e.yz;if(e.bf){if(G.bff==='mi'||G.bff==='both')G.mi+=e.bf;if(G.bff==='yz'||G.bff==='both')G.yz+=e.bf;}
+  if(e.hp)G.hp=Math.max(0,Math.min(12,G.hp+e.hp));if(e.smoke)G.smoke+=e.smoke;if(e.drink)G.drink+=e.drink;if(e.quit)G.quit=1;
+  if(e.life)G.life=e.life;if(e.kid)G.kid=e.kid;if(e.bye){G.lastPt=G.pt;G.pt='none';}
+  var dz=G.z-z0,dg=G.g-g0,dh=G.hp-h0;
+  SFX.pick();if(e.tr)SFX.trait[e.tr](.12);if(dz>0||dg>0||e.an||e.gu||e.mi||e.yz||e.bf)SFX.heart(.42);if(dh<0)tone(220,.3,'sine',.08,.15,140);
+  try{if(navigator.vibrate)navigator.vibrate(12);}catch(_){}
+  var br=b.getBoundingClientRect();if(e.tr)confetti(14,br.left+br.width/2,br.top+br.height/2);
+  var cw=el('div');
+  function chipA(txt,col,left,top){floatTag(txt,col,left,top);var c=el('span','chip',txt);c.style.background=col;cw.appendChild(c);}
+  if(e.tr)chipA('+1 '+TN[e.tr]+' '+TI[e.tr],TC[e.tr],'34%','10%');
+  if(dh)chipA('健康 '+(dh>0?'+':'')+dh,dh>0?'#4CBF86':'#8E7F8A','34%','26%');
+  if(dz>0)chipA('阿哲 ♥',NCOL.azhe,'68%','8%');
+  if(dg>0)chipA('小晴 ♥',NCOL.xq,'68%','24%');
+  if(e.an)chipA('小安 ♥',NCOL.anan,'68%','40%');
+  if(e.gu)chipA('阿光 ♥',NCOL.guang,'68%','40%');
+  if(G.mi>m0)chipA('小米 ♥',NCOL.mi,'68%','56%');
+  if(G.yz>y0)chipA('柚子 ♥',NCOL.yz,'68%','56%');
+  log.appendChild(cw);
+  drawTraits(e.tr||(dh?'hp':''));meEx=dh<0&&!e.tr?'d':'h';drawScene('me');
+  var rs=e.call?callSteps(e.call):(e.r||[]).slice();
+  Array.prototype.splice.apply(G.steps,[G.i+1,0].concat(rs));
+  G.i++;step();
+}
+$('log').addEventListener('click',advance);
+$('stage').addEventListener('click',advance);
+$('nx').addEventListener('click',advance);
+$('ff').addEventListener('click',fastForward);
+$('turn').addEventListener('click',advance);
+
+/* ================= 結局 ================= */
+function pickEnding(){
+  var arr=TR.slice().sort(function(a,b){var d=G.t[b]-G.t[a];if(d)return d;if(a===G.last)return -1;if(b===G.last)return 1;return TR.indexOf(a)-TR.indexOf(b);});
+  var a=arr[0],b=arr[1];
+  var key=(G.t[a]-G.t[b]>=3)?a:pairKey(a,b);
+  for(var i=0;i<ENDS.length;i++)if(ENDS[i].k===key)return i;
+  return 0;
+}
+function comps(){var bff=G.bff==='both'?['mi','yz']:(G.bff==='mi'||G.bff==='yz'?[G.bff]:[]);var love=(G.life==='married'||G.life==='together')&&G.pt&&G.pt!=='none'?G.pt:null,F=Fid();var bf=G.rom!=='match'&&aff(F)>=5&&F!==love&&!isGone(F)?F:null;bff=bff.filter(function(x){return !isGone(x);});var r={love:love,bf:bf,match:G.rom==='match'};if(!love&&!r.match&&bff.length)r.l2=bff.shift();if(!bf&&!r.match&&bff.length)r.r2=bff.shift();return r;}
+function stickerSVG(ei,me,cp){
+  var e=ENDS[ei];
+  var you=chibi(youLook('a',COST[e.c],me),'h');
+  var x=npcLook('xq','a'),zh=npcLook('azhe','a');
+  if(cp&&cp.xq&&!cp.love)cp.love='xq';if(cp&&cp.zhe&&!cp.bf&&!cp.match)cp.bf='azhe';
+  var s='<circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="88" fill="'+e.bg+'"/>';
+  s+=rep(6,function(i){var a=i/6*Math.PI*2+.3;return '<path transform="translate('+(100+Math.cos(a)*74)+' '+(100+Math.sin(a)*74)+') scale(.5)" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2Z" fill="#fff" opacity=".8"/>';});
+  if(cp&&cp.love)s+=place(chibi(npcLook(cp.love,'a'),'w'),14,92,.55)+'<path d="M48 84 c-4 -6 -12 -2 -8 4 l8 7 l8 -7 c4 -6 -4 -10 -8 -4Z" fill="#F27BA0"/>';
+  if(cp&&cp.bf)s+=place(chibi(npcLook(cp.bf,'a'),'h'),130,96,.52);
+  if(cp&&cp.match)s+=place(chibi(x,'h'),12,96,.52)+place(chibi(zh,'h'),130,96,.52);
+  if(cp&&cp.l2)s+=place(chibi(npcLook(cp.l2,'a'),'h'),12,96,.52);
+  if(cp&&cp.r2)s+=place(chibi(npcLook(cp.r2,'a'),'h'),130,96,.52);
+  s+=place(you,52,34,.82);
+  s+='<path d="M30 168 Q100 196 170 168" stroke="#fff" stroke-width="22" fill="none" stroke-linecap="round"/><text x="100" y="180" text-anchor="middle" font-size="15" fill="#4A3B47" font-family="Huninn,sans-serif">'+e.t+'</text>';
+  return svgWrap(s,'0 0 200 200');
+}
+function showEnding(){
+  var ei=pickEnding(),e=ENDS[ei],cp=comps();
+  var isNew=!SAVE.found[ei];
+  SAVE.found[ei]={me:JSON.parse(JSON.stringify(SAVE.me)),cp:cp};SAVE.runs++;save();
+  $('bN').textContent=foundN();
+  var sc=$('end');sc.innerHTML='';
+  var inn=el('div','in reveal');
+  inn.appendChild(el('p','label',nm()+'的一生，這輩子的工作是'));
+  inn.appendChild(el('h2','',e.t));
+  if(isNew)inn.appendChild(el('span','newb','新貼紙！'));
+  var st=el('div','stk');st.innerHTML=stickerSVG(ei,SAVE.me,cp);inn.appendChild(st);
+  var cd=el('div','card etext');
+  e.x.forEach(function(s){cd.appendChild(el('p','',s));});
+  inn.appendChild(cd);
+  var Lx=Lid(),Fx=Fid();
+  var life=el('div','card life');life.appendChild(el('h3','','人生小卡'));
+  function row(icon,col,title,text){var r=el('div','lrow');var ic=el('span','lic',icon);ic.style.background=col;r.appendChild(ic);var tx=el('div');tx.appendChild(el('b','',title));tx.appendChild(el('p','',text));r.appendChild(tx);life.appendChild(r);}
+  var P=G.pt&&G.pt!=='none'?G.pt:null,pn=P?NPC[P].n:'',fam;
+  if(G.life==='married'&&P)fam='你和'+pn+'結婚了，一起走了好長一段路。';
+  else if(G.life==='together'&&P)fam='你和'+pn+'沒有結婚，但一起過了一輩子。';
+  else fam=G.lastPt?'你和'+NPC[G.lastPt].n+'好好說了再見。後來你一個人，過得自由又熱鬧。':'你一個人，過了自由又熱鬧的一生。';
+  var KID={baby:'你們的小孩，也讀了向日葵班。',adopt:'你們領養的孩子，在畢業典禮上哭著說謝謝你們。',pet:'家裡的狗和貓，把沙發咬得亂七八糟。',trip:'護照上，蓋滿了四十個國家的章。',shop:'你們的早午餐店，招牌菜是青椒炒蛋。',cat:'你的黑貓「青椒」，活到了二十歲。',music:'你的大提琴，在社區音樂會上拉了二十年。',party:'你家冰箱上的便利貼，多到要買第二台冰箱。'};
+  if(KID[G.kid])fam+=KID[G.kid];
+  row('♥','#F27BA0','家',fam);
+  var hv=G.hp,ht;
+  if(hv>=6)ht='八十歲的你，還能自己爬上溜滑梯。';
+  else if(hv>=2)ht='八十歲的你拄著拐杖，但笑得跟五歲一樣。';
+  else ht='八十歲的你身體不太好，大家把消防車帶到醫院來看你。';
+  if(G.smoke>0&&!G.quit)ht+='醫生說，如果年輕時沒抽那些菸，你可以走得更遠。';
+  else if(G.smoke>0)ht+='還好你在四十五歲那年戒了菸。';
+  if(G.drink>0&&!G.quit)ht+='喝酒的那些年，你的肝一直在默默加班。';
+  row('✚',hv>=6?'#4CBF86':(hv>=2?'#F2994A':'#E5484D'),'健康 '+hv,ht);
+  var fr;
+  if(G.rom==='match')fr='阿哲和小晴的小孩，都叫你「月老」。';
+  else if(G.crush==='none')fr='小晴和阿哲一直是你最好的朋友。交換日記寫到了第十二本。';
+  else fr=(G.rom==='friend'?NPC[Lx].n+'每年都會找你吃一次飯。':'')+(aff(Fx)>=5?(Fx==='azhe'?'阿哲每週都打給你，大部分時間都在講牛肉湯。':'小晴每天都傳一堆貓咪貼圖給你。'):'你們三個，到老都還在群組裡吵晚餐要吃什麼。');
+  var goneN=['azhe','xq'].filter(isGone).map(function(x){return NPC[x].n;});
+  if(goneN.length)fr='你和'+goneN.join('、')+'後來再也沒有聯絡。剩下的朋友們，陪你走到了最後。';
+  row('★','#3FB6E0','朋友',fr);
+  if(G.called){var xn=G.callee?NPC[G.callee].n:'',xs=G.callee?G.rel[G.callee]:'',ht2;
+    if(G.called==='self')ht2='二十歲那個難過的晚上，你一個人撐了過去。冰淇淋和阿凱的洋芋片，幫了很大的忙。';
+    else if(xs==='cut')ht2='二十歲那晚，你打給了'+xn+'。後來你們再也沒有聯絡。你學會了保護自己的心。';
+    else if(xs==='far')ht2='你和'+xn+'在同學會上重新打了招呼，後來變成點頭之交。有些人，陪你走一段就好。';
+    else if(G.healed==='reunion')ht2='你和'+xn+'斷了好幾年聯絡，最後在同學會上和好了。';
+    else if(G.healed==='chance')ht2=xn+'曾經讓你很受傷。你給了'+TA[G.callee]+'第二次機會，你們又變回好朋友。';
+    else if(G.react==='comfort')ht2='二十歲那個難過的晚上，'+xn+'陪著你。從那天起，你知道自己不是一個人。';
+    else if(G.react==='joke')ht2='二十歲那個難過的晚上，'+xn+'講了一堆幹話。你邊哭邊笑，然後就好了。';
+    else ht2='二十歲那個難過的晚上，'+xn+'沒有接住你。可是你們還是朋友。';
+    row('☁','#8E9CC8','心事',ht2);}
+  var gn=G.gname||'暴龍小分隊';var BFT={mi:'小米從十四歲到八十歲，一直戴著那條黃色的暴龍手環。你們的群組「'+gn+'」，到八十歲都還在跳訊息。',yz:'柚子幫你畫了一輩子的畫，最後一張畫的是八十歲的你。你們的群組「'+gn+'」，到八十歲都還在跳訊息。',both:'三人閨蜜團「'+gn+'」，到八十歲都還沒解散。'};
+  if(BFT[G.bff])row('✿','#E0961A','閨蜜',BFT[G.bff]);
+  inn.appendChild(life);
+  SAVE.ach=SAVE.ach||{};
+  var gotA=ACH.filter(function(a){try{return !!a.f();}catch(_){return false;}}),newA=gotA.filter(function(a){return !SAVE.ach[a.id];});
+  newA.forEach(function(a){SAVE.ach[a.id]=1;});save();
+  if(gotA.length){var ac=el('div','card');ac.appendChild(el('h3','achh','這一輪的人生成就'));var gg=el('div','achgrid');
+    gotA.forEach(function(a){var bd=achBadge(a,true);if(newA.indexOf(a)>-1)bd.classList.add('new');gg.appendChild(bd);});
+    ac.appendChild(gg);ac.appendChild(el('p','small','人生成就 '+achN()+' / '+ACH.length+(newA.length?'。這一輪新拿到 '+newA.length+' 張！':'')));inn.appendChild(ac);}
+  var bars=el('div','card bars');
+  var mx=Math.max.apply(null,TR.map(function(k){return G.t[k];}))||1;
+  TR.forEach(function(k){var r=el('div','bar');r.appendChild(el('span','',TI[k]+' '+TN[k]));var d=el('div');var i=el('i');i.style.width=(G.t[k]/mx*100)+'%';i.style.background=TC[k];d.appendChild(i);r.appendChild(d);r.appendChild(el('span','',String(G.t[k])));bars.appendChild(r);});
+  inn.appendChild(bars);
+  inn.appendChild(el('p','small','貼紙簿 '+foundN()+' / 15。選不一樣的答案，你的一生就會不一樣。'));
+  var a=el('button','btn','再長大一次');a.type='button';a.addEventListener('click',function(){sc.hidden=true;startRun();});inn.appendChild(a);
+  var b=el('button','btn w','換個樣子再玩');b.type='button';b.addEventListener('click',function(){sc.hidden=true;maker();});inn.appendChild(b);
+  var c=el('button','btn w','打開貼紙簿');c.type='button';c.addEventListener('click',showBook);inn.appendChild(c);
+  sc.appendChild(inn);sc.hidden=false;sc.scrollTop=0;
+  SFX.peel();SFX.fanfare(.3);confetti(70,0,0,true);
+  delete SAVE.run;save();
+}
+
+/* ================= 貼紙簿 ================= */
+function showBook(){
+  var sc=$('book');sc.innerHTML='';
+  var inn=el('div','in');
+  var top=el('div');top.style.display='flex';top.style.justifyContent='space-between';top.style.alignItems='center';
+  var h=el('h2','big','貼紙簿');h.style.fontSize='32px';top.appendChild(h);
+  var x=el('button','btn w','關上');x.type='button';x.style.padding='8px 16px';x.addEventListener('click',function(){sc.hidden=true;});top.appendChild(x);
+  inn.appendChild(top);
+  inn.appendChild(el('p','sub','已經收集 '+foundN()+' / 15 張。每張貼紙上，都是你那一次的樣子。'));
+  var g=el('div','card grid');var open=null;
+  ENDS.forEach(function(e,i){
+    var f=SAVE.found[i];
+    var b=el('button','slot'+(f?'':' off'));b.type='button';
+    if(f){b.innerHTML=stickerSVG(i,f.me,f.cp);b.appendChild(el('span','',e.t));
+      b.addEventListener('click',function(){
+        if(open){var same=open._b===b;g.removeChild(open);open=null;if(same)return;}
+        var d=el('div','detail');d._b=b;d.appendChild(el('b','',e.t));d.appendChild(el('div','',e.x.join('')));
+        var idx=Array.prototype.indexOf.call(g.children,b);var rowEnd=Math.min(g.children.length-1,Math.floor(idx/3)*3+2);
+        g.insertBefore(d,g.children[rowEnd+1]||null);open=d;
+      });
+    }else{b.appendChild(el('div','ph','?'));b.appendChild(el('span','',hintFor(e)));b.disabled=true;}
+    g.appendChild(b);
+  });
+  inn.appendChild(g);
+  var ah=el('h2','big','人生成就');ah.style.fontSize='28px';ah.style.marginTop='8px';inn.appendChild(ah);
+  inn.appendChild(el('p','sub','已經拿到 '+achN()+' / '+ACH.length+' 張。灰色的那些，下面有一點點提示。'));
+  var ag=el('div','card achgrid');ACH.forEach(function(a){ag.appendChild(achBadge(a,!!(SAVE.ach&&SAVE.ach[a.id]),true));});inn.appendChild(ag);
+  sc.appendChild(inn);sc.hidden=false;sc.scrollTop=0;SFX.sheet();
+}
+$('bBook').addEventListener('click',showBook);
+function showMenu(){
+  var sc=$('menu');if(!sc){sc=el('section','scr');sc.id='menu';document.body.appendChild(sc);}
+  sc.innerHTML='';var inn=el('div','in');
+  var h=el('h2','big','暫停一下');h.style.fontSize='34px';inn.appendChild(h);
+  inn.appendChild(el('p','sub','現在是 '+STORY[G.ch].age+'。進度會自動存好，關掉再打開也能接著玩。'));
+  var a=el('button','btn','繼續玩');a.type='button';a.addEventListener('click',function(){sc.hidden=true;});inn.appendChild(a);
+  var b=el('button','btn w','打開貼紙簿');b.type='button';b.addEventListener('click',function(){sc.hidden=true;showBook();});inn.appendChild(b);
+  var c=el('button','btn w','換個樣子（換完會接著玩）');c.type='button';c.addEventListener('click',function(){persist();sc.hidden=true;maker();});inn.appendChild(c);
+  var d=el('button','btn w','回首頁');d.type='button';d.addEventListener('click',function(){persist();sc.hidden=true;home();});inn.appendChild(d);
+  sc.appendChild(inn);sc.hidden=false;
+}
+$('bMenu').addEventListener('click',function(e){e.stopPropagation();showMenu();});
+$('bSnd').textContent=sndLabel();$('bSnd').addEventListener('click',toggleSnd);
+$('stage').addEventListener('pointerdown',function(e){var r=this.getBoundingClientRect();spark(e.clientX-r.left,e.clientY-r.top,this);});
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('button'):null;if(!b||b.classList.contains('op')||b.getAttribute('data-snd')==='0')return;SFX.tap();},true);
+
+/* ================= 捏臉 ================= */
+function maker(){
+  normMe();
+  var sc=$('maker');sc.innerHTML='';
+  var inn=el('div','in');
+  var h=el('h2','big');h.innerHTML='做一個<span>你</span>';inn.appendChild(h);
+  var pv=el('div','card mkpv');inn.appendChild(pv);
+  function redraw(bump){
+    var s='<rect width="360" height="190" fill="#FFF5F8"/>'+rep(16,function(i){return '<circle cx="'+((i*61+13)%360)+'" cy="'+((i*37)%120+10)+'" r="2.5" fill="#FFD3DF"/>';});
+    var WSC={k:.8,e:.86,j:.95,s:1,u:1,w:1,a:1,m:1,h:1,r:1,o:1};
+    var list=cur==='wear'?[[wearSt,WSC[wearSt],180-60*WSC[wearSt],WLAB[wearSt]]]:[['k',.66,34,'5 歲'],['s',.8,132,'17 歲'],['a',.92,244,'30 歲']];
+    list.forEach(function(a,i){
+      var w=120*a[1];
+      s+='<ellipse cx="'+(a[2]+w/2)+'" cy="171" rx="'+(w*.32)+'" ry="5" fill="#F6DCE4"/>';
+      s+='<g'+(bump?' class="hopme" style="animation-delay:'+(i*.08)+'s"':'')+'>'+place(chibi(youLook(a[0]),bump?'h':'s'),a[2],172-160*a[1],a[1])+'</g>';
+      s+='<text x="'+(a[2]+w/2)+'" y="186" text-anchor="middle" font-size="12" fill="#9A8794" font-family="Huninn,sans-serif">'+a[3]+'</text>';
+    });
+    pv.innerHTML=svgWrap(s,'0 0 360 190');
+  }
+  var TABS=[['sex','我是',[['m','男生'],['f','女生'],['n','不想說']]],['hair','髮型',HAIRS],['wear','穿搭',null],['hc','髮色',HCOL],['skin','膚色',SKIN],['eye','眼睛',EYES],['cheek','臉頰',CHEEK],['hacc','頭上',HACC],['facc','臉上',FACC],['fav','最愛的顏色',FAV],['name','名字']];
+  var tabs=el('div','tabs');tabs.setAttribute('role','tablist');
+  var panel=el('div','card opt');var cur='sex',wearSt='j';
+  var WST=[['k','5 歲'],['e','10 歲'],['j','14 歲'],['s','17 歲'],['u','20 歲'],['w','24–28 歲'],['a','30 歲'],['m','35 歲'],['h','45 歲'],['r','65 歲'],['o','80 歲']],WLAB={};WST.forEach(function(x){WLAB[x[0]]=x[1];});
+  function showTab(key){
+    var was=cur;cur=key;if(was==='wear'||key==='wear')redraw();
+    Array.prototype.forEach.call(tabs.children,function(t){var on=t._k===key;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
+    panel.innerHTML='';
+    var T=TABS.filter(function(t){return t[0]===key;})[0];
+    if(key==='name'){
+      panel.appendChild(el('h3','','大家會用這個名字叫你'));
+      var ip=el('input','name');ip.id='meName';ip.maxLength=8;ip.placeholder='不填就叫「你」';ip.value=SAVE.me.name||'';
+      ip.addEventListener('input',function(){SAVE.me.name=ip.value;});panel.appendChild(ip);return;
+    }
+    if(key==='wear'){
+      function chips(title,items,get,set){
+        panel.appendChild(el('h3','',title));var r=el('div','row');
+        items.forEach(function(it){var b=el('button','tx',it[1]);b.type='button';b.setAttribute('data-snd','0');if(get()===it[0])b.classList.add('on');
+          b.addEventListener('click',function(){set(it[0]);Array.prototype.forEach.call(r.children,function(x){x.classList.remove('on');});b.classList.add('on');SFX.pop();redraw(true);save();});r.appendChild(b);});
+        panel.appendChild(r);
+      }
+      function W(){var m=SAVE.me;if(!m.wear[wearSt])m.wear[wearSt]={};return m.wear[wearSt];}
+      panel.appendChild(el('h3','','先選一個年紀，再換那時候的穿搭'));
+      var ar=el('div','row');
+      WST.forEach(function(x){var b=el('button','tx',x[1]);b.type='button';b.setAttribute('data-snd','0');if(x[0]===wearSt)b.classList.add('on');b.addEventListener('click',function(){wearSt=x[0];SFX.sheet();redraw();showTab('wear');});ar.appendChild(b);});
+      panel.appendChild(ar);
+      chips('下半身',[['pants','長褲'],['shorts','短褲'],['skirt','裙子']],function(){return W().b||'pants';},function(v){W().b=v;});
+      chips('領口',[['auto','原本的'],['tie','領帶'],['bow','蝴蝶結'],['scarf','領巾'],['none','不要']],function(){return W().n||'auto';},function(v){W().n=v;});
+      var all=el('button','tx','每個年紀都穿這樣');all.type='button';all.style.marginTop='12px';
+      all.addEventListener('click',function(){var c=JSON.parse(JSON.stringify(W()));WST.forEach(function(x){SAVE.me.wear[x[0]]=JSON.parse(JSON.stringify(c));});SFX.trait.kind(0);save();all.textContent='已經套用到每個年紀了';});
+      panel.appendChild(all);
+      return;
+    }
+    if(key==='fav')panel.appendChild(el('h3','','長大以後的衣服和鞋子，會是這個顏色'));
+    var isColor=typeof T[2][0]==='string';
+    var r=el('div','row');
+    T[2].forEach(function(it){
+      var v=isColor?it:it[0];
+      var b=el('button',isColor?'sw':'tx',isColor?'':it[1]);b.type='button';b.setAttribute('data-snd','0');
+      if(isColor){b.style.background=it;b.setAttribute('aria-label',T[1]);}
+      if(SAVE.me[key]===v)b.classList.add('on');
+      b.addEventListener('click',function(){
+        SAVE.me[key]=v;Array.prototype.forEach.call(r.children,function(x){x.classList.remove('on');});b.classList.add('on');
+        SFX.pop();redraw(true);save();
+      });
+      r.appendChild(b);
+    });
+    panel.appendChild(r);
+  }
+  TABS.forEach(function(t){var b=el('button','tab',t[1]);b.type='button';b._k=t[0];b.setAttribute('role','tab');b.addEventListener('click',function(){showTab(t[0]);});tabs.appendChild(b);});
+  inn.appendChild(tabs);inn.appendChild(panel);
+  var rnd=el('button','btn w','隨機一個我');rnd.type='button';rnd.setAttribute('data-snd','0');
+  rnd.addEventListener('click',function(){
+    function p(a){return a[Math.floor(Math.random()*a.length)];}
+    var m=SAVE.me;m.hair=p(HAIRS)[0];m.hc=p(HCOL);m.skin=p(SKIN);m.eye=p(EYES)[0];m.cheek=p(CHEEK)[0];m.hacc=p(HACC)[0];m.facc=p(FACC)[0];m.fav=p(FAV);
+    SFX.trait.funny(0);redraw(true);showTab(cur);save();
+  });
+  inn.appendChild(rnd);
+  var go=el('button','btn',SAVE.run?'就是我了，接著長大！':'就是我了，開始長大！');go.type='button';go.addEventListener('click',function(){save();sc.hidden=true;if(SAVE.run)resumeRun(SAVE.run);else startRun();});inn.appendChild(go);
+  sc.appendChild(inn);redraw();showTab('sex');sc.hidden=false;sc.scrollTop=0;
+}
+
+/* ================= 首頁 ================= */
+function home(){
+  var sc=$('home');sc.innerHTML='';
+  var inn=el('div','in');
+  var hero=el('div','hero');
+  var s=BG.kinder+FX.kinder+place(chibi(youLook('k'),'h'),70,52,.92)+place(chibi(npcLook('azhe','k'),'s'),150,58,.88)+place(chibi(npcLook('xq','k'),'w'),226,58,.88);
+  hero.innerHTML=svgWrap(s,'0 0 360 200');hero.firstChild.style.width='100%';hero.firstChild.style.borderRadius='22px';hero.firstChild.style.border='4px solid #fff';
+  inn.appendChild(hero);
+  var h=el('h1','big');h.innerHTML='長大<span>貼紙簿</span>';inn.appendChild(h);
+  inn.appendChild(el('p','sub','從 5 歲到 80 歲，跟阿哲、小晴一起長大，還會遇到更多人。每一個答案都能選，每一次選擇，都會讓你走向不一樣的人生。最後，你的一生會變成一張貼紙。'));
+  if(SAVE.run){
+    var cont=el('button','btn','接著玩（'+(SAVE.run.age||'')+'）');cont.type='button';cont.addEventListener('click',function(){sc.hidden=true;resumeRun(SAVE.run);});inn.appendChild(cont);
+    var re=el('button','btn w','從 5 歲重新開始');re.type='button';re.addEventListener('click',function(){delete SAVE.run;save();sc.hidden=true;startRun();});inn.appendChild(re);
+  }else{
+  var a=el('button','btn',SAVE.runs?'再長大一次':'開始');a.type='button';
+  a.addEventListener('click',function(){sc.hidden=true;if(SAVE.runs)startRun();else maker();});inn.appendChild(a);
+  }
+  var b=el('button','btn w','捏臉：換個樣子');b.type='button';b.addEventListener('click',function(){sc.hidden=true;maker();});inn.appendChild(b);
+  var c=el('button','btn w','貼紙簿 '+foundN()+' / 15・成就 '+achN()+' / '+ACH.length);c.type='button';c.addEventListener('click',showBook);inn.appendChild(c);
+  var hs=el('button','btn w','音效：'+(SAVE.mute?'關':'開'));hs.type='button';hs.id='hSnd';hs.setAttribute('data-snd','0');hs.addEventListener('click',toggleSnd);inn.appendChild(hs);
+  inn.appendChild(el('p','small','點畫面看下一句。玩第二次以後，可以按「跳到下一題」快轉。進度存在這台裝置。'));
+  sc.appendChild(inn);sc.hidden=false;
+}
+function startRun(){resetRun();$('home').hidden=true;chapter(0);}
+
+document.addEventListener('keydown',function(e){
+  if(!$('home').hidden||!$('maker').hidden||!$('end').hidden||!$('book').hidden)return;
+  if(e.key===' '||e.key==='Enter'){var ae=document.activeElement;if(ae&&(ae.tagName==='INPUT'||(ae.tagName==='BUTTON'&&ae.id!=='nx')))return;e.preventDefault();advance();}
+});
+resetRun();$('bN').textContent=foundN();
+G.ch=0;drawScene();drawTraits();
+var HOT=window.claude&&window.claude.hot;
+if(HOT&&HOT.snapshot){try{HOT.snapshot(function(){return {run:inGame()?snapRun():null};});}catch(e){}}
+function boot(data){
+  var r=(data&&data.run)||null;
+  if(r){resumeRun(r);}else if(SAVE.run){resumeRun(SAVE.run);}else home();
+}
+if(HOT&&HOT.ready){try{HOT.ready(boot);}catch(e){boot({});}}else boot((HOT&&HOT.data)||{});
+window.__cg={G:G,SAVE:function(){return SAVE;},advance:advance,ENDS:ENDS,STORY:STORY,pickEnding:pickEnding};
+})();
+</script>
+
+</body>
+</html>
