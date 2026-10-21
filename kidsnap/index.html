@@ -25,6 +25,10 @@ table.qa{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
 table.qa th,table.qa td{text-align:left;vertical-align:top;padding:12px 10px;border-bottom:1px solid rgba(26,26,25,.14);line-height:1.8}
 table.qa th{color:var(--ink-400);font-weight:400;font-size:13px;letter-spacing:.06em}
 table.qa td:first-child{width:38%;font-weight:700}
+.apphead{display:flex;align-items:center;gap:22px}
+.apphead h1{margin:0}
+.appicon{width:96px;height:96px;border-radius:22px;flex:none;box-shadow:0 2px 12px rgba(26,26,25,.14)}
+@media(max-width:640px){.apphead{gap:14px}.appicon{width:66px;height:66px;border-radius:15px}}
 @media(max-width:600px){.get+.get{margin-left:0;margin-top:10px}}
 </style>
 </head>
@@ -44,7 +48,7 @@ table.qa td:first-child{width:38%;font-weight:700}
 <main>
 <section class="article-hero"><div class="wrap"><div class="article">
 <div class="eyebrow">免費工具</div>
-<h1>KIDSNAP</h1>
+<div class="apphead"><img class="appicon" src="../img/kidsnap-icon.png" alt="KIDSNAP 應用程式圖示" width="96" height="96"><h1>KIDSNAP</h1></div>
 <p class="lede muted">一張臉，把長大串起來。把同一個孩子不同時期的照片丟進來，它會自動找出他、把臉對齊到同一個位置，做成一段「看著長大」的短片。</p>
 </div></div></section>
 
