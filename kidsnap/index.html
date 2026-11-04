@@ -52,13 +52,13 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <div class="dl">
 <p style="margin:0 0 6px;font-weight:700">不用安裝：網頁版 · 電腦、iPhone、Android 都能用</p>
-<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">用瀏覽器直接打開就能做（iPhone 請用 Safari），照片一樣只在你的裝置裡處理、不會上傳。第一次要下載約 39 MB 的辨識模型，之後不用再下載。想一次做上百張、或常常要做，下面的 Mac 版比較快也比較穩。</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">用瀏覽器直接打開就能做（iPhone 請用 Safari），照片一樣只在你的裝置裡處理、不會上傳。第一次要下載約 39 MB 的辨識模型，之後不用再下載。想一次做上百張、或想完全不碰瀏覽器，可以用下面的 Mac 版。</p>
 <a class="get" href="https://rowland10000.github.io/kidsnap/">打開網頁版</a>
 </div>
 
 <div class="dl" style="margin-top:28px">
 <p style="margin:0 0 6px;font-weight:700">Mac 版 · macOS 12 以上 · 免費 · 照片不會上傳</p>
-<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">偵測、辨識、對齊、調色、做影片全部在你自己的電腦裡完成。沒有帳號、沒有雲端、沒有費用。需要的程式都已經附在檔案裡，不用另外安裝任何東西；下載完之後關掉網路也能用。</p>
+<p style="margin:0 0 18px;color:var(--ink-600);font-weight:300;line-height:1.85">偵測、辨識、對齊、調色、做影片全部在你自己的電腦裡完成，照片不會上傳。沒有帳號、沒有費用。需要的程式都已經附在檔案裡，不用另外安裝任何東西。</p>
 <p style="margin:0 0 16px;color:var(--ink-600);font-weight:300;line-height:1.85"><strong style="color:var(--ink-900)">兩個版本選一個</strong>：點左上角蘋果選單 →「關於這台 Mac」，「晶片」寫 Apple M 開頭的選第一顆，寫 Intel 的選第二顆。</p>
 <a class="get" href="https://github.com/rowland10000/kidsnap/releases/download/v1/KIDSNAP_release.zip">Apple Silicon 版（319 MB）</a>
 <a class="get" href="https://github.com/rowland10000/kidsnap/releases/download/v1/KIDSNAP_release_intel.zip">Intel 版（334 MB）</a>
@@ -126,7 +126,7 @@ table.qa td:first-child{width:38%;font-weight:700}
 
 <h2 style="margin-top:56px">你的照片不會離開這台電腦</h2>
 
-<p class="note" style="margin-top:14px">KidSnap 記得拍全程在你自己的電腦上執行。照片不會上傳、不連任何伺服器、不需要帳號或金鑰；下載完之後關掉網路一樣能用。操作畫面的網址是 127.0.0.1，那是你這台電腦自己的位址，別人打不開。</p>
+<p class="note" style="margin-top:14px">你的照片只在這台電腦上處理，不會上傳，也不會傳給我或任何第三方。不需要帳號或金鑰。操作畫面的網址是 127.0.0.1，那是你這台電腦自己的位址，別人打不開。</p>
 
 <div class="warn" style="margin-top:18px"><strong>用完請把那個終端機視窗關掉。</strong>KidSnap 執行時會在你的電腦上開一個只有本機連得到的網址（127.0.0.1:7860），關掉視窗就完全停止。讓它一直開著並不會把照片傳出去，但沒在用的時候關掉比較乾淨。</div>
 
@@ -141,7 +141,8 @@ table.qa td:first-child{width:38%;font-weight:700}
 <tr><td>Windows 或手機可以用嗎</td><td>下載版只有 macOS 12 以上。Windows 和手機請用網頁版，瀏覽器直接開。</td></tr>
 <tr><td>Mac 版和網頁版怎麼選</td><td>兩個版本都不上傳照片。Mac 版是原生程式、多核心運算，照片多或檔案大時比瀏覽器快也比較穩，不用下載模型，任何瀏覽器都能讀 HEIC，影片直接存進資料夾，完全離線也能用。網頁版免安裝、手機和 Windows 也能用，但第一次要等模型下載，手機上照片多時較容易因記憶體不足而重載。有 Mac 就用 Mac 版，臨時在手機上做就用網頁版。</td></tr>
 <tr><td>網頁版在 iPhone 上要注意什麼</td><td>對齊完先把影片存好再切到別的 App，iOS 可能把頁面重載、對齊結果會掉（主角會留著）。Chrome 和 Android 讀不到 HEIC，會標「無法讀取圖片」略過。</td></tr>
-<tr><td>照片會不會被上傳</td><td>不會。兩個版本都在你自己的裝置裡完成，不連任何雲端服務；網頁版只是一組靜態檔案，後面沒有伺服器收照片。</td></tr>
+<tr><td>照片會不會被上傳</td><td>不會。兩個版本都在你自己的裝置裡完成，網頁版只是一組靜態檔案，後面沒有伺服器收照片。程式本身會不會連網是另一件事，見下一列。</td></tr>
+<tr><td>那程式本身會連網嗎</td><td>網頁版：第一次要下載辨識模型，之後整個流程一條對外請求都沒有，你可以自己按 F12 打開 Network 分頁看。Mac 版：程式啟動時會向它用的介面套件回報匿名的使用統計，也會載入網頁字型，兩件事都跟你的照片無關，而且有幾秒逾時、連不上就跳過。下一次改版會把這兩個關掉。</td></tr>
 </table>
 
 <h2 style="margin-top:56px">還沒驗證到的部分</h2>
