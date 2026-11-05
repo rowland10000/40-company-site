@@ -138,20 +138,21 @@ table.qa td:first-child{width:38%;font-weight:700}
 <tr><td>照片順序不對</td><td>順序依照片裡的拍攝時間。經 LINE、Messenger 轉傳過的照片常常沒有這個資訊，會被排到最後，在第 ③ 步拖拉調整。</td></tr>
 <tr><td>影片太大或太長</td><td>選 MP4 不要選 GIF（GIF 大 4～5 倍）；照片多時把速度調「快」。</td></tr>
 <tr><td>可以放哪些格式</td><td>JPG、PNG、HEIC（iPhone 原始格式）。一次最多 150 張。</td></tr>
-<tr><td>Windows 或手機可以用嗎</td><td>下載版只有 macOS 12 以上。Windows 和手機請用網頁版，瀏覽器直接開。</td></tr>
+<tr><td>Windows 或手機可以用嗎</td><td>下載版只有 macOS 12 以上。Windows 和手機請用網頁版，瀏覽器直接開。Android Chrome 實測過，10 張和 50 張都能對齊、MP4 和 GIF 都做得出來；Windows 目前還沒有人實測。</td></tr>
 <tr><td>Mac 版和網頁版怎麼選</td><td>兩個版本都不上傳照片。Mac 版是原生程式、多核心運算，照片多或檔案大時比瀏覽器快也比較穩，不用下載模型，任何瀏覽器都能讀 HEIC，影片直接存進資料夾，完全離線也能用。網頁版免安裝、手機和 Windows 也能用，但第一次要等模型下載，手機上照片多時較容易因記憶體不足而重載。有 Mac 就用 Mac 版，臨時在手機上做就用網頁版。</td></tr>
 <tr><td>網頁版在 iPhone 上要注意什麼</td><td>對齊完先把影片存好再切到別的 App，iOS 可能把頁面重載、對齊結果會掉（主角會留著）。</td></tr>
+<tr><td>做好的影片在 LINE 電腦版播不出來</td><td>那是 LINE 電腦版播放器的問題，檔案本身沒壞——我們把同一支檔案在 macOS 上驗過，系統內建的解碼器讀得開、轉檔也正常。把影片存下來用 QuickTime 或其他播放器開就會正常播；用 AirDrop 或雲端硬碟傳到電腦也不會有這個狀況。</td></tr>
 <tr><td>Chrome、Edge、Android 說「無法讀取圖片」</td><td>那是 iPhone 拍的 HEIC，這些瀏覽器讀不到。三個辦法：改用 Safari 開這個網頁；用 LINE 把照片傳給自己（預設畫質）就會變成 JPG，但傳過的會失去拍攝日期、順序要自己排；或者用 Mac 版，它任何瀏覽器都讀得到 HEIC。</td></tr>
 <tr><td>照片會不會被上傳</td><td>不會。兩個版本都在你自己的裝置裡完成，網頁版只是一組靜態檔案，後面沒有伺服器收照片。程式本身會不會連網是另一件事，見下一列。</td></tr>
 <tr><td>那程式本身會連網嗎</td><td><strong>Mac 版：完全不連網。</strong>從啟動到做完影片，一條對外請求都沒有，字型也全部包在程式裡，下載完之後把網路關掉一樣能用。<br>網頁版：第一次要下載辨識模型，之後整個流程一條對外請求都沒有，你可以自己按 F12 打開 Network 分頁確認。</td></tr>
 </table>
 
 <h2 style="margin-top:56px">還沒驗證到的部分</h2>
-<p class="note" style="margin-top:14px">跨年齡的辨認只用 2021 年以後的照片測過，0～2 歲的嬰兒照還沒實際驗證。兄弟姊妹長得像時可能認錯。這些都還在調。</p>
+<p class="note" style="margin-top:14px">跨年齡的辨認只用 2021 年以後的照片測過，0～2 歲的嬰兒照還沒實際驗證。兄弟姊妹長得像時可能認錯。網頁版在 Windows 上還沒有人實測過（Android 測過了）。這些都還在調。</p>
 
 <div class="warn" style="margin-top:28px">
 <p style="margin:0">這是個人專案，依現狀提供，不保證在每一台電腦、每一張照片上都正確。若停止維護會在這一頁公告，已發布的檔案會保留。</p>
-<p style="margin:10px 0 0;font-size:14px;color:var(--ink-600)">最後更新：2026-11-03</p>
+<p style="margin:10px 0 0;font-size:14px;color:var(--ink-600)">最後更新：2026-11-05</p>
 </div>
 
 <div class="article-cta" style="margin-top:56px">
